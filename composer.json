@@ -15,17 +15,17 @@
         "components/jquery":            "~2.1"
     },
     "require-dev": {
-        "netcommons/boxes":             "dev-master",
         "mustangostang/spyc":           "dev-master",
         "satooshi/php-coveralls":       "dev-master",
         "netcommons/frames":            "dev-master",
-        "netcommons/users":             "dev-master"
+        "netcommons/users":             "dev-master",
+        "netcommons/boxes":             "dev-master"
     },
     "license": "NetCommons License",
     "authors": [
         {
             "name": "NetCommons Community",
-            "homepage": "https://github.com/s-nakajima/AccessCounters/graphs/contributors"
+            "homepage": "https://github.com/NetCommons3/Iframes/graphs/contributors"
         }
     ],
     "type":        "cakephp-plugin",

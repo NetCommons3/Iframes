@@ -104,7 +104,7 @@ class Iframe extends IframesAppModel {
  * get iframe
  *
  * @param int $blockId blocks.id
- * @param boolean $editable false:publish latest iframe|true:all latest iframe
+ * @param bool $editable false:publish latest iframe|true:all latest iframe
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @return array Iframe
  */
@@ -181,7 +181,7 @@ class Iframe extends IframesAppModel {
 /**
  * get frame
  *
- * @param aray $data received post data
+ * @param array $data received post data
  * @param int $frameId frames.id
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @return mixed array frame, false error
