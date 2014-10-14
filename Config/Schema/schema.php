@@ -2,30 +2,27 @@
 /**
  * Schema file
  *
- * @author      Noriko Arai <arai@nii.ac.jp>
- * @author      Kotaro Hokada <kotaro.hokada@gmail.com>
- * @link        http://www.netcommons.org NetCommons Project
- * @license     http://www.netcommons.org/license.txt NetCommons License
- * @copyright   Copyright 2014, NetCommons Project
- * @since       NetCommons 3.0.0.0
- * @package     app.Plugin.Iframes.Config.Schema
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
  */
 
 /**
- * Iframe Schema
+ * Iframes Schema
  *
- * @author        Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since         NetCommons 3.0.0.0
- * @package       app.Plugin.Iframes.Config.Schema
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @package NetCommons\Iframes\Config
+ * @SuppressWarnings(PHPMD.LongVariable)
  */
 class IframesSchema extends CakeSchema {
 
 /**
  * Database connection
  *
- * @author        Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since   NetCommons 3.0.0.0
- * @var     string
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @var string
  */
 	public $connection = 'master';
 
@@ -33,9 +30,8 @@ class IframesSchema extends CakeSchema {
  * before
  *
  * @param array $event savent
- * @author    Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since     NetCommons 3.0.0.0
- * @return    bool
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return bool
  */
 	public function before($event = array()) {
 		return true;
@@ -45,34 +41,27 @@ class IframesSchema extends CakeSchema {
  * after
  *
  * @param array $event event
- * @author    Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since     NetCommons 3.0.0.0
- * @return    void
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return void
  */
 	public function after($event = array()) {
 	}
 
 /**
- * iframe_data table
+ *  iframes table
  *
- * @author    Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since     NetCommons 3.0.0.0
- * @var       array
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @var array
  */
-	public $iframe_data = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'iframe_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'status_id' => array('type' => 'integer', 'null' => false, 'default' => '1', 'length' => 3),
-		'language_id' => array('type' => 'integer', 'null' => false, 'default' => '1'),
-		'is_original' => array('type' => 'integer', 'null' => false, 'default' => '1', 'length' => 1),
-		'url' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'charset' => 'utf8'),
-		'frame_height' => array('type' => 'integer', 'null' => false, 'default' => '400'),
-		'scrollbar_show' => array('type' => 'boolean', 'null' => false, 'default' => '1'),
-		'scrollframe_show' => array('type' => 'boolean', 'null' => false, 'default' => '0'),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'created_user_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'modified_user_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+	public $iframes = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
+		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'block id | ブロックID | blocks.id | '),
+		'status' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4, 'comment' => 'public status, 1: public, 2: public pending, 3: draft during 4: remand | 公開状況 1:公開中、2:公開申請中、3:下書き中、4:差し戻し | | '),
+		'url' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'iframe url | iframeに設定するURL | | ', 'charset' => 'utf8'),
+		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created time | 作成日時 | | '),
+		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified time | 更新日時 | | '),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),
@@ -80,19 +69,21 @@ class IframesSchema extends CakeSchema {
 	);
 
 /**
- *  iframes table
+ * iframe_frame_settings table
  *
- * @author    Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since     NetCommons 3.0.0.0
- * @var       array
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @var array
  */
-	public $iframes = array(
-		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary'),
-		'block_id' => array('type' => 'integer', 'null' => false, 'default' => null),
-		'created' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'created_user_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
-		'modified' => array('type' => 'datetime', 'null' => false, 'default' => null),
-		'modified_user_id' => array('type' => 'integer', 'null' => false, 'default' => '0'),
+	public $iframe_frame_settings = array(
+		'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID |  |  | '),
+		'frame_key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'frame key | フレームKey | frames.key | ', 'charset' => 'utf8'),
+		'height' => array('type' => 'integer', 'null' => false, 'default' => '400', 'comment' => 'iframe height | iframeの高さ |  | '),
+		'display_scrollbar' => array('type' => 'boolean', 'null' => false, 'default' => '1', 'comment' => 'display scrollbar, 1: display or 0: no display | スクロールバーの表示  1:表示する、0:表示しない |  | '),
+		'display_frame' => array('type' => 'boolean', 'null' => false, 'default' => '0', 'comment' => 'display frame, 1: display or 0: no display | フレーム枠の表示  1:表示する、0:表示しない |  | '),
+		'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
+		'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created time | 作成日時 |  | '),
+		'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
+		'modified' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'modified time | 更新日時 |  | '),
 		'indexes' => array(
 			'PRIMARY' => array('column' => 'id', 'unique' => 1)
 		),

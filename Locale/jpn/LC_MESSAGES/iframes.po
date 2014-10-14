@@ -1,0 +1,132 @@
+# LANGUAGE translation of CakePHP Application
+# Copyright YEAR NAME <EMAIL@ADDRESS>
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"POT-Creation-Date: 2014-10-06 04:34+0000\n"
+"PO-Revision-Date: 2014-10-06 14:27+0900\n"
+"Last-Translator: \n"
+"Language-Team:  <EMAIL@ADDRESS>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Generator: Poedit 1.6.9\n"
+"Language: ja_JP\n"
+
+#: /Controller/IframesController.php:158;164;174
+msgid "I failed to save"
+msgstr "保存に失敗しました。"
+
+#: /Controller/IframesController.php:177
+msgid "Saved"
+msgstr "保存しました。"
+
+#: /View/Elements/Iframes/edit_button.ctp:4
+#: /View/Elements/Iframes/setting_button.ctp:4
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: /View/Elements/Iframes/edit_button.ctp:11
+msgid "Preview"
+msgstr "プレビュー"
+
+#: /View/Elements/Iframes/edit_button.ctp:18
+msgid "Close Preview"
+msgstr "プレビューを閉じる"
+
+#: /View/Elements/Iframes/edit_button.ctp:25
+msgid "Draft"
+msgstr "下書きする"
+
+#: /View/Elements/Iframes/edit_button.ctp:32
+msgid "Disapproval"
+msgstr "差し戻す"
+
+#: /View/Elements/Iframes/edit_button.ctp:39
+msgid "Approval"
+msgstr "申請する"
+
+#: /View/Elements/Iframes/edit_button.ctp:45
+#: /View/Elements/Iframes/header_button.ctp:7
+msgid "Publish"
+msgstr "公開する"
+
+#: /View/Elements/Iframes/form_url.ctp:8
+msgid "URL"
+msgstr "URL"
+
+#: /View/Elements/Iframes/form_url.ctp:34
+msgid "Required field."
+msgstr "入力必須の項目です。"
+
+#: /View/Elements/Iframes/form_url.ctp:37
+#: /View/Elements/Iframes/modify_display_style.ctp:31
+msgid "Invalid input."
+msgstr "入力値が不正です。"
+
+#: /View/Elements/Iframes/header_button.ctp:15 /View/Iframes/edit.ctp:18
+msgid "Manage"
+msgstr "管理"
+
+#: /View/Elements/Iframes/iframe.ctp:16
+msgid "Non registered url"
+msgstr "URLが登録されていません。"
+
+#: /View/Elements/Iframes/manage.ctp:5
+msgid "edit iframe"
+msgstr "iframe編集"
+
+#: /View/Elements/Iframes/manage.ctp:12
+msgid "modify display style"
+msgstr "表示方法変更"
+
+#: /View/Elements/Iframes/manage.ctp:17
+msgid "mail setting"
+msgstr "メール設定"
+
+#: /View/Elements/Iframes/modify_display_style.ctp:8
+msgid "Frame height"
+msgstr "フレームの高さ"
+
+#: /View/Elements/Iframes/modify_display_style.ctp:14
+msgid "Please enter frame height."
+msgstr "フレームの高さを入力してください。"
+
+#: /View/Elements/Iframes/modify_display_style.ctp:36
+msgid ""
+"The input frame height must be a number bigger than 1 and less than 2000."
+msgstr "1～2000の半角数字を入力してください。"
+
+#: /View/Elements/Iframes/modify_display_style.ctp:44
+msgid "Display the scroll bar."
+msgstr "スクロールバーを表示する。"
+
+#: /View/Elements/Iframes/modify_display_style.ctp:57
+msgid "Display the frame."
+msgstr "フレーム枠を表示する。"
+
+#: /View/Elements/Iframes/preview_label.ctp:4
+msgid "Previewing"
+msgstr "プレビュー表示中"
+
+#: /View/Elements/Iframes/setting_button.ctp:10
+msgid "Setting"
+msgstr "設定する"
+
+#: /View/Elements/Iframes/status_label.ctp:6
+msgid "Publishing"
+msgstr "公開中"
+
+#: /View/Elements/Iframes/status_label.ctp:13
+msgid "Approving"
+msgstr "申請中"
+
+#: /View/Elements/Iframes/status_label.ctp:20
+msgid "Drafting"
+msgstr "下書き"
+
+#: /View/Elements/Iframes/status_label.ctp:27
+msgid "Disapprovign"
+msgstr "差戻し"

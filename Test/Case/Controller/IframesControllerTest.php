@@ -2,144 +2,153 @@
 /**
  * IframesController Test Case
  *
- * @author      Noriko Arai <arai@nii.ac.jp>
- * @author      Kotaro Hokada <kotaro.hokada@gmail.com>
- * @link        http://www.netcommons.org NetCommons Project
- * @license     http://www.netcommons.org/license.txt NetCommons License
- * @copyright   Copyright 2014, NetCommons Project
- * @since       NetCommons 3.0.0.0
- * @package     app.Plugin.Iframes.Test.Controller.Case
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
  */
-
 App::uses('IframesController', 'Iframes.Controller');
 
 /**
  * IframesController Test Case
  *
- * @author      Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since       NetCommons 3.0.0.0
- * @package     app.Plugin.Iframes.Test.Controller.Case
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @package NetCommons\Iframes\Test
  */
 class IframesControllerTest extends ControllerTestCase {
 
 /**
- * setUp method
+ * Fixtures
  *
- * @author  Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since   NetCommons 3.0.0.0
- * @return  void
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @var array
+ */
+	public $fixtures = array(
+		'app.Page',
+		'app.Session',
+		'app.SiteSetting',
+		'plugin.iframes.iframe',
+		'plugin.iframes.iframe_frame_setting',
+		'plugin.iframes.frame',
+		'plugin.iframes.box',
+		'plugin.iframes.block',
+		'plugin.iframes.plugin',
+		'plugin.iframes.part',
+		'plugin.iframes.parts_rooms_user',
+		'plugin.iframes.room',
+		'plugin.iframes.user',
+		'plugin.iframes.room_part',
+		'plugin.iframes.language',
+		'plugin.iframes.languages_part',
+	);
+
+/**
+ * setUp
+ *
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return void
  */
 	public function setUp() {
 		parent::setUp();
 	}
 
 /**
- * Fixtures
+ * tearDown method
  *
- * @author  Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since   NetCommons 3.0.0.0
- * @var     array
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return void
  */
-	public $fixtures = array(
-		'app.Session',
-		'app.SiteSetting',
-		'app.SiteSettingValue',
-		'app.Page',
-		'plugin.users.user',
-		'plugin.iframes.iframe',
-		'plugin.iframes.iframe_language',
-		'plugin.iframes.iframe_block',
-		'plugin.iframes.iframe_frame',
-		'plugin.iframes.iframe_datum'
-	);
+	public function tearDown() {
+		parent::tearDown();
+	}
 
 /**
- * testIndex
+ * test index
  *
- * @author  Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since   NetCommons 3.0.0.0
- * @return  void
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return void
  */
 	public function testIndex() {
-		$this->testAction('/iframes/iframes/index', array('method' => 'get'));
-		$this->assertTextNotContains('ERROR', $this->view);
-	}
-
-/**
- * index no frameId
- *
- * @author   Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since    NetCommons 3.0.0.0
- * @return   void
- */
-	public function testIndexNoFrameId() {
-		$this->testAction('/iframes/iframes/index', array('method' => 'get'));
-		$this->assertTextNotContains('ERROR', $this->view);
-		$this->assertTextEquals('', trim($this->view));
-	}
-
-/**
- * index no blockId
- *
- * @author   Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since    NetCommons 3.0.0.0
- * @return   void
- */
-	public function testIndexNoBlockId() {
-		$frameId = 3;
-		$this->testAction('/iframes/iframes/index/' . $frameId . '/', array('method' => 'get'));
-
-		$this->assertTextNotContains('ERROR', $this->view);
-		$this->assertTextEquals('', trim($this->view));
-	}
-
-/**
- * index "setting on" and "no login"
- *
- * @author   Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since    NetCommons 3.0.0.0
- * @return   void
- */
-	public function testIndexNoLoginSettingOn() {
-		Configure::write('Pages.isSetting', true);
-
-		//フレームID、ブロックIDあり
 		$frameId = 1;
 		$this->testAction('/iframes/iframes/index/' . $frameId . '/', array('method' => 'get'));
-
 		$this->assertTextNotContains('ERROR', $this->view);
-
-		$correct = 'nc-iframes-view-' . $frameId;
-		$this->assertContains($correct, $this->view, $correct);
 	}
 
 /**
- * index "setting on" and "no login" and "no blockId"
+ * test view latest data
  *
- * @author   Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since    NetCommons 3.0.0.0
- * @return   void
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return void
  */
-	public function testIndexNoLoginNoBlockId() {
-		Configure::write('Pages.isSetting', true);
+	public function testView() {
+		$frameId = 1;
+		$this->testAction('/iframes/iframes/view/' . $frameId . '/', array('method' => 'get'));
+		$this->assertTextNotContains('ERROR', $this->view);
+	}
 
-		//ブロックIDなし
+/**
+ * test view publishing data
+ *
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return void
+ */
+	public function testViewPublishingData() {
+		CakeSession::write('Auth.User.id', 0);
+		$frameId = 3;
+		$this->testAction('/iframes/iframes/view/' . $frameId . '/', array('method' => 'get'));
+		$this->assertTextNotContains('ERROR', $this->view);
+	}
+
+/**
+ * test view non publishing data
+ *
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return void
+ */
+	public function testViewNonPublishingData() {
+		CakeSession::write('Auth.User.id', 0);
 		$frameId = 4;
-		$this->testAction('/iframes/iframes/index/' . $frameId . '/', array('method' => 'get'));
-
+		$this->testAction('/iframes/iframes/view/' . $frameId . '/', array('method' => 'get'));
 		$this->assertTextNotContains('ERROR', $this->view);
-		$this->assertTextEquals('', trim($this->view));
 	}
 
 /**
- * get_edit_form
+ * test not exist iframe
  *
- * @author  Kotaro Hokada <kotaro.hokada@gmail.com>
- * @since   NetCommons 3.0.0.0
- * @return  void
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return void
  */
-	public function testGetEditForm() {
-		$this->testAction('/iframes/iframes/get_edit_form/1/', array('method' => 'get'));
+	public function testNotExistIframe() {
+		$frameId = 2;
+		//セッティングモードON
+		Configure::write('Pages.isSetting', true);
+		$this->testAction('/iframes/iframes/view/' . $frameId . '/', array('method' => 'get'));
+		$this->assertTextNotContains('ERROR', $this->view);
+	}
+
+/**
+ * test not exist frameId
+ *
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return void
+ */
+	public function testNotExistFrameId() {
+		$frameId = 1000;
+		$this->testAction('/iframes/iframes/view/' . $frameId . '/', array('method' => 'get'));
+		$this->assertTextNotContains('ERROR', $this->view);
+	}
+
+/**
+ * test not AuthUser and not exist iframe
+ *
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @return void
+ */
+	public function testNotAuthUserAndNotExistIframe() {
+		CakeSession::write('Auth.User.id', 0);
+		$frameId = 2;
+		$this->testAction('/iframes/iframes/view/' . $frameId . '/', array('method' => 'get'));
 		$this->assertTextNotContains('ERROR', $this->view);
 	}
 

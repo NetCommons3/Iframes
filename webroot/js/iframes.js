@@ -1,16 +1,16 @@
 /**
- * @fileoverview iframes Javascript
+ * @fileoverview Iframes Javascript
  * @author kotaro.hokada@gmail.com (Kotaro Hokada)
  */
 
 
 /**
- * iframe Javascript
+ * Iframes Javascript
  *
  * @param {string} controller name
- * @param {function(scope, http, sce, timeout)} controller scope
+ * @param {function(scope, http, sce, timeout)} Controller
  */
-NetCommonsApp.controller('Iframes.edit',
+NetCommonsApp.controller('Iframes',
                          function($scope, $http, $sce, $timeout) {
 
       /**
@@ -18,22 +18,51 @@ NetCommonsApp.controller('Iframes.edit',
        *
        * @type {string}
        */
-      var pluginsUrl = '/iframes/';
+      $scope.PLUGIN_URL = '/iframes/iframes/';
 
       /**
-       * get edit form url
+       * iframe form url
        *
        * @type {string}
        */
-      $scope.getEditFormUrl = pluginsUrl + 'iframes/get_edit_form/';
+      $scope.GET_IFRAME_FORM_URL = $scope.PLUGIN_URL + 'iframeForm/';
 
       /**
-       * post url
+       * iframe post url
        *
        * @type {string}
        */
-      $scope.postUrl = pluginsUrl + 'iframes/edit/';
-      //$scope.show = false;
+      $scope.POST_IFRAME_FORM_URL = $scope.PLUGIN_URL + 'iframeEdit/';
+
+      /**
+       * iframe frame setting form url
+       *
+       * @type {string}
+       */
+      $scope.GET_IFRAME_FRAME_SETTING_FORM_URL =
+                           $scope.PLUGIN_URL + 'iframeFrameSettingForm/';
+
+      /**
+       * iframe post url
+       *
+       * @type {string}
+       */
+      $scope.POST_IFRAME_FRAME_SETTING_FORM_URL =
+                           $scope.PLUGIN_URL + 'iframeFrameSettingEdit/';
+
+      /**
+       * iframe data
+       *
+       * @type {Object.<string>}
+       */
+      $scope.iframeData = {};
+
+      /**
+       * iframe Frame Setting data
+       *
+       * @type {Object.<string>}
+       */
+      $scope.iframeFrameSettingData = {};
 
       /**
        * frame id
@@ -43,717 +72,759 @@ NetCommonsApp.controller('Iframes.edit',
       $scope.frameId = 0;
 
       /**
-       * block id
+       * status code
        *
-       * @type {number}
+       * @type {{publish: integer,
+       *          approval: integer,
+       *          draft: integer,
+       *          disapproval: integer}}
        */
-      $scope.blockId = 0;
-
-      /**
-       * language id
-       *
-       * @type {number}
-       */
-      $scope.langId = 2;
-
-      /**
-       * data id
-       *
-       * @type {number}
-       */
-      $scope.dataId = 0;
-
-      /**
-       * ステータスID
-       *  Publish:     1 公開
-       *  PublishRequest:  2 公開申請
-       *  Draft:       3 下書き
-       *  Reject:      4 差し戻し
-       *
-       * @const
-       */
-      $scope.statusList = {
-        'Publish' : 1,
-        'PublishRequest' : 2,
-        'Draft' : 3,
-        'Reject' : 4
+      $scope.statusCode = {
+        'publish': 1,
+        'approval': 2,
+        'draft': 3,
+        'disapproval': 4
       };
 
       /**
-       * 記事の状態設定
-       * ラベルとボタンの表示制御 : お知らせの状態の格納
+       * input form of url
        *
-       * @type {{publish: boolean, draft: boolean, request: boolean, reject: boolean}}
+       * @type {{value: string}}
+       */
+      $scope.iframeUrl = '';
+
+      /**
+       * input form of the height of the frame
+       *
+       * @type {{value: integer}}
+       */
+      $scope.iframeHeight = '';
+
+      /**
+       * checkbox of scroll bar
+       *
+       * @type {{value: boolean}}
+       */
+      $scope.iframeScrollBar = '';
+
+      /**
+       * checkbox of frame
+       *
+       * @type {{value: boolean}}
+       */
+      $scope.iframeFrame = '';
+
+      /**
+       * message of iframe edit
+       *
+       * @type {{value: boolean}}
+       */
+      $scope.iframeVisibleMsg = false;
+
+      /**
+       * message of iframe frame setting
+       *
+       * @type {{value: boolean}}
+       */
+      $scope.iframeFrameSettingVisibleMsg = false;
+
+      /**
+       * status label object
+       *
+       * @type {{publish: boolean,
+       *          approval: boolean,
+       *          draft: boolean,
+       *          disapproval: boolean}}
        */
       $scope.label = {
-        'publish' : false,
-        'draft' : false,
-        'request' : false,
-        'reject' : false
+        'publish': false,
+        'approval': false,
+        'draft': false,
+        'disapproval': false
       };
 
       /**
-       * 表示制御設定
-       * @type {{default: boolean, edit: {preview: boolean, body: boolean, detail: boolean}}}
-       */
-      $scope.View = {
-        'default' : true,
-        'edit' : {
-          'preview' : false,
-          'detail' : false,
-          'body' : false
-        }
-      };
-
-      /**
-       * プレビューのhtmlデータ
-       * TODO：$scope.View.previewとまとめるか検討する。
-       *
-       * @type {{$scope.dataId = 0;html: null}}
-       */
-      $scope.Preview = {
-        'html' : null
-      };
-
-      /**
-       * iframe表示エリアのID属性
-       *
-       * @type {string}
-       */
-      var viewerAreaTag = '';
-
-      /**
-       * iframeタグのID属性
-       *
-       * @type {string}
-       */
-      var viewerAreaAttrTag = '';
-
-      /**
-       * プレビューエリアのID属性
-       *
-       * @type {string}
-       */
-      var previewAreaTag = '';
-
-      /**
-       * 編集フォームエリアのID属性
-       *
-       * @type {string}
-       */
-      var editFormAreaTag = '';
-
-      /**
-       * URLフォームのID属性
-       *
-       * @type {string}
-       */
-      var editFormUrlTag = '';
-
-      /**
-       * フレームの高さフォームのID属性
-       *
-       * @type {string}
-       */
-      var editFormHeightTag = '';
-
-      /**
-       * スクロールバーONのID属性
-       *
-       * @type {string}
-       */
-      var editFormScrollbarOnTag = '';
-
-      /**
-       * スクロールバーOFFのID属性
-       *
-       * @type {string}
-       */
-      var editFormScrollbarOffTag = '';
-
-      /**
-       * フレーム枠ONのID属性
-       *
-       * @type {string}
-       */
-      var editFormScrollFrameOnTag = '';
-
-      /**
-       * フレーム枠OFFのID属性
-       *
-       * @type {string}
-       */
-      var editFormScrollFrameOffTag = '';
-
-      /**
-       * 処理結果メッセージエリアのID属性
-       *
-       * @type {string}
-       */
-      var messageTag = '';
-
-      /**
-       * 送信のロック設定
+       * button lock while sending post
        *
        * @type {boolean}
        */
-      $scope.sendRock = false;
+      $scope.sendLock = false;
 
       /**
-       * temporary form
+       * iframe input form attribute id
        *
-       * @type {array}
-      */
-      var tmpFormValue = new Array();
+       * @const
+       */
+      $scope.IFRAME_INPUT_FORM_ATTR_ID = '#nc-iframes-input-form-';
 
       /**
-       * 初期値設定 ng-initで指定
+       * iframe input form attribute id
        *
-       * @param {number} frameId  frames.id
-       * @param {number} blockId  blocks.id
-       * @param {number} langId  languages.id
+       * @type {sring}
+       */
+      $scope.iframeInputFormAttrId = '';
+
+      /**
+       * iframe post form attribute id
+       *
+       * @const
+       */
+      $scope.IFRAME_POST_FORM_ATTR_ID = '#nc-iframes-post-form-';
+
+      /**
+       * iframe post form attribute id
+       *
+       * @type {sring}
+       */
+      $scope.iframePostFormAttrId = '';
+
+      /**
+       * iframe post form area attribute id
+       *
+       * @type {sring}
+       */
+      $scope.iframePostFormAreaAttrId = '';
+
+      /**
+       * iframe frame setting input form attribute id
+       *
+       * @const
+       */
+      $scope.IFRAME_FRAME_SETTING_INPUT_FORM_ATTR_ID =
+                           '#nc-iframes-frame-setting-input-form-';
+
+      /**
+       * iframe frame setting input form attribute id
+       *
+       * @type {sring}
+       */
+      $scope.iframFrameSettingInputFormAttrId = '';
+
+      /**
+       * iframe frame setting post form attribute id
+       *
+       * @const
+       */
+      $scope.IFRAME_FRAME_SETTING_POST_FORM_ATTR_ID =
+                           '#nc-iframes-frame-setting-post-form-';
+
+      /**
+       * iframe frame setting post form attribute id
+       *
+       * @type {sring}
+       */
+      $scope.iframeFrameSettingPostFormAttrId = '';
+
+      /**
+       * iframe result message attribute id
+       *
+       * @const
+       */
+      $scope.IFRAME_RESULT_MESSAGE_ATTR_ID =
+                           '#nc-iframes-message-';
+
+      /**
+       * iframe result message attribute id
+       *
+       * @type {sring}
+       */
+      $scope.iframeResultMessageAttrId = '';
+
+      /**
+       * iframe frame setting result message attribute id
+       *
+       * @const
+       */
+      $scope.IFRAME_FRAME_SETTING_RESULT_MESSAGE_ATTR_ID =
+                           '#nc-iframes-frame-setting-message-';
+
+      /**
+       * iframe frame setting result message attribute id
+       *
+       * @type {sring}
+       */
+      $scope.iframeFrameSettingResultMessageAttrId = '';
+
+      /**
+       * iframe id
+       *
+       * @const
+       */
+      $scope.IFRAME_ID = '#nc-iframes-iframe-';
+
+      /**
+       * iframe id
+       *
+       * @type {sring}
+       */
+      $scope.iframeId = '';
+
+      /**
+       * iframe element tag
+       *
+       * @type {sring}
+       */
+      $scope.iframeElementTag = '';
+
+      /**
+       * iframe manage modal id
+       *
+       * @const
+       */
+      $scope.IFRAME_MANAGE_MODAL_ID = '#nc-iframes-manage-modal-';
+
+      /**
+       * iframe manage modal id
+       *
+       * @type {sring}
+       */
+      $scope.iframeManageModalId = '';
+
+      /**
+       * iframe edit tab id
+       *
+       * @const
+       */
+      $scope.IFRAME_EDIT_TAB_ID = '#nc-iframes-edit-tab-';
+
+      /**
+       * iframe edit tab id
+       *
+       * @type {sring}
+       */
+      $scope.iframeEditTabId = '';
+
+      /**
+       * iframe edit id
+       *
+       * @const
+       */
+      $scope.IFRAME_EDIT_ID = '#nc-iframes-edit-';
+
+      /**
+       * iframe edit tab id
+       *
+       * @type {sring}
+       */
+      $scope.iframeEditId = '';
+
+      /**
+       * iframe frame setting id
+       *
+       * @const
+       */
+      $scope.IFRAME_FRAME_SETTING_TAB_ID = '#nc-iframes-frame-setting-tab-';
+
+      /**
+       * iframe frame setting id
+       *
+       * @type {sring}
+       */
+      $scope.iframeFrameSettingTabId = '';
+
+      /**
+       * iframe frame setting id
+       *
+       * @const
+       */
+      $scope.IFRAME_FRAME_SETTING_ID = '#nc-iframes-frame-setting-';
+
+      /**
+       * iframe frame setting id
+       *
+       * @type {sring}
+       */
+      $scope.iframeFrameSettingId = '';
+
+      /**
+       * Initialize
+       *
+       * @param {Object.<string>} iframe
+       * @param {Object.<string>} iframeFrameSetting
+       * @param {int} frameId
        * @return {void}
        */
-      $scope.setInit = function(frameId, blockId, langId) {
+      $scope.initialize = function(iframe, iframeFrameSetting, frameId) {
+        //set iframe data
+        $scope.iframeData = iframe;
+
+        //set iframeFrameSetting data
+        $scope.iframeFrameSettingData = iframeFrameSetting;
+
+        //set frame id
         $scope.frameId = frameId;
-        $scope.blockId = blockId;
-        $scope.langId = langId;
+
+        //set iframe input form attribute id
+        $scope.iframeInputFormAttrId =
+            $scope.IFRAME_INPUT_FORM_ATTR_ID + $scope.frameId;
+
+        //set iframe post form attribute id
+        $scope.iframePostFormAttrId =
+            $scope.IFRAME_POST_FORM_ATTR_ID + $scope.frameId;
+
+        //set iframe post form area attribute id
+        $scope.iframePostFormAreaAttrId =
+            $scope.IFRAME_POST_FORM_ATTR_ID + 'area-' + $scope.frameId;
+
+        //set iframe frame setting input form attribute id
+        $scope.iframFrameSettingInputFormAttrId =
+            $scope.IFRAME_FRAME_SETTING_INPUT_FORM_ATTR_ID + $scope.frameId;
+
+        //set iframe frame setting post form attribute id
+        $scope.iframeFrameSettingPostFormAttrId =
+            $scope.IFRAME_FRAME_SETTING_POST_FORM_ATTR_ID + $scope.frameId;
+
+        //set iframe result message attribute id
+        $scope.iframeResultMessageAttrId =
+            $scope.IFRAME_RESULT_MESSAGE_ATTR_ID + $scope.frameId;
+
+        //set iframe frame setting result message attribute id
+        $scope.iframeFrameSettingResultMessageAttrId =
+            $scope.IFRAME_FRAME_SETTING_RESULT_MESSAGE_ATTR_ID + $scope.frameId;
+
+        //set iframe id
+        $scope.iframeId = $scope.IFRAME_ID + $scope.frameId;
+
+        //set iframe tag
+        $scope.iframeElementTag = $scope.iframeId + ' iframe';
+
+        //set iframe manage modal id
+        $scope.iframeManageModalId =
+            $scope.IFRAME_MANAGE_MODAL_ID + $scope.frameId;
+
+        //set iframe edit tab id
+        $scope.iframeEditTabId = $scope.IFRAME_EDIT_TAB_ID + $scope.frameId;
+
+        //set iframe edit id
+        $scope.iframeEditId = $scope.IFRAME_EDIT_ID + $scope.frameId;
+
+        //set iframe frame setting tab id
+        $scope.iframeFrameSettingTabId =
+            $scope.IFRAME_FRAME_SETTING_TAB_ID + $scope.frameId;
+
+        //set iframe frame setting id
+        $scope.iframeFrameSettingId =
+            $scope.IFRAME_FRAME_SETTING_ID + $scope.frameId;
+
+        //call initializeMessageArea method
+        $scope.initializeMessageArea();
+
+        //initialize post form area
+        $($scope.iframePostFormAreaAttrId).html(' ');
       };
 
       /**
-       * idのセット
-       *
-       * @param {number} frameId  frames.id
-       * @return {void}
-       */
-      $scope.setId = function(frameId) {
-        $scope.frameId = frameId;
-        //DOM set
-        //iframe表示エリアのID属性
-        viewerAreaTag = '#nc-iframes-view-' + $scope.frameId;
-        //iframeタグのID属性
-        viewerAreaAttrTag = '#nc-iframes-view-attr-' + $scope.frameId;
-        //URL
-        editFormUrlTag = '#nc-iframes-edit-url-' + $scope.frameId;
-        //高さ
-        editFormHeightTag = '#nc-iframes-edit-height-' + $scope.frameId;
-        //スクロールバーON・OFF
-        editFormScrollbarOnTag = '#nc-iframes-edit-scrollbar-' +
-                                     $scope.frameId + '-1';
-        editFormScrollbarOffTag = '#nc-iframes-edit-scrollbar-' +
-                                      $scope.frameId + '-0';
-        //フレーム枠ON・OFF
-        editFormScrollframeOnTag = '#nc-iframes-edit-scrollframe-' +
-                                       $scope.frameId + '-1';
-        editFormScrollframeOffTag = '#nc-iframes-edit-scrollframe-' +
-                                        $scope.frameId + '-0';
-        //結果メッセージエリア
-        messageTag = '#nc-iframes-mss-' + $scope.frameId;
-        //プレビューエリア
-        previewAreaTag = '#nc-iframes-preview-' + $scope.frameId;
-      };
-
-      /**
-       * 編集画面を開く
-       *
-       * @param {number} frameId  frames.id
-       * @return {void}
-       */
-      $scope.getEditor = function(frameId) {
-        //set
-        $scope.setId(frameId);
-        //フォームデータ退避
-        $scope.writeTmp();
-        //iframe非表示
-        $scope.View.default = false;
-        //編集ボタン非表示＆編集エリア表示
-        $scope.View.edit.body = true;
-      };
-
-      /**
-       * 詳細設定フォームを開く
-       *
-       * @param {number} frameId  frames.id
-       * @return {void}
-       */
-      $scope.detailFormOpen = function(frameId) {
-        //詳細設定のリンクを非表示＆フォームを表示
-        $scope.View.edit.detail = true;
-      };
-
-      /**
-       * 編集画面を閉じる
-       *
-       * @param {int} frameId
-       */
-      $scope.closeForm = function(frameId) {
-        //set
-        $scope.setId(frameId);
-        //フォームに退避データを格納
-        $scope.writeForm();
-        //プレビュー非表示
-        $scope.closePreview(frameId);
-        //編集エリア非表示＆編集ボタン表示
-        $scope.View.edit.body = false;
-        //詳細設定のフォーム非表示＆リンク表示
-        $scope.View.edit.detail = false;
-        //iframeの表示
-        $scope.View.default = true;
-        //メッセージ非表示
-        $scope.postAlertClose();
-      };
-
-      /**
-       * メッセージ（実行結果）を表示
-       *
-       * @param {string} alertType
-       * @param {string} text
-       */
-      $scope.postAlert = function(alertType , text) {
-        $(messageTag).removeClass('hidden');
-        if (alertType == 'error') {
-          $(messageTag).addClass('alert-danger');
-          $(messageTag).removeClass('alert-success');
-          $(messageTag + ' .message').html(text);
-          $(messageTag).fadeIn(500);
-        } else if (alertType == 'success') {
-          $(messageTag).addClass('alert-success');
-          $(messageTag).removeClass('alert-danger');
-          $(messageTag + ' .message').html(text);
-          $(messageTag).fadeIn(500).fadeTo(1000, 1).fadeOut(500);
-        }
-      };
-
-      /**
-       * メッセージ（実行結果）を閉じる
+       * Initialize
        *
        * @return {void}
        */
-      $scope.postAlertClose = function() {
-        //メッセージエリアを隠す
-        $(messageTag).addClass('hidden');
-        //メッセージ初期化
-        $(messageTag + ' .message').html('');
+      $scope.initializeMessageArea = function() {
+        //initialize edit message area
+        $scope.iframeVisibleMsg = false;
+        $($scope.iframeResultMessageAttrId)
+            .addClass('hidden')
+            .removeClass('alert-danger')
+            .removeClass('alert-success');
+        $($scope.iframeResultMessageAttrId + ' .message').html(' ');
+
+        //initialize setting message area
+        $scope.iframeFrameSettingVisibleMsg = false;
+        $($scope.iframeFrameSettingResultMessageAttrId)
+            .addClass('hidden')
+            .removeClass('alert-danger')
+            .removeClass('alert-success');
+        $($scope.iframeFrameSettingResultMessageAttrId + ' .message').html(' ');
       };
 
       /**
-       * プレビューの表示
-       *
-       * @param {int} frameId
-       * @return {void}
-       */
-      $scope.showPreview = function(frameId) {
-        //set
-        $scope.setId(frameId);
-        //プレビューデータ作成
-        $scope.createPreviewData(frameId);
-        //プレビュー表示＆プレビューボタンOFF＆プレビュー閉じるボタンON＆ラベル表示
-        $scope.View.edit.preview = true;
-      };
-
-      /**
-       * プレビューデータ作成
-       *
-       * @param {int} frameId
-       * @return {void}
-       */
-      $scope.createPreviewData = function(frameId) {
-        //set
-        $scope.setId(frameId);
-        //URLが入力されていない場合のエラー表示
-        var regexp = /^http(s)?:\/\/([\w\-]+)\.([\w\-\.]+)\/([\w\-\.\/#]*)$/;
-        if (!$(editFormUrlTag).val().match(regexp)) {
-          var notInputUrl = $(' <p> ').text('URLが不正です。');
-          //$scope.Preview.html = $sce.trustAsHtml(notInputUrl);
-          $(previewAreaTag).html(notInputUrl);
-        }
-        //フレームの高さが入力されていない場合のエラー表示
-        if (!$.isNumeric($(editFormHeightTag).val())) {
-          //URLエラーと表示
-          if ($(editFormUrlTag).val() == '') {
-            var notInputUrlAndHeight = $(' <p> ').text('URLとフレームの高さが不正です。');
-            //$scope.Preview.html = $sce.trustAsHtml(notInputUrlAndHeight);
-            $(previewAreaTag).html(notInputUrlAndHeight);
-          //高さのみの表示
-          } else {
-            var notInputHeight = $(' <p> ').text('フレームの高さが不正です。');
-            //$scope.Preview.html = $sce.trustAsHtml(notInputHeight);
-            $(previewAreaTag).html(notInputHeight);
-          }
-        }
-        //URL・高さともに入力されている場合、プレビュー作成
-        if ($(editFormUrlTag).val().match(regexp) &&
-            $.isNumeric($(editFormHeightTag).val())) {
-          //iframeが生成されていない場合、プレビュー用のiframeタグを生成
-          if ($(viewerAreaAttrTag).size() == 0) {
-            var iframe = $(' <iframe> ')
-                         .prop('id', 'nc-iframes-view-attr-' + $scope.frameId);
-            $(viewerAreaTag).html(iframe);
-          }
-          //最新のフォームの内容を格納
-          $(viewerAreaAttrTag).prop('src', $(editFormUrlTag).val());
-          $(viewerAreaAttrTag).prop('height', $(editFormHeightTag).val());
-          $(viewerAreaAttrTag).prop('width', '100%');
-          if ($(editFormScrollbarOnTag).prop('checked')) {
-            $(viewerAreaAttrTag).prop('scrolling', 'auto');
-          } else {
-            $(viewerAreaAttrTag).prop('scrolling', 'no');
-          }
-          if ($(editFormScrollframeOnTag).prop('checked')) {
-            $(viewerAreaAttrTag).prop('frameborder', 1);
-          } else {
-            $(viewerAreaAttrTag).prop('frameborder', 0);
-          }
-          //プレビューエリアに書き出す
-          //$scope.Preview.html = $sce.trustAsHtml($(viewerAreaTag).html());
-          $(previewAreaTag).html($(viewerAreaTag).html());
-        }
-      };
-
-      /**
-       * プレビューを閉じる
-       *
-       * @param {int} frameId
-       */
-      $scope.closePreview = function(frameId) {
-        //set
-        $scope.setId(frameId);
-        //プレビュー非表示＆プレビューボタンON＆プレビュー閉じるボタンOFF＆ラベル非表示
-        $scope.View.edit.preview = false;
-        //プレビューをクリア
-        //$scope.Preview.html = '';
-        $(previewAreaTag).html('');
-        //表示用データを編集前に戻す
-        if (tmpFormValue['url'] == '') {
-          //URLなしの場合はメッセージを格納
-          var notRegistUrl = $(' <p> ').text('URLが登録されていません。');
-          $(viewerAreaTag).html(notRegistUrl);
-        } else {
-          //元に戻す
-          $(viewerAreaAttrTag).prop('src', tmpFormValue['url']);
-          $(viewerAreaAttrTag).prop('height', tmpFormValue['height']);
-          if (tmpFormValue['scrollbar'] == 1) {
-            $(viewerAreaAttrTag).prop('scrolling', 'auto');
-          } else {
-            $(viewerAreaAttrTag).prop('scrolling', 'no');
-          }
-          if (tmpFormValue['scrollframe'] == 1) {
-            $(viewerAreaAttrTag).prop('frameborder', 1);
-          } else {
-            $(viewerAreaAttrTag).prop('frameborder', 0);
-          }
-        }
-      };
-
-      /**
-       * フォームデータを配列に退避
+       * show manage modal
        *
        * @return {void}
        */
-      $scope.writeTmp = function() {
-        tmpFormValue['url'] = $(editFormUrlTag).val();
-        tmpFormValue['height'] = $(editFormHeightTag).val();
-        if ($(editFormScrollbarOnTag).prop('checked')) {
-          tmpFormValue['scrollbar'] = 1;
-        } else {
-          tmpFormValue['scrollbar'] = 0;
-        }
-        if ($(editFormScrollframeOnTag).prop('checked')) {
-          tmpFormValue['scrollframe'] = 1;
-        } else {
-          tmpFormValue['scrollframe'] = 0;
-        }
+      $scope.showManageModal = function() {
+        //display manage modal
+        $($scope.iframeManageModalId).modal({
+          show: true,
+          backdrop: 'static'
+        });
+
+        //call initializeManageModal method
+        $scope.initializeManageModal();
+
+        //set url into form
+        $scope.iframeUrl = $scope.iframeData.Iframe.url;
       };
 
       /**
-       * 退避データをフォームデータに格納
+       * initialize manage modal
        *
        * @return {void}
        */
-      $scope.writeForm = function() {
-        $(editFormUrlTag).val(tmpFormValue['url']);
-        $(editFormHeightTag).val(tmpFormValue['height']);
-        if (tmpFormValue['scrollbar'] == 1) {
-          $(editFormScrollbarOffTag).prop('checked', false);
-          $(editFormScrollbarOnTag).prop('checked', true);
-        } else {
-          $(editFormScrollbarOnTag).prop('checked', false);
-          $(editFormScrollbarOffTag).prop('checked', true);
-        }
-        if (tmpFormValue['scrollframe'] == 1) {
-          $(editFormScrollframeOffTag).prop('checked', false);
-          $(editFormScrollframeOnTag).prop('checked', true);
-        } else {
-          $(editFormScrollframeOnTag).prop('checked', false);
-          $(editFormScrollframeOffTag).prop('checked', true);
-        }
+      $scope.initializeManageModal = function() {
+        //activate the first tab
+        $($scope.iframeEditTabId).addClass('active');
+        $($scope.iframeEditId).addClass('active');
+
+        //remove the active from other tab
+        $($scope.iframeFrameSettingTabId).removeClass('active');
+        $($scope.iframeFrameSettingId).removeClass('active');
       };
 
       /**
-       * 各ボタン処理
-       *   Cancel: 閉じる
-       *   Preview: プレビュー
-       *   PreviewClose: プレビューの終了
-       *   Draft: 下書き
-       *   Reject: 差し戻し
-       *   PublishRequest: 公開申請
-       *   Publish: 公開
+       * show modify display style
        *
-       * @param {stirng} type
-       * @param {number} frameId
        * @return {void}
        */
-      $scope.post = function(type, frameId) {
-        //送信中は処理しない
-        if ($scope.sendRock) {
-          return false;
-        }
-        //ボタン非活性化
-        $('#nc-iframes-' + $scope.frameId + ' button')
-          .fadeTo(100, 0.3)
-          .attr('disabled', 'disabled');
-        //送信をロックする。
-        $scope.sendRock = true;
-        //set
-        $scope.setId(frameId);
-        //スクロールバーの状態を設定
-        if ($(editFormScrollbarOnTag).prop('checked')) {
-          $Scrollbar = 1;
-        } else {
-          $Scrollbar = 0;
-        }
-        //フレーム枠の状態を設定
-        if ($(editFormScrollframeOnTag).prop('checked')) {
-          $Scrollframe = 1;
-        } else {
-          $Scrollframe = 0;
-        }
-        //登録処理
-        $scope.sendPost(type);
-        //送信ロックを解除する
-        $scope.sendRock = false;
-        //ボタンをdefaultに戻す
-        $('#nc-iframes-' + $scope.frameId + ' button')
-          .fadeTo(3000, 1)
-          .removeAttr('disabled');
-        $scope.setViewdDefault();
+      $scope.showIframeFrameSetting = function() {
+        //set the height of the frame into form
+        $scope.iframeHeight = +($scope.iframeFrameSettingData
+            .IframeFrameSetting.height);
+
+        //set the scroll bar into form
+        $scope.iframeScrollBar = Boolean(+($scope.iframeFrameSettingData
+            .IframeFrameSetting.display_scrollbar));
+
+        //set the frame into form
+        $scope.iframeFrame = Boolean(+($scope.iframeFrameSettingData
+            .IframeFrameSetting.display_frame));
       };
 
       /**
-       * 登録処理(get)
+       * hide manage modal
        *
-       * @param {stirng} type
        * @return {void}
        */
-      $scope.sendPost = function(type) {
-        //Post用のフォームを取得し、POSTする
-        $http({
-          method: 'GET',
-          url: $scope.getEditFormUrl + $scope.frameId + '/' + Math.random()
-        })
+      $scope.hideManageModal = function() {
+        //hide manage modal
+        $($scope.iframeManageModalId).modal('hide');
+      };
+
+      /**
+       * post iframe
+       *     1: Publish
+       *     2: Approve
+       *     3: Draft
+       *     4: Disapprove
+       *
+       * @param {string} postStatus
+       * @return {void}
+       */
+      $scope.postIframe = function(postStatus) {
+        $scope.sendLock = true;
+        $http.get($scope.GET_IFRAME_FORM_URL +
+                $scope.frameId + '/' + Math.random())
           .success(function(data, status, headers, config) {
-              //set
-              $('#nc-iframes-post-' + $scope.frameId).html(data);
-              var post_data_form = '#nc-iframes-data-' + $scope.frameId;
-              var post_params = {
-                'data[_Token][fields]' : $(post_data_form +
-                    " input[name='data[_Token][fields]']").val(),
-                'data[_Token][key]' : $(post_data_form +
-                    " input[name='data[_Token][key]']").val(),
-                '_method' : $(post_data_form +
-                    " input[name='_method']").val(),
-                'data[_Token][unlocked]' : $(post_data_form +
-                    " input[name='data[_Token][unlocked]']").val(),
-                //'data[IframeDatum][url]' :
-                              //encodeURIComponent($(editFormUrlTag).val()),
-                'data[IframeDatum][url]' :
-                              $(editFormUrlTag).val(),
-                'data[IframeDatum][frame_height]' :
-                              encodeURIComponent($(editFormHeightTag).val()),
-                'data[IframeDatum][scrollbar_show]' :
-                              encodeURIComponent($Scrollbar),
-                'data[IframeDatum][scrollframe_show]' :
-                              encodeURIComponent($Scrollframe),
-                'data[IframeDatum][frameId]' :
-                              $scope.frameId,
-                'data[IframeDatum][blockId]' :
-                              $scope.blockId,
-                'data[IframeDatum][type]' :
-                              type,
-                'data[IframeDatum][langId]' :
-                              $scope.langId,
-                'data[IframeDatum][id]' :
-                              $scope.dataId
-              };
+              //POST用のフォームセット
+              $($scope.iframePostFormAreaAttrId).html(data);
+              //ステータスのセット
+              $($scope.iframePostFormAttrId +
+                      ' select[name="data[Iframe][status]"]').val(postStatus);
+              var postParams = {};
+              //POSTフォームのシリアライズ
+              var i = 0;
+              var postSerialize =
+                              $($scope.iframePostFormAttrId).serializeArray();
+              var length = postSerialize.length;
+              for (i; i < length; i++) {
+                postParams[postSerialize[i]['name']] =
+                                         postSerialize[i]['value'];
+              }
+              //入力フォームのシリアライズ
+              var inputSerialize =
+                              $($scope.iframeInputFormAttrId).serializeArray();
+              var length = inputSerialize.length;
+              for (i = 0; i < length; i++) {
+                postParams[inputSerialize[i]['name']] =
+                                         inputSerialize[i]['value'];
+              }
               //登録情報をPOST
-              $scope.sendSavePost(post_params);
+              $scope.sendIframe(postParams);
+              //call hideManageModal method
+              $scope.hideManageModal();
+              $scope.sendLock = false;
             })
           .error(function(data, status, headers, config) {
               //keyの取得に失敗
-              if (! data) {
-                data = 'ERROR!';
-              }
-              $scope.postAlert('error', data);
+              if (! data) { data = 'error'; }
+              $scope.showIframeResultMessage('error', data);
+              $scope.sendLock = false;
             });
       };
 
       /**
-       * 登録処理(POST)
+       * save iframe
        *
        * @param {Object.<string>} postParams
        * @return {void}
        */
-      $scope.sendSavePost = function(post_params) {
+      $scope.sendIframe = function(postParams) {
         $.ajax({
-          method: 'POST',
-          url: $scope.postUrl +
-              $scope.frameId +
-              '/' +
-              Math.random(),
-          data: post_params,
+          method: 'POST' ,
+          url: $scope.POST_IFRAME_FORM_URL +
+              $scope.frameId + '/' + Math.random(),
+          data: postParams,
           success: function(json, status, headers, config) {
-            $scope.setIndex(json);
+            $scope.iframeData = json.data;
+            //結果メッセージを表示
+            $($scope.iframeResultMessageAttrId).removeClass('hidden');
+            $scope.setIframeLatestData(json);
+            $scope.showIframeResultMessage('success', json.message);
             $timeout(function() {
-              $scope.updateStatus($scope.statusId);
             }, 1000);
-            //完了メッセージを表示
-            $scope.postAlert('success', json.message);
           },
-          error: function() {
-            $scope.postAlert('error', 'ERROR!');
+          error: function(json, status, headers, config) {
+            if (! json.message) {
+              $scope.showIframeResultMessage('error', headers);
+            } else {
+              $scope.showIframeResultMessage('error', json.message);
+            }
+            $scope.sendLock = false;
           }
         });
       };
 
       /**
-       * 最新の情報にいれかえる
+       * set iframe latest data
        *
        * @param {Object.<string>} json
        * @return {void}
        */
-      $scope.setIndex = function(json) {
-        //データを格納
-        if (json.data && json.data.IframeDatum.url &&
-            json.data.IframeDatum.frame_height &&
-            json.data.IframeDatum.scrollbar_show &&
-            json.data.IframeDatum.scrollframe_show) {
+      $scope.setIframeLatestData = function(json) {
+        var url = '';
+        var height = 0;
+        var display_scrollbar = false;
+        var display_frame = false;
+        $scope.contentsStatus = 0;
+        if (json.data && json.data.Iframe.url &&
+            json.data.Iframe.status) {
 
-          var url = decodeURIComponent(json.data.IframeDatum.url);
-          var frame_height =
-              decodeURIComponent(json.data.IframeDatum.frame_height);
-          var scrollbar_show =
-              decodeURIComponent(json.data.IframeDatum.scrollbar_show);
-          var scrollframe_show =
-              decodeURIComponent(json.data.IframeDatum.scrollframe_show);
-          var statusId = json.data.IframeDatum.status_id;
+          url = json.data.Iframe.url;
+          height = +($scope.iframeFrameSettingData.IframeFrameSetting.height);
+          display_scrollbar = Boolean(+($scope.iframeFrameSettingData
+                  .IframeFrameSetting.display_scrollbar));
+          display_frame = Boolean(+($scope.iframeFrameSettingData
+                  .IframeFrameSetting.display_frame));
+          $scope.contentsStatus = +(json.data.Iframe.status);
         }
-        //ラベル - クリア初期値に戻す
-        $scope.labelClear();
-
-        //最新データを格納
-        if ($(viewerAreaAttrTag).size() == 0) {
-          //iframe未作成の場合は作成する
-          var iframe = $(' <iframe> ')
-                       .prop('id', 'nc-iframes-view-attr-' + $scope.frameId);
-          $(viewerAreaTag).html(iframe);
+        //set latest data
+        if ($($scope.iframeElementTag).size() === 0) {
+          //create iframe tag if not created
+          $($scope.iframeId).html($('<iframe>'));
         }
-        $(viewerAreaAttrTag).prop('src', url);
-        $(viewerAreaAttrTag).prop('height', frame_height);
-        $(viewerAreaAttrTag).prop('width', '100%');
-        if (scrollbar_show == 1) {
-          $(viewerAreaAttrTag).prop('scrolling', 'auto');
+        $($scope.iframeElementTag).prop('src', url);
+        $($scope.iframeElementTag).prop('height', height);
+        $($scope.iframeElementTag).prop('width', '100%');
+        if (display_scrollbar === true) {
+          $($scope.iframeElementTag).prop('scrolling', 'yes');
         } else {
-          $(viewerAreaAttrTag).prop('scrolling', 'no');
+          $($scope.iframeElementTag).prop('scrolling', 'no');
         }
-        if (scrollframe_show == 1) {
-          $(viewerAreaAttrTag).prop('frameborder', 1);
+        if (display_frame === true) {
+          $($scope.iframeElementTag).prop('frameborder', 1);
         } else {
-          $(viewerAreaAttrTag).prop('frameborder', 0);
+          $($scope.iframeElementTag).prop('frameborder', 0);
         }
-
-        //フォームに最新のデータを格納
-        $(editFormUrlTag).prop('src', url);
-        $(editFormHeightTag).prop('height', frame_height);
-        if (scrollbar_show == 1) {
-          $(editFormScrollbarOffTag).prop('checked', 'false');
-          $(editFormScrollbarOnTag).prop('checked', 'true');
-        } else if (scrollbar_show == 0) {
-          $(editFormScrollbarOnTag).prop('checked', 'false');
-          $(editFormScrollbarOffTag).prop('checked', 'true');
-        }
-        if (scrollframe_show == 1) {
-          $(editFormScrollframeOffTag).prop('checked', 'false');
-          $(editFormScrollframeOnTag).prop('checked', 'true');
-        } else if (scrollframe_show == 0) {
-          $(editFormScrollframeOnTag).prop('checked', 'false');
-          $(editFormScrollframeOffTag).prop('checked', 'true');
-        }
-
-        //一時配列に最新のデータを格納
-        $scope.writeTmp();
-        $scope.blockId = json.data.IframeFrame.block_id;
-        $scope.statusId = statusId;
-        $scope.closeForm($scope.frameId);
+        //update status label
+        $scope.initializeLabel();
+        $scope.updateStatus($scope.contentsStatus);
       };
 
       /**
-       * ラベル(状態）をすべてfalseにする。
+       * initialize label
+       *
+       * @return {void}
        */
-      $scope.labelClear = function() {
+      $scope.initializeLabel = function() {
         $scope.label.publish = false;
+        $scope.label.approval = false;
         $scope.label.draft = false;
-        $scope.label.request = false;
-        $scope.label.reject = false;
+        $scope.label.disapproval = false;
       };
 
       /**
        * status
        *
-       * @param {int} statusId
+       * @param {int} contentsStatus
+       * @return {void}
        */
-      $scope.updateStatus = function(statusId) {
-
-        if (statusId == $scope.statusList.Draft) {
-          //下書き
-          $scope.label.draft = true;
-        } else if (statusId == $scope.statusList.Publish) {
-          //公開中 //ラベル変更
+      $scope.updateStatus = function(contentsStatus) {
+        if (contentsStatus === $scope.statusCode.publish) {
+          //publish
           $scope.label.publish = true;
-        } else if (statusId == $scope.statusList.PublishRequest) {
-          //申請中 //ラベルの変更
-          $scope.label.request = true;
-        }
-        else if (statusId == $scope.statusList.Reject) {
-          //差し戻し
-          $scope.label.reject = true;
+        } else if (contentsStatus === $scope.statusCode.approval) {
+          //approval
+          $scope.label.approval = true;
+        } else if (contentsStatus === $scope.statusCode.draft) {
+          //draft
+          $scope.label.draft = true;
+        } else if (contentsStatus === $scope.statusCode.disapproval) {
+          //disapproval
+          $scope.label.disapproval = true;
         }
       };
 
       /**
-       * Viewの設定を標準値に戻す
-       */
-      $scope.setViewdDefault = function() {
-        $scope.View = {
-          'default' : true,
-          'edit' : {
-            'preview' : false,
-            'detail' : false,
-            'body' : false
-          }
-        };
-      };
-
-      /**
-       * ブロック設定のモーダルを表示させる。
+       * show result
        *
-       * @param {int} frameId
+       * @param {string} type
+       * @param {string} message
+       * @return {void}
        */
-      $scope.openBlockSetting = function(frameId) {
-        $scope.setId(frameId);
+      $scope.showIframeResultMessage = function(type, message) {
+        $scope.iframeVisibleMsg = true;
+        if (type === 'error') {
+          $($scope.iframeResultMessageAttrId)
+            .addClass('alert-danger')
+            .removeClass('alert-success')
+            .fadeIn(500);
+        }
+        if (type === 'success') {
+          $($scope.iframeResultMessageAttrId)
+            .removeClass('alert-danger')
+            .addClass('alert-success')
+            .fadeIn(500).fadeTo(1000, 1).fadeOut(500);
+        }
+        $($scope.iframeResultMessageAttrId + ' .message').html(message);
+      };
+
+      /**
+       * post `modified display style`
+       *
+       * @return {void}
+       */
+      $scope.postIframeFrameSetting = function() {
+        $scope.sendLock = true;
+        $http.get($scope.GET_IFRAME_FRAME_SETTING_FORM_URL +
+                $scope.frameId + '/' + Math.random())
+          .success(function(data, status, headers, config) {
+              //POST用のフォームセット
+              $($scope.iframePostFormAreaAttrId).html(data);
+              var postParams = {};
+              //POSTフォームのシリアライズ
+              var i = 0;
+              var postSerialize = $($scope.iframeFrameSettingPostFormAttrId).
+                                           serializeArray();
+              var length = postSerialize.length;
+              for (i; i < length; i++) {
+                postParams[postSerialize[i]['name']] =
+                                         postSerialize[i]['value'];
+              }
+              //入力フォームのシリアライズ
+              var inputSerialize = $($scope.iframFrameSettingInputFormAttrId).
+                                              serializeArray();
+              var length = inputSerialize.length;
+              for (i = 0; i < length; i++) {
+                postParams[inputSerialize[i]['name']] =
+                                         inputSerialize[i]['value'];
+              }
+              //登録情報をPOST
+              $scope.sendIframeFrameSetting(postParams);
+              $scope.sendLock = false;
+            })
+          .error(function(data, status, headers, config) {
+              //keyの取得に失敗
+              if (! data) { data = 'error'; }
+              $scope.showIframeResultMessage('error', data);
+              $scope.sendLock = false;
+            });
+      };
+
+      /**
+       * save iframe frame setting
+       *
+       * @param {Object.<string>} postParams
+       * @return {void}
+       */
+      $scope.sendIframeFrameSetting = function(postParams) {
+        $.ajax({
+          method: 'POST' ,
+          url: $scope.POST_IFRAME_FRAME_SETTING_FORM_URL + $scope.frameId +
+              '/' + Math.random(),
+          data: postParams,
+          success: function(json, status, headers, config) {
+            $scope.iframeFrameSettingData = json.data;
+            //結果メッセージを表示
+            $($scope.iframeFrameSettingResultMessageAttrId)
+                    .removeClass('hidden');
+            $scope.setIframeFrameSettingLatestData(json);
+            $scope.showIframeFrameSettingResultMessage('success', json.message);
+            $timeout(function() {
+            }, 1000);
+          },
+          error: function(json, status, headers, config) {
+            if (! json.message) {
+              $scope.showIframeFrameSettingResultMessage('error', headers);
+            } else {
+              $scope.showIframeFrameSettingResultMessage('error', json.message);
+            }
+            $scope.sendLock = false;
+          }
+        });
+      };
+
+      /**
+       * set iframe frame setting latest data
+       *
+       * @param {Object.<string>} json
+       * @return {void}
+       */
+      $scope.setIframeFrameSettingLatestData = function(json) {
+        var height = 0;
+        var display_scrollbar = false;
+        var display_frame = false;
+        if (json.data && json.data.IframeFrameSetting.height &&
+                json.data.IframeFrameSetting.display_scrollbar &&
+                json.data.IframeFrameSetting.display_frame) {
+          height = +(json.data.IframeFrameSetting.height);
+          display_scrollbar = Boolean(+(json.data
+                               .IframeFrameSetting.display_scrollbar));
+          display_frame = Boolean(+(json.data
+                               .IframeFrameSetting.display_frame));
+        }
+        //最新データをiframeに反映する
+        if ($($scope.iframeElementTag).size() !== 0) {
+          $($scope.iframeElementTag).prop('height', height);
+          $($scope.iframeElementTag).prop('width', '100%');
+          if (display_scrollbar === true) {
+            $($scope.iframeElementTag).prop('scrolling', 'yes');
+          } else {
+            $($scope.iframeElementTag).prop('scrolling', 'no');
+          }
+          if (display_frame === true) {
+            $($scope.iframeElementTag).prop('frameborder', 1);
+          } else {
+            $($scope.iframeElementTag).prop('frameborder', 0);
+          }
+        }
+        //最新データをフォームに反映する
+        $scope.iframeHeight = height;
+        $scope.iframeScrollBar = display_scrollbar;
+        $scope.iframeFrame = display_frame;
+      };
+
+      /**
+       * show iframe frame setting result message
+       *
+       * @param {string} type
+       * @param {string} message
+       * @return {void}
+       */
+      $scope.showIframeFrameSettingResultMessage = function(type, message) {
+        $scope.iframeFrameSettingVisibleMsg = true;
+        if (type === 'error') {
+          $($scope.iframeFrameSettingResultMessageAttrId)
+            .addClass('alert-danger')
+            .removeClass('alert-success')
+            .fadeIn(500);
+        }
+        if (type === 'success') {
+          $($scope.iframeFrameSettingResultMessageAttrId)
+            .removeClass('alert-danger')
+            .addClass('alert-success')
+            .fadeIn(500).fadeTo(1000, 1).fadeOut(500);
+        }
+        $($scope.iframeFrameSettingResultMessageAttrId + ' .message')
+                .html(message);
       };
 
     });
-
-NetCommonsApp.controller('Iframes.setting', function($scope, $http) {
-
-});
