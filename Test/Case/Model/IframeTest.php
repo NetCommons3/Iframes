@@ -27,9 +27,18 @@ class IframeTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.iframes.iframe',
-		'plugin.iframes.block',
+		'plugin.iframes.iframe_frame_setting',
 		'plugin.iframes.frame',
 		'plugin.iframes.box',
+		'plugin.iframes.block',
+		'plugin.iframes.plugin',
+		'plugin.iframes.part',
+		'plugin.iframes.parts_rooms_user',
+		'plugin.iframes.room',
+		'plugin.iframes.user',
+		'plugin.iframes.room_part',
+		'plugin.iframes.language',
+		'plugin.iframes.languages_part',
 	);
 
 /**
@@ -42,7 +51,6 @@ class IframeTest extends CakeTestCase {
 		$this->Iframe = ClassRegistry::init('Iframes.Iframe');
 		$this->Block = ClassRegistry::init('Iframes.Block');
 		$this->Frame = ClassRegistry::init('Iframes.Frame');
-		$this->Box = ClassRegistry::init('Iframes.Box');
 	}
 
 /**
@@ -54,7 +62,6 @@ class IframeTest extends CakeTestCase {
 		unset($this->Iframe);
 		unset($this->Block);
 		unset($this->Frame);
-		unset($this->Box);
 		parent::tearDown();
 	}
 
