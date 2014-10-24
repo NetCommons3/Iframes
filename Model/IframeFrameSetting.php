@@ -2,16 +2,19 @@
 /**
  * IframeFrameSetting Model
  *
+ * @property Frame $Frame
+ *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
 App::uses('IframesAppModel', 'Iframes.Model');
 
 /**
- * Summary for IframeFrameSetting Model
+ * IframeFrameSetting Model
  *
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Model
@@ -19,25 +22,22 @@ App::uses('IframesAppModel', 'Iframes.Model');
 class IframeFrameSetting extends IframesAppModel {
 
 /**
- * IframeFrameSetting minimum value of the height of the frame
+ * Minimum value of the height of the frame
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var int
  */
-	const MINIMUM_VALUE = '1';
+	const MINIMUM_VALUE = 1;
 
 /**
- * IframeFrameSetting maximum value of the height of the frame
+ * Maximum value of the height of the frame
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var int
  */
-	const MAXIMUM_VALUE = '2000';
+	const MAXIMUM_VALUE = 2000;
 
 /**
  * Validation rules
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var array
  */
 	public $validate = array(
@@ -45,18 +45,30 @@ class IframeFrameSetting extends IframesAppModel {
 			'numeric' => array(
 				'rule' => array('range', 0, 2001),
 				'message' => 'Invalid request.',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'display_scrollbar' => array(
 			'boolean' => array(
 				'rule' => array('boolean'),
 				'message' => 'Invalid request.',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 		'display_frame' => array(
 			'boolean' => array(
 				'rule' => array('boolean'),
 				'message' => 'Invalid request.',
+				//'allowEmpty' => false,
+				//'required' => false,
+				//'last' => false, // Stop validation after this rule
+				//'on' => 'create', // Limit validation to 'create' or 'update' operations
 			),
 		),
 	);
@@ -69,7 +81,7 @@ class IframeFrameSetting extends IframesAppModel {
  */
 	public $belongsTo = array(
 		'Frame' => array(
-			'className' => 'Frames.Frame',
+			'className' => 'Frame',
 			'foreignKey' => 'frame_key',
 			'conditions' => '',
 			'fields' => '',
@@ -81,63 +93,79 @@ class IframeFrameSetting extends IframesAppModel {
  * get iframe frame setting
  *
  * @param int $frameKey frames.key
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @return array IframeFrameSetting
  */
 	public function getIFrameFrameSetting($frameKey) {
 		$conditions = array(
 			'frame_key' => $frameKey,
 		);
-		return $this->find('first', array(
-			'conditions' => $conditions,
-			'order' => $this->name . '.id DESC'
-		));
+
+		$iframeFrameSetting = $this->find('first', array(
+				'conditions' => $conditions,
+				//'recursive' => -1,
+				'order' => 'IframeFrameSetting.id DESC'
+			)
+		);
+
+		if (! $iframeFrameSetting) {
+			//初期値を設定
+			$iframeFrameSetting = $this->create();
+			$iframeFrameSetting['IframeFrameSetting']['display_frame'] = '0';
+			$iframeFrameSetting['IframeFrameSetting']['display_scrollbar'] = '1';
+			$iframeFrameSetting['IframeFrameSetting']['height'] = '400';
+			$iframeFrameSetting['IframeFrameSetting']['frame_key'] = $frameKey;
+			$iframeFrameSetting['IframeFrameSetting']['id'] = '0';
+		}
+
+		return $iframeFrameSetting;
 	}
 
 /**
- * save iframe
+ * save iframeFrameSetting
  *
- * @param array $data received post data
- * @param int $frameKey frames.key
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
- * @return mixed array IframeFrameSetting, false error
+ * @param array $postData received post data
+ * @return bool true success, false error
+ * @throws ForbiddenException
  */
-	public function saveIframeFrameSetting($data, $frameKey) {
+	public function saveIframeFrameSetting($postData) {
 		$models = array(
-			'Frames.Frame' => 'Frame'
+			'Frame' => 'Frames.Frame',
 		);
-		foreach ($models as $class => $model) {
+		foreach ($models as $model => $class) {
 			$this->$model = ClassRegistry::init($class);
 			$this->$model->setDataSource('master');
 		}
-		if (! $data || ! $frameKey) {
-			return false;
-		}
-		//frameKey check
-		if (! isset($data[$this->Frame->name]['frame_key']) ||
-			$frameKey !== $data[$this->Frame->name]['frame_key']) {
-			return false;
-		}
+
 		//DBへの登録
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();
 		try {
-			//iframesテーブル登録
-			$insertData = array();
-			$insertData[$this->name]['frame_key'] = $data[$this->Frame->name]['frame_key'];
-			$insertData[$this->name]['height'] = (int)$data[$this->name]['height'];
-			$insertData[$this->name]['display_scrollbar'] = $data[$this->name]['display_scrollbar'];
-			$insertData[$this->name]['display_frame'] = $data[$this->name]['display_frame'];
-			$insertData[$this->name]['created_user'] = (int)CakeSession::read('Auth.User.id');
-			//保存結果を返す
-			$insertData = $this->save($insertData);
+			//IframesFrameSettingテーブル登録
+			$iframeFrameSetting['IframeFrameSetting']['height'] =
+								(int)$postData['IframeFrameSetting']['height'];
+			$iframeFrameSetting['IframeFrameSetting']['frame_key'] =
+								$postData['IframeFrameSetting']['frame_key'];
+			$iframeFrameSetting['IframeFrameSetting']['created_user'] =
+								CakeSession::read('Auth.User.id');
+
+			$iframeFrameSetting['IframeFrameSetting']['display_scrollbar'] =
+				($postData['IframeFrameSetting']['display_scrollbar'] === 'true' ? 1 : 0);
+
+			$iframeFrameSetting['IframeFrameSetting']['display_frame'] =
+				($postData['IframeFrameSetting']['display_frame'] === 'true' ? 1 : 0);
+
+			$iframeFrameSetting = $this->save($iframeFrameSetting);
+			if (! $iframeFrameSetting) {
+				throw new ForbiddenException(serialize($this->validationErrors));
+			}
 			$dataSource->commit();
+			return $iframeFrameSetting;
+
 		} catch (Exception $ex) {
-			//CakeLog::error($ex->getTraceAsString());
+			CakeLog::error($ex->getTraceAsString());
 			$dataSource->rollback();
 			return false;
 		}
-		return $insertData;
 	}
 
 }

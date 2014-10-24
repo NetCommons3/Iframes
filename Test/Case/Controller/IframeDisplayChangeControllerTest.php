@@ -1,6 +1,6 @@
 <?php
 /**
- * IframesController Test Case
+ * IframeDisplayChangeController Test Case
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
@@ -15,17 +15,17 @@ App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 
 /**
- * IframesController Test Case
+ * IframeDisplayChangeController Test Case
  *
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
  */
-class IframesControllerTest extends ControllerTestCase {
+class IframeDisplayChangeControllerTest extends ControllerTestCase {
 
 /**
  * mock controller object
  *
- * @var null
+ * @var Controller
  */
 	public $Controller = null;
 
@@ -72,60 +72,12 @@ class IframesControllerTest extends ControllerTestCase {
 	}
 
 /**
- * testBeforeFilterByNoSetFrameId method
+ * testBeforeFilterErrorByNoEditable method
  *
  * @return void
  */
-	public function testBeforeFilterByNoSetFrameId() {
+	public function testBeforeFilterErrorByNoEditable() {
 		$this->setExpectedException('ForbiddenException');
-		$this->testAction('/iframes/iframes/index', array('method' => 'get'));
-	}
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function testIndex() {
-		$this->testAction('/iframes/iframes/index/1', array('method' => 'get'));
-
-		$expected = 'http://www.netcommons.org/';
-		$this->assertTextContains($expected, $this->view);
-	}
-
-/**
- * testView method
- *
- * @return void
- */
-	public function testView() {
-		$this->testAction('/iframes/iframes/view/1', array('method' => 'get'));
-
-		$expected = 'http://www.netcommons.org/';
-		$this->assertTextContains($expected, $this->view);
-	}
-
-/**
- * testViewByNoSetBlockId method
- *
- * @return void
- */
-	public function testViewByNoSetBlockId() {
-		$this->testAction('/iframes/iframes/view/2', array('method' => 'get'));
-
-		$expected = '<p>URLが登録されていません。</p>';
-		$this->assertTextContains($expected, $this->view);
-	}
-
-/**
- * testViewByNoSetBlockId method
- *
- * @return void
- */
-	public function testViewByNoSetFrameKey() {
-		$this->testAction('/iframes/iframes/view/3', array('method' => 'get'));
-
-		$expected = '<p>URLが登録されていません。</p>';
-		$this->assertTextContains($expected, $this->view);
+		$this->testAction('/iframes/iframe_display_change/index/1', array('method' => 'get'));
 	}
 }

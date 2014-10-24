@@ -10,17 +10,13 @@
  */
 
 /**
- * Summary for IframeFixture
- *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
- * @package NetCommons\Iframes\Test
+ * IframeFixture
  */
 class IframeFixture extends CakeTestFixture {
 
 /**
  * Fields
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var array
  */
 	public $fields = array(
@@ -41,29 +37,28 @@ class IframeFixture extends CakeTestFixture {
 /**
  * Records
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var array
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'block_id' => 1,
-			'status' => 1,
+			'id' => '1',
+			'block_id' => '1',
+			'status' => '1',
 			'url' => 'http://www.netcommons.org/',
-			'created_user' => 1,
-			'created' => '2014-10-03 03:08:42',
-			'modified_user' => 1,
-			'modified' => '2014-10-03 03:08:42'
+			'created_user' => '1',
+			'created' => '2014-10-09 16:07:57',
+			'modified_user' => '1',
+			'modified' => '2014-10-09 16:07:57'
 		),
 		array(
-			'id' => 2,
-			'block_id' => 2,
-			'status' => 1,
+			'id' => '2',
+			'block_id' => '1',
+			'status' => '3',
 			'url' => 'http://www.netcommons.org/',
-			'created_user' => 1,
-			'created' => '2014-10-03 03:08:42',
-			'modified_user' => 1,
-			'modified' => '2014-10-03 03:08:42'
+			'created_user' => '1',
+			'created' => '2014-10-09 16:07:57',
+			'modified_user' => '1',
+			'modified' => '2014-10-09 16:07:57'
 		),
 	);
 

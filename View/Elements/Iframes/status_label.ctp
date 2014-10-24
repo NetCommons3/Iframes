@@ -1,26 +1,29 @@
-<p>
-	<span class="label label-success ng-hide"
-		ng-init="label.publish=<?php echo ($iframe['Iframe']['status'] === Iframe::STATUS_PUBLISHED ? 'true' : 'false'); ?>"
-		ng-show="label.publish">
-		<?php echo __d('iframes', 'Publishing'); ?>
-	</span>
+<?php
+/**
+ * status label template elements
+ *
+ * @author Noriko Arai <arai@nii.ac.jp>
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @link http://www.netcommons.org NetCommons Project
+ * @license http://www.netcommons.org/license.txt NetCommons License
+ * @copyright Copyright 2014, NetCommons Project
+ */
+?>
 
-	<span class="label label-danger ng-hide"
-		ng-init="label.approval=<?php echo ($iframe['Iframe']['status'] === Iframe::STATUS_APPROVED ? 'true' : 'false'); ?>"
-		ng-show="label.approval">
-		<?php echo __d('iframes', 'Approving'); ?>
-	</span>
+<?php $status = NetCommonsBlockComponent::STATUS_APPROVED ?>
+<span class="label label-warning  <?php echo ($iframe['Iframe']['status'] === $status ? 'ng-show' : 'ng-hide'); ?>"
+		ng-class="(iframe.Iframe.status === '<?php echo $status; ?>') ? 'ng-show' : 'ng-hide'">
+	<?php echo __d('net_commons', 'Approving'); ?>
+</span>
 
-	<span class="label label-info ng-hide"
-		ng-init="label.draft=<?php echo ($iframe['Iframe']['status'] === Iframe::STATUS_DRAFTED ? 'true' : 'false'); ?>"
-		ng-show="label.draft">
-		<?php echo __d('iframes', 'Drafting'); ?>
-	</span>
+<?php $status = NetCommonsBlockComponent::STATUS_DISAPPROVED ?>
+<span class="label label-danger  <?php echo ($iframe['Iframe']['status'] === $status ? 'ng-show' : 'ng-hide'); ?>"
+		ng-class="(iframe.Iframe.status === '<?php echo $status; ?>') ? 'ng-show' : 'ng-hide'">
+	<?php echo __d('net_commons', 'Disapproving'); ?>
+</span>
 
-	<span class="label label-warning ng-hide"
-		ng-init="label.disapproval=<?php echo ($iframe['Iframe']['status'] === Iframe::STATUS_DISAPPROVED ? 'true' : 'false'); ?>"
-		ng-show="label.disapproval">
-		<?php echo __d('iframes', 'Disapprovign'); ?>
-	</span>
-
-</p>
+<?php $status = NetCommonsBlockComponent::STATUS_DRAFTED ?>
+<span class="label label-info <?php echo ($iframe['Iframe']['status'] === $status ? 'ng-show' : 'ng-hide'); ?>"
+		ng-class="(iframe.Iframe.status === '<?php echo $status; ?>') ? 'ng-show' : 'ng-hide'">
+	<?php echo __d('net_commons', 'Temporary'); ?>
+</span>

@@ -8,8 +8,8 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+
 App::uses('AppController', 'Controller');
-App::uses('NetCommonsFrameAppController', 'NetCommons.Controller');
 
 /**
  * IframesApp Controller
@@ -17,16 +17,14 @@ App::uses('NetCommonsFrameAppController', 'NetCommons.Controller');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Controller
  */
-class IframesAppController extends NetCommonsFrameAppController {
+class IframesAppController extends AppController {
 
 /**
- * Component name
+ * use component
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var array
  */
 	public $components = array(
 		'Security'
 	);
-
 }

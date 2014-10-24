@@ -1,8 +1,6 @@
 <?php
 /**
- * Iframe App Model
- *
- * @property Block $Block
+ * iframe edit view template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
@@ -10,15 +8,6 @@
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
+?>
 
-App::uses('AppModel', 'Model');
-
-/**
- * IframesApp Model
- *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
- * @package NetCommons\Iframes\Model
- */
-class IframesAppModel extends AppModel {
-
-}
+edit

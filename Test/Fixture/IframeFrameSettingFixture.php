@@ -10,17 +10,13 @@
  */
 
 /**
- * Summary for IframeFrameSettingFixture
- *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
- * @package NetCommons\Iframes\Test
+ * IframeFrameSettingFixture
  */
 class IframeFrameSettingFixture extends CakeTestFixture {
 
 /**
  * Fields
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var array
  */
 	public $fields = array(
@@ -42,31 +38,30 @@ class IframeFrameSettingFixture extends CakeTestFixture {
 /**
  * Records
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var array
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'frame_key' => '12345',
-			'height' => 400,
-			'display_scrollbar' => 1,
-			'display_frame' => 1,
-			'created_user' => 1,
-			'created' => '2014-10-03 03:13:00',
-			'modified_user' => 1,
-			'modified' => '2014-10-03 03:13:00'
+			'id' => '1',
+			'frame_key' => 'frame_1',
+			'height' => '400',
+			'display_scrollbar' => '1',
+			'display_frame' => '1',
+			'created_user' => '1',
+			'created' => '2014-10-09 16:07:57',
+			'modified_user' => '1',
+			'modified' => '2014-10-09 16:07:57'
 		),
 		array(
-			'id' => 2,
-			'frame_key' => '123456',
-			'height' => 400,
-			'display_scrollbar' => 1,
-			'display_frame' => 1,
-			'created_user' => 1,
-			'created' => '2014-10-03 03:13:00',
-			'modified_user' => 1,
-			'modified' => '2014-10-03 03:13:00'
+			'id' => '2',
+			'frame_key' => 'frame_1',
+			'height' => '400',
+			'display_scrollbar' => '1',
+			'display_frame' => '0',
+			'created_user' => '1',
+			'created' => '2014-10-09 16:07:57',
+			'modified_user' => '1',
+			'modified' => '2014-10-09 16:07:57'
 		),
 	);
 
