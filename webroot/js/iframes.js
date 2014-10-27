@@ -113,7 +113,7 @@ NetCommonsApp.controller('Iframes',
                 $scope.flash.danger(reason.status + ' ' + reason.data.name);
               } else if (reason === 'canceled') {
                 //キャンセル
-                //$scope.flash.close();
+                $scope.flash.close();
               }
             });
       };
@@ -245,12 +245,12 @@ NetCommonsApp.controller('Iframes.edit',
               $scope.setLatestData(data.iframe.Iframe);
 
               angular.copy(data.iframe, $scope.iframe);
-              //$scope.flash.success(data.name);
+              $scope.flash.success(data.name);
               $scope.sending = false;
               $modalStack.dismissAll('saved');
             })
           .error(function(data, status) {
-              //$scope.flash.danger(status + ' ' + data.name);
+              $scope.flash.danger(status + ' ' + data.name);
               $scope.sending = false;
             });
       };
@@ -387,7 +387,7 @@ NetCommonsApp.controller('Iframes.displayChange',
             })
             .error(function(data, status) {
               //failed to get the key
-              //$scope.flash.danger(status + ' ' + data.name);
+              $scope.flash.danger(status + ' ' + data.name);
               $scope.sending = false;
             });
       };
@@ -408,12 +408,12 @@ NetCommonsApp.controller('Iframes.displayChange',
               $scope.setLatestData(data.iframeFrameSetting.IframeFrameSetting);
 
               angular.copy(data.iframeFrameSetting, $scope.iframeFrameSetting);
-              //$scope.flash.success(data.name);
+              $scope.flash.success(data.name);
               $scope.sending = false;
               $modalStack.dismissAll('saved');
             })
           .error(function(data, status) {
-              //$scope.flash.danger(status + ' ' + data.name);
+              $scope.flash.danger(status + ' ' + data.name);
               $scope.sending = false;
             });
       };

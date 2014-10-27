@@ -15,9 +15,8 @@ App::uses('Iframe', 'Iframes.Model');
 App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 
 /**
- *Iframe Model Test Case
+ * Iframe Model Test Case
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
 class IframeGetTest extends CakeTestCase {
@@ -29,7 +28,6 @@ class IframeGetTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.iframes.iframe',
-		'plugin.iframes.iframe_frame_setting',
 		'plugin.iframes.block',
 		'plugin.iframes.frame',
 		'plugin.iframes.plugin',
@@ -45,7 +43,6 @@ class IframeGetTest extends CakeTestCase {
 	public function setUp() {
 		parent::setUp();
 		$this->Iframe = ClassRegistry::init('Iframes.Iframe');
-		$this->IframeFrameSetting = ClassRegistry::init('Iframes.IframeFrameSetting');
 		$this->Block = ClassRegistry::init('Blocks.Block');
 	}
 
@@ -56,7 +53,6 @@ class IframeGetTest extends CakeTestCase {
  */
 	public function tearDown() {
 		unset($this->Iframe);
-		unset($this->IframeFrameSetting);
 		unset($this->Block);
 		parent::tearDown();
 	}

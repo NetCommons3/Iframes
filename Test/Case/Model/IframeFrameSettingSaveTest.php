@@ -17,7 +17,6 @@ App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
 /**
  * IframeFrameSetting Model Test Case
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
 class IframeFrameSettingSaveTest extends CakeTestCase {
@@ -28,7 +27,6 @@ class IframeFrameSettingSaveTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.iframes.iframe',
 		'plugin.iframes.iframe_frame_setting',
 		'plugin.iframes.block',
 		'plugin.iframes.frame',
@@ -95,8 +93,8 @@ class IframeFrameSettingSaveTest extends CakeTestCase {
 		$postData = array(
 			'IframeFrameSetting' => array(
 				'height' => '400',
-				'display_scrollbar' => false,
-				'display_frame' => false,
+				'display_scrollbar' => '0',
+				'display_frame' => '0',
 				'frame_key' => 'frame_1',
 			)
 		);
@@ -130,8 +128,8 @@ class IframeFrameSettingSaveTest extends CakeTestCase {
 		$postData = array(
 			'IframeFrameSetting' => array(
 				'height' => null,
-				'display_scrollbar' => false,
-				'display_frame' => false,
+				'display_scrollbar' => '0',
+				'display_frame' => '0',
 				'frame_key' => 'frame_1',
 			)
 		);

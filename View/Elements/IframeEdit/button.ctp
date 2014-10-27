@@ -26,7 +26,7 @@
 	<?php else : ?>
 		<button type="button" class="btn btn-default" ng-disabled="sending || iframeEdit.$invalid"
 				ng-click="save('<?php echo NetCommonsBlockComponent::STATUS_DRAFTED ?>')">
-			<?php echo __d('net_commons', 'Save temporary'); ?>
+			<?php echo __d('net_commons', 'Save temporally'); ?>
 		</button>
 
 	<?php endif; ?>

@@ -17,7 +17,6 @@ App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
 /**
  * IframeFrameSetting Model Test Case
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
 class IframeFrameSettingGetTest extends CakeTestCase {
@@ -28,7 +27,6 @@ class IframeFrameSettingGetTest extends CakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.iframes.iframe',
 		'plugin.iframes.iframe_frame_setting',
 		'plugin.iframes.block',
 		'plugin.iframes.frame',
@@ -85,7 +83,7 @@ class IframeFrameSettingGetTest extends CakeTestCase {
 	}
 
 /**
- * testGetIframe method
+ * testGetIframeFrameSetting method
  *
  * @return void
  */
@@ -107,21 +105,24 @@ class IframeFrameSettingGetTest extends CakeTestCase {
 	}
 
 /**
- * testGetIframeByNoEditable method
+ * testGetIframeFrameSettingByFrameKey method
  *
  * @return void
  */
-	public function testGetIframeFrameSettingByNoEditable() {
-		$frameKey = 'frame_1';
+	public function testGetIframeFrameSettingByFrameKey() {
+		$frameKey = '';
 		$result = $this->IframeFrameSetting->getIframeFrameSetting($frameKey);
+
+		$this->assertArrayHasKey('frame_key', $result['IframeFrameSetting'], 'Error ArrayHasKey IframeFrameSetting.key');
+		$this->assertTrue(strlen($result['IframeFrameSetting']['frame_key']) < 1, 'Error strlen IframeFrameSetting.key');
+		unset($result['IframeFrameSetting']['frame_key']);
 
 		$expected = array(
 			'IframeFrameSetting' => array(
-				'id' => '2',
-				'frame_key' => 'frame_1',
+				'id' => '0',
 				'height' => '400',
-				'display_scrollbar' => true,
-				'display_frame' => false,
+				'display_scrollbar' => '1',
+				'display_frame' => '0',
 			)
 		);
 

@@ -97,7 +97,6 @@ class Iframe extends IframesAppModel {
 
 		$iframe = $this->find('first', array(
 				'conditions' => $conditions,
-				//'recursive' => -1,
 				'order' => 'Iframe.id DESC',
 			)
 		);

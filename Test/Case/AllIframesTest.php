@@ -12,7 +12,6 @@
 /**
  * Iframes All Test Case
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test
  * @codeCoverageIgnore
  */
@@ -21,7 +20,6 @@ class AllIframesTest extends CakeTestSuite {
 /**
  * All test suite
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @return CakeTestSuite
  */
 	public static function suite() {

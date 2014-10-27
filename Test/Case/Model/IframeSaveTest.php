@@ -17,7 +17,6 @@ App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
 /**
  * Iframe Model Test Case
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
 class IframeSaveTest extends CakeTestCase {
@@ -29,7 +28,6 @@ class IframeSaveTest extends CakeTestCase {
  */
 	public $fixtures = array(
 		'plugin.iframes.iframe',
-		'plugin.iframes.iframe_frame_setting',
 		'plugin.iframes.block',
 		'plugin.iframes.frame',
 		'plugin.iframes.plugin',
@@ -300,7 +298,7 @@ class IframeSaveTest extends CakeTestCase {
 	}
 
 /**
- * testSaveIframeByBlockSaveError method
+ * testSaveIframeByFrameSaveError method
  *
  * @return void
  */

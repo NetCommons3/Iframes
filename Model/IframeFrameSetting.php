@@ -102,7 +102,6 @@ class IframeFrameSetting extends IframesAppModel {
 
 		$iframeFrameSetting = $this->find('first', array(
 				'conditions' => $conditions,
-				//'recursive' => -1,
 				'order' => 'IframeFrameSetting.id DESC'
 			)
 		);
@@ -143,8 +142,10 @@ class IframeFrameSetting extends IframesAppModel {
 			//IframesFrameSettingテーブル登録
 			$iframeFrameSetting['IframeFrameSetting']['height'] =
 								(int)$postData['IframeFrameSetting']['height'];
+
 			$iframeFrameSetting['IframeFrameSetting']['frame_key'] =
 								$postData['IframeFrameSetting']['frame_key'];
+
 			$iframeFrameSetting['IframeFrameSetting']['created_user'] =
 								CakeSession::read('Auth.User.id');
 
@@ -155,6 +156,7 @@ class IframeFrameSetting extends IframesAppModel {
 				($postData['IframeFrameSetting']['display_frame'] === 'true' ? 1 : 0);
 
 			$iframeFrameSetting = $this->save($iframeFrameSetting);
+
 			if (! $iframeFrameSetting) {
 				throw new ForbiddenException(serialize($this->validationErrors));
 			}

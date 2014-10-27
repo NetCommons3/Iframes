@@ -105,27 +105,4 @@ class IframesControllerTest extends ControllerTestCase {
 		$this->assertTextContains($expected, $this->view);
 	}
 
-/**
- * testViewByNoSetBlockId method
- *
- * @return void
- */
-	public function testViewByNoSetBlockId() {
-		$this->testAction('/iframes/iframes/view/2', array('method' => 'get'));
-
-		$expected = '<p>URLが登録されていません。</p>';
-		$this->assertTextContains($expected, $this->view);
-	}
-
-/**
- * testViewByNoSetBlockId method
- *
- * @return void
- */
-	public function testViewByNoSetFrameKey() {
-		$this->testAction('/iframes/iframes/view/3', array('method' => 'get'));
-
-		$expected = '<p>URLが登録されていません。</p>';
-		$this->assertTextContains($expected, $this->view);
-	}
 }

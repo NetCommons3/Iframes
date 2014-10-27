@@ -12,7 +12,6 @@
 /**
  * Iframes Schema
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Config
  * @SuppressWarnings(PHPMD.LongVariable)
  */
@@ -21,7 +20,6 @@ class IframesSchema extends CakeSchema {
 /**
  * Database connection
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var string
  */
 	public $connection = 'master';
@@ -30,7 +28,6 @@ class IframesSchema extends CakeSchema {
  * before
  *
  * @param array $event savent
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @return bool
  */
 	public function before($event = array()) {
@@ -41,7 +38,6 @@ class IframesSchema extends CakeSchema {
  * after
  *
  * @param array $event event
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @return void
  */
 	public function after($event = array()) {
@@ -50,7 +46,6 @@ class IframesSchema extends CakeSchema {
 /**
  *  iframes table
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var array
  */
 	public $iframes = array(
@@ -71,7 +66,6 @@ class IframesSchema extends CakeSchema {
 /**
  * iframe_frame_settings table
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var array
  */
 	public $iframe_frame_settings = array(

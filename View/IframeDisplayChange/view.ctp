@@ -20,13 +20,10 @@
 					  id="IframeDisplayChangeForm<?php echo $frameId; ?>" name="iframeDisplayChange" novalidate>
 
 					<?php echo $this->element('IframeDisplayChange/display_change_form'); ?>
-
 				</form>
 			</div>
 
 			<?php echo $this->element('IframeDisplayChange/button'); ?>
-			<?php echo $this->element('IframeDisplayChange/message'); ?>
-
 		</div>
 	</div>
 </div>

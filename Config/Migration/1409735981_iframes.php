@@ -12,7 +12,6 @@
 /**
  * Iframes CakeMigration
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Config
  */
 class Iframes extends CakeMigration {
@@ -20,7 +19,6 @@ class Iframes extends CakeMigration {
 /**
  * Migration description
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var string
  */
 	public $description = '';
@@ -28,7 +26,6 @@ class Iframes extends CakeMigration {
 /**
  * Actions to be performed
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var array $migration
  */
 	public $migration = array(
@@ -75,7 +72,6 @@ class Iframes extends CakeMigration {
 /**
  * recodes
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @var array $records
  */
 	public $records = array();
@@ -84,7 +80,6 @@ class Iframes extends CakeMigration {
  * Before migration callback
  *
  * @param string $direction up or down direction of migration process
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @return boolean Should process continue
  */
 	public function before($direction) {
@@ -95,7 +90,6 @@ class Iframes extends CakeMigration {
  * After migration callback
  *
  * @param string $direction up or down direction of migration process
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @return boolean Should process continue
  */
 	public function after($direction) {
@@ -117,7 +111,6 @@ class Iframes extends CakeMigration {
  *
  * @param string $model model name to update
  * @param string $records records to be stored
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @return boolean Should process continue
  */
 	public function updateRecords($model, $records) {
