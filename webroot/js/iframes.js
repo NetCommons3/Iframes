@@ -35,6 +35,34 @@ NetCommonsApp.controller('Iframes',
       $scope.PLUGIN_DISPLAY_CHANGE_URL = '/iframes/iframe_display_change/';
 
       /**
+       * iframe id
+       *
+       * @const
+       */
+      $scope.IFRAME_ID = '#nc-iframes-';
+
+      /**
+       * iframe id
+       *
+       * @type {sring}
+       */
+      $scope.iframeId = '';
+
+      /**
+       * iframe tag id
+       *
+       * @type {sring}
+       */
+      $scope.iframeTag = '';
+
+      /**
+       * iframe tab parent class id
+       *
+       * @type {sring}
+       */
+      $scope.iframeTagParentClass = '';
+
+      /**
        * Iframe
        *
        * @type {Object.<string>}
@@ -66,8 +94,14 @@ NetCommonsApp.controller('Iframes',
         //set the data of iframeFrameSetting
         $scope.iframeFrameSetting = iframeFrameSetting;
 
-        $scope.iframeTagParant = '#nc-iframes-' + $scope.frameId + ' .iframe';
-        $scope.iframeTag = '#nc-iframes-' + $scope.frameId + ' iframe';
+        //set iframe id
+        $scope.iframeId = $scope.IFRAME_ID + $scope.frameId;
+
+        //set iframe tag
+        $scope.iframeTag = $scope.iframeId + ' iframe';
+
+        //set parent class of iframe tag
+        $scope.iframeTagParentClass = $scope.iframeId + ' .iframe';
       };
 
       /**
@@ -278,8 +312,8 @@ NetCommonsApp.controller('Iframes.edit',
         //set latest iframe data
         if ($($scope.iframeTag).size() === 0) {
           //create iframe tag if it not created
-          $($scope.iframeTagParant).html('');
-          $($scope.iframeTagParant).html($('<iframe>'));
+          $($scope.iframeTagParentClass).html('');
+          $($scope.iframeTagParentClass).html($('<iframe>'));
         }
         $($scope.iframeTag).prop('src', url);
         $($scope.iframeTag).prop('height', height);
