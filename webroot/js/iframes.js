@@ -296,38 +296,23 @@ NetCommonsApp.controller('Iframes.edit',
        * @return {void}
        */
       $scope.setLatestData = function(Iframe) {
-        var url = '';
-        var height = 0;
-        var display_scrollbar = false;
-        var display_frame = false;
-
-        if (Iframe.url) {
-          url = Iframe.url;
-          height = +($scope.iframeFrameSetting.IframeFrameSetting.height);
-          display_scrollbar = Boolean(+($scope.iframeFrameSetting
-                  .IframeFrameSetting.display_scrollbar));
-          display_frame = Boolean(+($scope.iframeFrameSetting
-                  .IframeFrameSetting.display_frame));
-        }
-        //set latest iframe data
         if ($($scope.iframeTag).size() === 0) {
           //create iframe tag if it not created
           $($scope.iframeTagParentClass).html('');
-          $($scope.iframeTagParentClass).html($('<iframe>'));
+          $($scope.iframeTagParentClass).html($('<iframe width="100%">'));
         }
-        $($scope.iframeTag).prop('src', url);
-        $($scope.iframeTag).prop('height', height);
-        $($scope.iframeTag).prop('width', '100%');
-        if (display_scrollbar === true) {
-          $($scope.iframeTag).prop('scrolling', 'yes');
-        } else {
-          $($scope.iframeTag).prop('scrolling', 'no');
-        }
-        if (display_frame === true) {
-          $($scope.iframeTag).prop('frameborder', 1);
-        } else {
-          $($scope.iframeTag).prop('frameborder', 0);
-        }
+        $($scope.iframeTag).prop('src', Iframe.url);
+
+        $($scope.iframeTag).prop('height',
+            +($scope.iframeFrameSetting.IframeFrameSetting.height));
+
+        $($scope.iframeTag).prop('scrolling',
+            (+($scope.iframeFrameSetting
+             .IframeFrameSetting.display_scrollbar) === 1 ? 'yes' : 'no'));
+
+        $($scope.iframeTag).prop('frameborder',
+            (+($scope.iframeFrameSetting
+             .IframeFrameSetting.display_frame) === 1 ? '1' : '0'));
       };
     });
 
@@ -459,42 +444,21 @@ NetCommonsApp.controller('Iframes.displayChange',
        * @return {void}
        */
       $scope.setLatestData = function(IframeFrameSetting) {
-        var url = '';
-        var height = 0;
-        var display_scrollbar = false;
-        var display_frame = false;
+        var height = +(IframeFrameSetting.height);
+        var scrolling = Boolean(+(IframeFrameSetting.display_scrollbar));
+        var frameborder = Boolean(+(IframeFrameSetting.display_frame));
 
-        if (IframeFrameSetting &&
-            IframeFrameSetting.height &&
-            typeof IframeFrameSetting.display_scrollbar !== 'undefined' &&
-            typeof IframeFrameSetting.display_frame !== 'undefined') {
-
-          url = $scope.iframe.Iframe.url;
-          height = +(IframeFrameSetting.height);
-          display_scrollbar = Boolean(+(IframeFrameSetting.display_scrollbar));
-          display_frame = Boolean(+(IframeFrameSetting.display_frame));
-        }
-
-        //set latest iframe data
+        //set latest data on iframe view if iframe tag existed
         if ($($scope.iframeTag).size() !== 0) {
-          $($scope.iframeTag).prop('src', url);
           $($scope.iframeTag).prop('height', height);
-          $($scope.iframeTag).prop('width', '100%');
-          if (display_scrollbar === true) {
-            $($scope.iframeTag).prop('scrolling', 'yes');
-          } else {
-            $($scope.iframeTag).prop('scrolling', 'no');
-          }
-          if (display_frame === true) {
-            $($scope.iframeTag).prop('frameborder', 1);
-          } else {
-            $($scope.iframeTag).prop('frameborder', 0);
-          }
+          $($scope.iframeTag).prop('scrolling',
+                               (scrolling === true ? 'yes' : 'no'));
+          $($scope.iframeTag).prop('frameborder',
+                               (frameborder === true ? '1' : '0'));
         }
-        //set latest data into the form
+        //set latest data into the display change form
         $scope.edit.data.IframeFrameSetting.height = height;
-        $scope.edit.data
-              .IframeFrameSetting.display_scrollbar = display_scrollbar;
-        $scope.edit.data.IframeFrameSetting.display_frame = display_frame;
+        $scope.edit.data.IframeFrameSetting.display_scrollbar = scrolling;
+        $scope.edit.data.IframeFrameSetting.display_frame = frameborder;
       };
     });

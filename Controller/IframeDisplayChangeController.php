@@ -36,7 +36,6 @@ class IframeDisplayChangeController extends IframesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsRoomRole',
 	);
