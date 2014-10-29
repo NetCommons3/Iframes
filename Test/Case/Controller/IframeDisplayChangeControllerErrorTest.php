@@ -17,7 +17,6 @@ App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 /**
  * IframeDisplayChangeControllerError Test Case
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
  */
 class IframeDisplayChangeControllerErrorTest extends ControllerTestCase {
@@ -142,30 +141,4 @@ class IframeDisplayChangeControllerErrorTest extends ControllerTestCase {
 		$this->testAction('/iframes/iframe_display_change/edit/1', array('method' => 'get'));
 	}
 
-/**
- * testEditByStatusError method
- *
- * @return void
- */
-	public function testEditByStatusError() {
-		$postData = array(
-			'IframeFrameSetting' => array(
-				'id' => '1',
-				'heiht' => '400',
-				'display_scrollbar' => '1',
-				'display_frame' => '1',
-			),
-			'Frame' => array(
-				'key' => 'frame_1',
-			)
-		);
-
-		$this->setExpectedException('ForbiddenException');
-		$this->testAction('/iframes/iframe_display_change/edit/1.json',
-			array(
-				'method' => 'post',
-				'data' => $postData
-			)
-		);
-	}
 }

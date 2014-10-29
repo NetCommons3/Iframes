@@ -21,42 +21,56 @@ NetCommonsApp.controller('Iframes',
       $scope.PLUGIN_INDEX_URL = '/iframes/iframes/';
 
       /**
-       * Iframes edit url
+       * Iframes plugin edit url
        *
        * @const
        */
       $scope.PLUGIN_EDIT_URL = '/iframes/iframe_edit/';
 
       /**
-       * Iframes display change url
+       * Iframes plugin display change url
        *
        * @const
        */
       $scope.PLUGIN_DISPLAY_CHANGE_URL = '/iframes/iframe_display_change/';
 
       /**
-       * iframe id
+       * iframes plugin id
        *
        * @const
        */
       $scope.IFRAME_ID = '#nc-iframes-';
 
       /**
-       * iframe id
+       * iframes plugin id
        *
        * @type {sring}
        */
       $scope.iframeId = '';
 
       /**
-       * iframe tag id
+       * iframe tag
+       *
+       * @const
+       */
+      $scope.IFRAME_TAG = ' iframe';
+
+      /**
+       * iframe tag
        *
        * @type {sring}
        */
       $scope.iframeTag = '';
 
       /**
-       * iframe tab parent class id
+       * iframe tab parent class
+       *
+       * @const
+       */
+      $scope.IFRAME_TAG_PARENT_CLASS = ' .nc-iframes-iframe';
+
+      /**
+       * iframe tab parent class
        *
        * @type {sring}
        */
@@ -98,10 +112,11 @@ NetCommonsApp.controller('Iframes',
         $scope.iframeId = $scope.IFRAME_ID + $scope.frameId;
 
         //set iframe tag
-        $scope.iframeTag = $scope.iframeId + ' iframe';
+        $scope.iframeTag = $scope.iframeId + $scope.IFRAME_TAG;
 
         //set parent class of iframe tag
-        $scope.iframeTagParentClass = $scope.iframeId + ' .iframe';
+        $scope.iframeTagParentClass =
+                            $scope.iframeId + $scope.IFRAME_TAG_PARENT_CLASS;
       };
 
       /**
@@ -113,7 +128,7 @@ NetCommonsApp.controller('Iframes',
        * @return {void}
        */
       $scope.changeTab = function(tab) {
-        //cancel the modal window that is already open
+        //cancel the modal window that is already opened
         $modalStack.dismissAll('canceled');
 
         var templateUrl = '';
@@ -124,15 +139,15 @@ NetCommonsApp.controller('Iframes',
             controller = 'Iframes.edit';
             break;
           case 'displayChange':
-            templateUrl = $scope.PLUGIN_DISPLAY_CHANGE_URL +
-                                     'view/' + $scope.frameId;
+            templateUrl =
+                $scope.PLUGIN_DISPLAY_CHANGE_URL + 'view/' + $scope.frameId;
             controller = 'Iframes.displayChange';
             break;
           default:
             return;
         }
 
-        //display the iframe edit dialog.
+        //display the dialog.
         $modal.open({
           templateUrl: templateUrl,
           controller: controller,
@@ -146,7 +161,7 @@ NetCommonsApp.controller('Iframes',
                 //openによるエラー
                 $scope.flash.danger(reason.status + ' ' + reason.data.name);
               } else if (reason === 'canceled') {
-                //キャンセル
+                //cancel
                 $scope.flash.close();
               }
             });
@@ -296,23 +311,28 @@ NetCommonsApp.controller('Iframes.edit',
        * @return {void}
        */
       $scope.setLatestData = function(Iframe) {
-        if ($($scope.iframeTag).size() === 0) {
-          //create iframe tag if it not created
+        if ($($scope.iframeTag).length === 0) {
+          //create iframe tag if it isn't created
           $($scope.iframeTagParentClass).html('');
           $($scope.iframeTagParentClass).html($('<iframe width="100%">'));
+
+          //set height
+          $($scope.iframeTag).prop('height',
+              +($scope.iframeFrameSetting.IframeFrameSetting.height));
+
+          //set scrolling
+          $($scope.iframeTag).prop('scrolling',
+              (+($scope.iframeFrameSetting
+                 .IframeFrameSetting.display_scrollbar) === 1 ? 'yes' : 'no'));
+
+          //set frameborder
+          $($scope.iframeTag).prop('frameborder',
+              (+($scope.iframeFrameSetting
+                 .IframeFrameSetting.display_frame) === 1 ? '1' : '0'));
         }
+
+        //set src
         $($scope.iframeTag).prop('src', Iframe.url);
-
-        $($scope.iframeTag).prop('height',
-            +($scope.iframeFrameSetting.IframeFrameSetting.height));
-
-        $($scope.iframeTag).prop('scrolling',
-            (+($scope.iframeFrameSetting
-             .IframeFrameSetting.display_scrollbar) === 1 ? 'yes' : 'no'));
-
-        $($scope.iframeTag).prop('frameborder',
-            (+($scope.iframeFrameSetting
-             .IframeFrameSetting.display_frame) === 1 ? '1' : '0'));
       };
     });
 
@@ -351,12 +371,13 @@ NetCommonsApp.controller('Iframes.displayChange',
       $scope.initialize = function() {
         $scope.edit.data = {
           IframeFrameSetting: {
-            height: +($scope.iframeFrameSetting
-                      .IframeFrameSetting.height),
-            display_scrollbar: Boolean(+($scope.iframeFrameSetting
-                                       .IframeFrameSetting.display_scrollbar)),
-            display_frame: Boolean(+($scope.iframeFrameSetting
-                                   .IframeFrameSetting.display_frame)),
+            height: +($scope.iframeFrameSetting.IframeFrameSetting.height),
+            display_scrollbar:
+                Boolean(+($scope.iframeFrameSetting
+                      .IframeFrameSetting.display_scrollbar)),
+            display_frame:
+                Boolean(+($scope.iframeFrameSetting
+                      .IframeFrameSetting.display_frame)),
             frame_key: $scope.iframeFrameSetting.IframeFrameSetting.frame_key,
             id: $scope.iframeFrameSetting.IframeFrameSetting.id
           },
@@ -423,9 +444,11 @@ NetCommonsApp.controller('Iframes.displayChange',
             $.param(postParams),
             {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
           .success(function(data) {
-              //set latest data
-              $scope.setLatestData(data.iframeFrameSetting.IframeFrameSetting);
-
+              //set latest data if iframe tag is created
+              if ($($scope.iframeTag).length === 1) {
+                $scope.setLatestData(data.iframeFrameSetting
+                                         .IframeFrameSetting);
+              }
               angular.copy(data.iframeFrameSetting, $scope.iframeFrameSetting);
               $scope.flash.success(data.name);
               $scope.sending = false;
@@ -444,21 +467,15 @@ NetCommonsApp.controller('Iframes.displayChange',
        * @return {void}
        */
       $scope.setLatestData = function(IframeFrameSetting) {
-        var height = +(IframeFrameSetting.height);
-        var scrolling = Boolean(+(IframeFrameSetting.display_scrollbar));
-        var frameborder = Boolean(+(IframeFrameSetting.display_frame));
+        //set height
+        $($scope.iframeTag).prop('height', +(IframeFrameSetting.height));
 
-        //set latest data on iframe view if iframe tag existed
-        if ($($scope.iframeTag).size() !== 0) {
-          $($scope.iframeTag).prop('height', height);
-          $($scope.iframeTag).prop('scrolling',
-                               (scrolling === true ? 'yes' : 'no'));
-          $($scope.iframeTag).prop('frameborder',
-                               (frameborder === true ? '1' : '0'));
-        }
-        //set latest data into the display change form
-        $scope.edit.data.IframeFrameSetting.height = height;
-        $scope.edit.data.IframeFrameSetting.display_scrollbar = scrolling;
-        $scope.edit.data.IframeFrameSetting.display_frame = frameborder;
+        //set scrolling
+        $($scope.iframeTag).prop('scrolling',
+            (+(IframeFrameSetting.display_scrollbar) === 1 ? 'yes' : 'no'));
+
+        //set frameborder
+        $($scope.iframeTag).prop('frameborder',
+            (+(IframeFrameSetting.display_frame) === 1 ? '1' : '0'));
       };
     });

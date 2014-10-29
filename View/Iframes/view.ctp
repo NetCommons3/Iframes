@@ -39,7 +39,7 @@
 			</button>
 		</p>
 
-		<div class="iframe">
+		<div class="nc-iframes-iframe">
 			<?php echo $this->element('Iframes/display_iframe'); ?>
 		</div>
 

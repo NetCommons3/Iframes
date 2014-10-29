@@ -17,7 +17,6 @@ App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 /**
  * IframeDisplayChangeControllerLoginUser Test Case
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
  */
 class IframeDisplayChangeControllerLoginUserTest extends ControllerTestCase {
@@ -140,6 +139,11 @@ class IframeDisplayChangeControllerLoginUserTest extends ControllerTestCase {
 	public function testIndex() {
 		$this->testAction('/iframes/iframe_display_change/index/1', array('method' => 'get'));
 
+		//表示方法変更
+		$this->assertTextContains('<input name="data[IframeFrameSetting][height]"', $this->view);
+		$this->assertTextContains('<input type="checkbox" name="data[IframeFrameSetting][display_scrollbar]"', $this->view);
+		$this->assertTextContains('<input type="checkbox" name="data[IframeFrameSetting][display_frame]"', $this->view);
+
 		$this->assertTextContains('ng-click="cancel()"', $this->view);
 		$this->assertTextContains('ng-click="save()"', $this->view);
 	}
@@ -151,6 +155,11 @@ class IframeDisplayChangeControllerLoginUserTest extends ControllerTestCase {
  */
 	public function testView() {
 		$this->testAction('/iframes/iframe_display_change/view/1', array('method' => 'get'));
+
+		//表示方法変更
+		$this->assertTextContains('<input name="data[IframeFrameSetting][height]"', $this->view);
+		$this->assertTextContains('<input type="checkbox" name="data[IframeFrameSetting][display_scrollbar]"', $this->view);
+		$this->assertTextContains('<input type="checkbox" name="data[IframeFrameSetting][display_frame]"', $this->view);
 
 		$this->assertTextContains('ng-click="cancel()"', $this->view);
 		$this->assertTextContains('ng-click="save()"', $this->view);

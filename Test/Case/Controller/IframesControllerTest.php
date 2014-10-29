@@ -17,7 +17,6 @@ App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 /**
  * IframesController Test Case
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
  */
 class IframesControllerTest extends ControllerTestCase {

@@ -17,7 +17,6 @@ App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 /**
  * IframeEditControllerNCRoomRoleError Test Case
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
  */
 class IframeEditControllerNCRoomRoleErrorTest extends ControllerTestCase {

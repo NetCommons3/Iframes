@@ -17,7 +17,6 @@ App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
 /**
  * IframeEditControllerLoginUser Test Case
  *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
  */
 class IframeEditControllerEditorUserTest extends ControllerTestCase {
@@ -138,7 +137,7 @@ class IframeEditControllerEditorUserTest extends ControllerTestCase {
  * @return void
  */
 	public function testForm() {
-		/*$this->testAction('/iframes/iframe_edit/form/2', array('method' => 'get'));
+		/*$this->testAction('/iframes/iframe_edit/form/1', array('method' => 'get'));
 
 		//登録前のForm取得
 		$this->assertTextContains('<form action="', $this->view);

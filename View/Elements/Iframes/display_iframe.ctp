@@ -18,7 +18,7 @@
 	<iframe width="100%" src="<?php echo h($iframe['Iframe']['url']); ?>"
 			height="<?php echo (int)$iframeFrameSetting['IframeFrameSetting']['height']; ?>"
 			scrolling="<?php echo $iframeFrameSetting['IframeFrameSetting']['display_scrollbar'] ? 'yes' : 'no'; ?>"
-			frameborder="<?php echo $iframeFrameSetting['IframeFrameSetting']['display_frame'] ? 1 : 0; ?>">
+			frameborder="<?php echo $iframeFrameSetting['IframeFrameSetting']['display_frame'] ? '1' : '0'; ?>">
 	</iframe>
 
 <?php else : ?>
