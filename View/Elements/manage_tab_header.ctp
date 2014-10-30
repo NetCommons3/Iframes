@@ -23,10 +23,12 @@
 				<?php echo __d('iframes', 'Iframe edit'); ?>
 			</a>
 		</li>
-		<li <?php echo ($tab === 'displayChange' ? 'class="active"' : ''); ?>>
-			<a href="#" ng-click="changeTab('displayChange');">
-				<?php echo __d('net_commons', 'Display change'); ?>
-			</a>
-		</li>
+		<?php if ($contentPublishable) : ?>
+			<li <?php echo ($tab === 'displayChange' ? 'class="active"' : ''); ?>>
+				<a href="#" ng-click="changeTab('displayChange');">
+					<?php echo __d('net_commons', 'Display change'); ?>
+				</a>
+			</li>
+		<?php endif; ?>
 	</ul>
 </div>

@@ -104,4 +104,16 @@ class IframesControllerTest extends ControllerTestCase {
 		$this->assertTextContains($expected, $this->view);
 	}
 
+/**
+ * testViewByNoPublishContent method
+ *
+ * @return void
+ */
+	public function testViewByNoPublishContent() {
+		//公開データ取得
+		$this->testAction('/iframes/iframes/view/2', array('method' => 'get'));
+
+		$expected = '';
+		$this->assertEqual($this->view, $expected);
+	}
 }

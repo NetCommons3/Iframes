@@ -109,9 +109,6 @@ class IframeFrameSetting extends IframesAppModel {
 		if (! $iframeFrameSetting) {
 			//初期値を設定
 			$iframeFrameSetting = $this->create();
-			$iframeFrameSetting['IframeFrameSetting']['display_frame'] = '0';
-			$iframeFrameSetting['IframeFrameSetting']['display_scrollbar'] = '1';
-			$iframeFrameSetting['IframeFrameSetting']['height'] = '400';
 			$iframeFrameSetting['IframeFrameSetting']['frame_key'] = $frameKey;
 			$iframeFrameSetting['IframeFrameSetting']['id'] = '0';
 		}

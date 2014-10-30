@@ -21,7 +21,7 @@
 
 		<p class="text-right">
 			<?php if ($contentPublishable) : ?>
-				<button type="button" class="btn btn-primary"
+				<button type="button" class="btn btn-warning"
 						tooltip="<?php echo __d('net_commons', 'Accept'); ?>"
 						ng-controller="Iframes.edit"
 						ng-hide="(iframe.Iframe.status !== '<?php echo NetCommonsBlockComponent::STATUS_APPROVED ?>')"

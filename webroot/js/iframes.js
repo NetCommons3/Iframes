@@ -292,7 +292,6 @@ NetCommonsApp.controller('Iframes.edit',
           .success(function(data) {
               //set latest data
               $scope.setLatestData(data.iframe.Iframe);
-
               angular.copy(data.iframe, $scope.iframe);
               $scope.flash.success(data.name);
               $scope.sending = false;

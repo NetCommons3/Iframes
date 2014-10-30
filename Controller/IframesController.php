@@ -84,12 +84,15 @@ class IframesController extends IframesAppController {
 				$this->viewVars['blockId'],
 				$this->viewVars['contentEditable']
 			);
+		//公開データのみ表示する
+		if ($iframe['Iframe']['status'] === '0' && ! $this->Auth->loggedIn()) {
+			return $this->render(false);
+		}
 		//IframeFrameSettingデータの取得
 		$iframeFrameSetting =
 			$this->IframeFrameSetting->getIFrameFrameSetting(
 				$this->viewVars['frameKey']
 			);
-
 		//Iframeデータをviewにセット
 		$this->set('iframe', $iframe);
 		//IframeFrameSettingデータをviewにセット
