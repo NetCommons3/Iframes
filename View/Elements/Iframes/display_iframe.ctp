@@ -15,8 +15,7 @@
 			isset($iframeFrameSetting['IframeFrameSetting']['display_scrollbar']) &&
 			isset($iframeFrameSetting['IframeFrameSetting']['display_frame'])) : ?>
 
-	<iframe style="overflow:hidden;"
-			width="100%" src="<?php echo h($iframe['Iframe']['url']); ?>"
+	<iframe width="100%" src="<?php echo h($iframe['Iframe']['url']); ?>"
 			height="<?php echo (int)$iframeFrameSetting['IframeFrameSetting']['height']; ?>"
 			scrolling="<?php echo $iframeFrameSetting['IframeFrameSetting']['display_scrollbar'] ? 'yes' : 'no'; ?>"
 			frameborder="<?php echo $iframeFrameSetting['IframeFrameSetting']['display_frame'] ? '1' : '0'; ?>">
