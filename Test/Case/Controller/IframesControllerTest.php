@@ -48,6 +48,7 @@ class IframesControllerTest extends ControllerTestCase {
 		'plugin.rooms.room_role_permission',
 		'plugin.rooms.user',
 		'plugin.roles.default_role_permission',
+		'plugin.pages.page',
 	);
 
 /**
