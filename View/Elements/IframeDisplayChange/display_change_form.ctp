@@ -33,17 +33,14 @@
 			'glyphicon glyphicon-remove'; ">
 	</span>
 	<span class="help-block">
-		<span class="error"
-			  ng-show="iframeDisplayChange['data[IframeFrameSetting][height]'].$valid">
+		<span ng-show="iframeDisplayChange['data[IframeFrameSetting][height]'].$valid">
 			<br />
 		</span>
-		<span class="error"
-			  ng-show="iframeDisplayChange['data[IframeFrameSetting][height]'].$error.required &&
+		<span ng-show="iframeDisplayChange['data[IframeFrameSetting][height]'].$error.required &&
 						!iframeDisplayChange['data[IframeFrameSetting][height]'].$error.number">
 			<?php  echo __d('net_commons', 'Required field.');?>
 		</span>
-		<span class="error"
-			  ng-show="iframeDisplayChange['data[IframeFrameSetting][height]'].$error.number ||
+		<span ng-show="iframeDisplayChange['data[IframeFrameSetting][height]'].$error.number ||
 						iframeDisplayChange['data[IframeFrameSetting][height]'].$error.min ||
 						iframeDisplayChange['data[IframeFrameSetting][height]'].$error.max">
 			<?php echo __d('iframes', 'The input frame height must be a number bigger than 1 and less than 2000.');?>

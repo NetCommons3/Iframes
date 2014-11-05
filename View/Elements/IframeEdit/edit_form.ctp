@@ -38,15 +38,15 @@
 	</span>
 
 	<span class="help-block">
-		<span class="error" ng-show="iframeEdit['data[Iframe][url]'].$valid">
+		<span ng-show="iframeEdit['data[Iframe][url]'].$valid">
 			<br />
 		</span>
 
-		<span class="error" ng-show="iframeEdit['data[Iframe][url]'].$error.required">
+		<span ng-show="iframeEdit['data[Iframe][url]'].$error.required">
 			<?php echo __d('net_commons', 'Required field.');?>
 		</span>
 
-		<span class="error" ng-show="iframeEdit['data[Iframe][url]'].$error.pattern">
+		<span ng-show="iframeEdit['data[Iframe][url]'].$error.pattern">
 			<?php echo __d('net_commons', 'Invalid input.');?>
 		</span>
 
