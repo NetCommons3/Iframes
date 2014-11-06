@@ -12,9 +12,7 @@
 <div class="form-group has-feedback"
 		ng-class="(iframeEdit['data[Iframe][url]'].$valid ? 'has-success' : 'has-error')">
 	<?php
-		echo $this->Form->label('Iframe.url', __d('net_commons', 'URL'), array(
-				'for' => 'data[Iframe][url]',
-			));
+		echo $this->Form->label('Iframe.url', __d('net_commons', 'URL'));
 		echo $this->Form->input('Iframe.url', array(
 					'label' => false,
 					'div' => false,
