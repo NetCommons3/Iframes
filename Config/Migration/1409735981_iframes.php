@@ -72,15 +72,37 @@ class Iframes extends CakeMigration {
 /**
  * recodes
  *
- * @var array $records
+ * @var array $migration
  */
-	public $records = array();
+	public $records = array(
+		'Plugin' => array(
+			array(
+				'language_id' => 2,
+				'key' => 'iframes',
+				'namespace' => 'netcommons/iframes',
+				'name' => 'iframe',
+				'type' => 1,
+			),
+		),
+		'PluginsRole' => array(
+			array(
+				'role_key' => 'room_administrator',
+				'plugin_key' => 'iframes'
+			),
+		),
+		'PluginsRoom' => array(
+			array(
+				'room_id' => '1',
+				'plugin_key' => 'iframes'
+			),
+		),
+	);
 
 /**
  * Before migration callback
  *
  * @param string $direction up or down direction of migration process
- * @return boolean Should process continue
+ * @return bool Should process continue
  */
 	public function before($direction) {
 		return true;
@@ -96,13 +118,11 @@ class Iframes extends CakeMigration {
 		if ($direction === 'down') {
 			return true;
 		}
-
 		foreach ($this->records as $model => $records) {
 			if (!$this->updateRecords($model, $records)) {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
@@ -111,9 +131,10 @@ class Iframes extends CakeMigration {
  *
  * @param string $model model name to update
  * @param string $records records to be stored
+ * @param string $scope ?
  * @return boolean Should process continue
  */
-	public function updateRecords($model, $records) {
+	public function updateRecords($model, $records, $scope = null) {
 		$Model = $this->generateModel($model);
 		foreach ($records as $record) {
 			$Model->create();
@@ -121,7 +142,6 @@ class Iframes extends CakeMigration {
 				return false;
 			}
 		}
-
 		return true;
 	}
 
