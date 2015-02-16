@@ -149,6 +149,10 @@ class IframeFrameSetting extends IframesAppModel {
  * @throws InternalErrorException
  */
 	public function saveIframeFrameSetting($data) {
+		$this->loadModels([
+			'IframeFrameSetting' => 'Iframes.IframeFrameSetting',
+		]);
+
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();
 		$dataSource->begin();

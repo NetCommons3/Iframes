@@ -136,17 +136,11 @@ class Iframe extends IframesAppModel {
  * @throws InternalErrorException
  */
 	public function saveIframe($data) {
-		//モデル定義
-		$this->setDataSource('master');
-		$models = array(
+		$this->loadModels([
 			'Iframe' => 'Iframes.Iframe',
 			'Block' => 'Blocks.Block',
 			'Comment' => 'Comments.Comment',
-		);
-		foreach ($models as $model => $class) {
-			$this->$model = ClassRegistry::init($class);
-			$this->$model->setDataSource('master');
-		}
+		]);
 
 		//トランザクションBegin
 		$dataSource = $this->getDataSource();

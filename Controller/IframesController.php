@@ -79,6 +79,10 @@ class IframesController extends IframesAppController {
 		if ($this->viewVars['contentEditable']) {
 			$this->view = 'Iframes/viewForEditor';
 		}
+
+		if ($this->viewVars['iframes']['url'] === null) {
+			$this->autoRender = false;
+		}
 	}
 
 /**
