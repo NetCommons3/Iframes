@@ -12,7 +12,8 @@
 /**
  * Iframes CakeMigration
  *
- * @package NetCommons\Iframes\Config
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @package NetCommons\Iframes\Config\Migration
  */
 class Iframes extends CakeMigration {
 
@@ -49,8 +50,9 @@ class Iframes extends CakeMigration {
 				'iframes' => array(
 					'id' => array('type' => 'integer', 'null' => false, 'default' => null, 'key' => 'primary', 'comment' => 'ID | | | '),
 					'block_id' => array('type' => 'integer', 'null' => false, 'default' => null, 'comment' => 'block id | ブロックID | blocks.id | '),
+					'key' => array('type' => 'string', 'null' => false, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'iframe key | iframeキー | Hash値 | ', 'charset' => 'utf8'),
 					'status' => array('type' => 'integer', 'null' => false, 'default' => null, 'length' => 4, 'comment' => 'public status, 1: public, 2: public pending, 3: draft during 4: remand | 公開状況 1:公開中、2:公開申請中、3:下書き中、4:差し戻し | | '),
-					'url' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'iframe url | iframeに設定するURL | | ', 'charset' => 'utf8'),
+					'url' => array('type' => 'text', 'null' => true, 'default' => null, 'collate' => 'utf8_general_ci', 'comment' => 'iframe url | | | ', 'charset' => 'utf8'),
 					'created_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'created user | 作成者 | users.id | '),
 					'created' => array('type' => 'datetime', 'null' => true, 'default' => null, 'comment' => 'created time | 作成日時 | | '),
 					'modified_user' => array('type' => 'integer', 'null' => true, 'default' => '0', 'comment' => 'modified user | 更新者 | users.id | '),
@@ -64,7 +66,8 @@ class Iframes extends CakeMigration {
 		),
 		'down' => array(
 			'drop_table' => array(
-				'iframe_frame_settings', 'iframes'
+				'iframe_frame_settings',
+				'iframes'
 			),
 		),
 	);
@@ -72,7 +75,7 @@ class Iframes extends CakeMigration {
 /**
  * recodes
  *
- * @var array $migration
+ * @var array $records
  */
 	public $records = array(
 		'Plugin' => array(
@@ -112,17 +115,19 @@ class Iframes extends CakeMigration {
  * After migration callback
  *
  * @param string $direction up or down direction of migration process
- * @return boolean Should process continue
+ * @return bool Should process continue
  */
 	public function after($direction) {
 		if ($direction === 'down') {
 			return true;
 		}
+
 		foreach ($this->records as $model => $records) {
 			if (!$this->updateRecords($model, $records)) {
 				return false;
 			}
 		}
+
 		return true;
 	}
 
@@ -131,10 +136,9 @@ class Iframes extends CakeMigration {
  *
  * @param string $model model name to update
  * @param string $records records to be stored
- * @param string $scope ?
- * @return boolean Should process continue
+ * @return bool Should process continue
  */
-	public function updateRecords($model, $records, $scope = null) {
+	public function updateRecords($model, $records) {
 		$Model = $this->generateModel($model);
 		foreach ($records as $record) {
 			$Model->create();
@@ -142,6 +146,7 @@ class Iframes extends CakeMigration {
 				return false;
 			}
 		}
+
 		return true;
 	}
 

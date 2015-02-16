@@ -3,7 +3,7 @@
  * BlockFixture
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -11,6 +11,9 @@
 
 /**
  * BlockFixture
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\Blocks\Test\Fixture
  */
 class BlockFixture extends CakeTestFixture {
 
@@ -42,13 +45,23 @@ class BlockFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => '1',
-			'language_id' => '2',
-			'room_id' => '1',
+			'id' => 1,
+			'language_id' => 2,
+			'room_id' => 1,
 			'key' => 'block_1',
-			'created_user' => '1',
+			'created_user' => 1,
 			'created' => '2014-06-18 02:06:22',
-			'modified_user' => '1',
+			'modified_user' => 1,
+			'modified' => '2014-06-18 02:06:22'
+		),
+		array(
+			'id' => 2,
+			'language_id' => 2,
+			'room_id' => 1,
+			'key' => 'block_2',
+			'created_user' => 1,
+			'created' => '2014-06-18 02:06:22',
+			'modified_user' => 1,
 			'modified' => '2014-06-18 02:06:22'
 		),
 	);

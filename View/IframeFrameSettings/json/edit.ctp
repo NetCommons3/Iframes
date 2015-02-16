@@ -1,8 +1,6 @@
 <?php
 /**
- * Iframe App Model
- *
- * @property Block $Block
+ * iframeFrameSettings edit template
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
@@ -11,14 +9,8 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('AppModel', 'Model');
+$tokens = $this->Token->getToken($tokenFields, $hiddenFields);
+$results['iframeFrameSetting'] += $tokens;
 
-/**
- * Iframes App Model
- *
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
- * @package NetCommons\Iframes\Model
- */
-class IframesAppModel extends AppModel {
-
-}
+echo $this->element('NetCommons.json',
+		array('results' => $results));

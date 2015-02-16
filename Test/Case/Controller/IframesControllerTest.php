@@ -10,76 +10,16 @@
  */
 
 App::uses('IframesController', 'Iframes.Controller');
-App::uses('NetCommonsFrameComponent', 'NetCommons.Controller/Component');
-App::uses('NetCommonsBlockComponent', 'NetCommons.Controller/Component');
-App::uses('NetCommonsRoomRoleComponent', 'NetCommons.Controller/Component');
+App::uses('IframeFrameSettingsController', 'Iframes.Controller');
+App::uses('IframesAppTest', 'Iframes.Test/Case/Controller');
 
 /**
  * IframesController Test Case
  *
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
  */
-class IframesControllerTest extends ControllerTestCase {
-
-/**
- * mock controller object
- *
- * @var null
- */
-	public $Controller = null;
-
-/**
- * Fixtures
- *
- * @var array
- */
-	public $fixtures = array(
-		'site_setting',
-		'plugin.iframes.iframe',
-		'plugin.iframes.iframe_frame_setting',
-		'plugin.iframes.block',
-		'plugin.iframes.frame',
-		'plugin.iframes.plugin',
-		'plugin.frames.box',
-		'plugin.frames.language',
-		'plugin.rooms.room',
-		'plugin.rooms.roles_rooms_user',
-		'plugin.rooms.roles_room',
-		'plugin.rooms.room_role_permission',
-		'plugin.rooms.user',
-		'plugin.roles.default_role_permission',
-		'plugin.pages.page',
-	);
-
-/**
- * setUp
- *
- * @return void
- */
-	public function setUp() {
-		parent::setUp();
-		Configure::write('Config.language', 'ja');
-	}
-
-/**
- * tearDown method
- *
- * @return void
- */
-	public function tearDown() {
-		Configure::write('Config.language', null);
-		parent::tearDown();
-	}
-
-/**
- * testBeforeFilterByNoSetFrameId method
- *
- * @return void
- */
-	public function testBeforeFilterByNoSetFrameId() {
-		$this->setExpectedException('ForbiddenException');
-		$this->testAction('/iframes/iframes/index', array('method' => 'get'));
-	}
+class IframesControllerTest extends IframesAppTest {
 
 /**
  * testIndex method
@@ -87,10 +27,14 @@ class IframesControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testIndex() {
-		$this->testAction('/iframes/iframes/index/1', array('method' => 'get'));
-
-		$expected = 'http://www.netcommons.org/';
-		$this->assertTextContains($expected, $this->view);
+		$this->testAction(
+				'/iframes/iframes/index/1',
+				array(
+					'method' => 'get',
+					'return' => 'view',
+				)
+			);
+		$this->assertTextEquals('Iframes/view', $this->controller->view);
 	}
 
 /**
@@ -99,22 +43,125 @@ class IframesControllerTest extends ControllerTestCase {
  * @return void
  */
 	public function testView() {
-		$this->testAction('/iframes/iframes/view/1', array('method' => 'get'));
-
-		$expected = 'http://www.netcommons.org/';
-		$this->assertTextContains($expected, $this->view);
+		$this->testAction(
+				'/iframes/iframes/view/1',
+				array(
+					'method' => 'get',
+					'return' => 'view',
+				)
+			);
+		$this->assertTextEquals('view', $this->controller->view);
 	}
 
 /**
- * testViewByNoPublishContent method
+ * testViewJson method
  *
  * @return void
  */
-	public function testViewByNoPublishContent() {
-		//公開データ取得
-		$this->testAction('/iframes/iframes/view/2', array('method' => 'get'));
+	//public function testViewJson() {
+		/*$ret = $this->testAction(
+				'/iframes/iframes/view/1.json',
+				array(
+					'method' => 'get',
+					'type' => 'json',
+					'return' => 'contents',
+				)
+			);*/
+		//$result = json_decode($ret, true);
 
-		$expected = '';
-		$this->assertEqual($this->view, $expected);
+		//$this->assertTextEquals('view', $this->controller->view);
+		//$this->assertArrayHasKey('code', $result, print_r($result, true));
+		//$this->assertEquals(200, $result['code'], print_r($result, true));
+	//}
+
+/**
+ * testView method
+ *
+ * @return void
+ */
+	public function testViewByAdmin() {
+		$this->_generateController('Iframes.Iframes');
+		$this->_loginAdmin();
+
+		$view = $this->testAction(
+				'/iframes/iframes/view/1',
+				array(
+					'method' => 'get',
+					'return' => 'view',
+				)
+			);
+
+		$this->assertTextContains('nc-iframes-1', $view, print_r($view, true));
+
+		$this->_logout();
+	}
+
+/**
+ * testEditPost method
+ *
+ * @return void
+ */
+	public function testEditGet() {
+		$this->_generateController('Iframes.Iframes');
+		$this->_loginAdmin();
+
+		/* $view = $this->testAction( */
+		$this->testAction(
+				'/iframes/iframes/edit/1',
+				array(
+					'method' => 'get',
+					'return' => 'contents'
+				)
+			);
+		/* $result = json_decode($view, true); */
+
+		$this->assertTextEquals('edit', $this->controller->view);
+		/* $this->assertArrayHasKey('code', $result, print_r($result, true)); */
+		/* $this->assertEquals(200, $result['code'], print_r($result, true)); */
+		/* $this->assertEquals(200, $, print_r($result, true)); */
+		/* $this->assertArrayHasKey('name', $result, print_r($result, true)); */
+		/* $this->assertArrayHasKey('results', $result, print_r($result, true)); */
+		/* $this->assertArrayHasKey('announcement', $result['results'], print_r($result, true)); */
+		/* $this->assertArrayHasKey('Announcement', $result['results']['announcement'], print_r($result, true)); */
+		/* $this->assertArrayHasKey('comments', $result['results'], print_r($result, true)); */
+
+		$this->_logout();
+	}
+
+/**
+ * testEditPost method
+ *
+ * @return void
+ */
+	public function testEditPost() {
+		$this->_generateController('Iframes.Iframes');
+		$this->_loginAdmin();
+
+		$postData = array(
+			'Iframe' => array(
+				'block_id' => '1',
+				'key' => 'iframe_1',
+				'url' => 'http://www.netcommons.org',
+			),
+			'Frame' => array(
+				'id' => '1'
+			),
+			'Comment' => array(
+				'comment' => 'edit comment',
+			),
+			sprintf('save_%s', NetCommonsBlockComponent::STATUS_PUBLISHED) => '',
+		);
+
+		$this->testAction(
+				'/iframes/iframes/edit/1',
+				array(
+					'method' => 'post',
+					'data' => $postData,
+					'return' => 'contents'
+				)
+			);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		$this->_logout();
 	}
 }

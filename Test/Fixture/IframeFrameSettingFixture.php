@@ -11,6 +11,9 @@
 
 /**
  * IframeFrameSettingFixture
+ *
+ * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @package NetCommons\Iframes\Test\Fixture
  */
 class IframeFrameSettingFixture extends CakeTestFixture {
 
@@ -45,24 +48,13 @@ class IframeFrameSettingFixture extends CakeTestFixture {
 			'id' => '1',
 			'frame_key' => 'frame_1',
 			'height' => '400',
-			'display_scrollbar' => '1',
-			'display_frame' => '1',
+			'display_scrollbar' => true,
+			'display_frame' => false,
 			'created_user' => '1',
 			'created' => '2014-10-09 16:07:57',
 			'modified_user' => '1',
 			'modified' => '2014-10-09 16:07:57'
-		),
-		array(
-			'id' => '2',
-			'frame_key' => 'frame_1',
-			'height' => '400',
-			'display_scrollbar' => '1',
-			'display_frame' => '0',
-			'created_user' => '1',
-			'created' => '2014-10-09 16:07:57',
-			'modified_user' => '1',
-			'modified' => '2014-10-09 16:07:57'
-		),
+		)
 	);
 
 }

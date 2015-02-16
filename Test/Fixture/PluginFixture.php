@@ -3,7 +3,7 @@
  * PluginFixture
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -11,6 +11,9 @@
 
 /**
  * PluginFixture
+ *
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
+ * @package NetCommons\Announcements\Test\Case\Model
  */
 class PluginFixture extends CakeTestFixture {
 
@@ -48,11 +51,11 @@ e.g.) packagist', 'charset' => 'utf8'),
  */
 	public $records = array(
 		array(
-			'id' => '1',
-			'language_id' => '2',
+			'id' => 1,
+			'language_id' => 2,
 			'key' => 'iframes',
-			'weight' => '1',
-			'type' => '1',
+			'weight' => 1,
+			'type' => 1,
 		),
 	);
 

@@ -4,42 +4,49 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2014-10-24 11:23+0000\n"
-"PO-Revision-Date: 2014-10-24 20:27+0900\n"
-"Last-Translator: \n"
-"Language-Team:  <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2015-02-15 16:43+0000\n"
+"PO-Revision-Date: 2015-02-16 01:54+0900\n"
+"Last-Translator: NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Generator: Poedit 1.6.9\n"
+"X-Generator: Poedit 1.7.4\n"
 "Language: ja_JP\n"
 
-#: /View/Elements/manage_tab_header.ctp:23
-msgid "Iframe edit"
-msgstr "iframe編集"
+#: /Model/Iframe.php:96 /View/Elements/Iframes/edit_form.ctp:15
+msgid "URL"
+msgstr ""
 
-#: /View/Elements/IframeDisplayChange/display_change_form.ctp:16
+#: /Model/IframeFrameSetting.php:92
+msgid "Frame height must be a number bigger than 1 and less than 2000"
+msgstr "1から2000の半角数字"
+
+#: /View/Elements/IframeFrameSettings/display_change_form.ctp:15
 msgid "Frame height"
 msgstr "フレームの高さ"
 
-#: /View/Elements/IframeDisplayChange/display_change_form.ctp:25
-msgid "Please enter frame height."
-msgstr "フレームの高さを入力してください。"
+#: /View/Elements/IframeFrameSettings/display_change_form.ctp:54
+msgid "Display the scroll bar"
+msgstr "スクロールバーを表示する"
 
-#: /View/Elements/IframeDisplayChange/display_change_form.ctp:49
-msgid ""
-"The input frame height must be a number bigger than 1 and less than 2000."
-msgstr "1から2000の半角数字を入力してください。"
+#: /View/Elements/IframeFrameSettings/display_change_form.ctp:67
+msgid "Display the frame"
+msgstr "フレーム枠を表示する"
 
-#: /View/Elements/IframeDisplayChange/display_change_form.ctp:57
-msgid "Display the scroll bar."
-msgstr "スクロールバーを表示する。"
-
-#: /View/Elements/IframeDisplayChange/display_change_form.ctp:69
-msgid "Display the frame."
-msgstr "フレーム枠を表示する。"
-
-#: /View/Elements/Iframes/display_iframe.ctp:25
+#: /View/Elements/Iframes/display_iframe.ctp:26
 msgid "Non registered url"
-msgstr "URLが登録されていません。"
+msgstr "URLが登録されていません"
+
+#: /View/IframeFrameSettings/edit.ctp:20 /View/Iframes/edit.ctp:21
+msgid "plugin_name"
+msgstr "iframe"
+
+#: /View/IframeFrameSettings/edit.ctp:28 /View/Iframes/edit.ctp:29
+msgid "Iframe edit"
+msgstr "編集"
+
+#: /View/IframeFrameSettings/edit.ctp:35 /View/Iframes/edit.ctp:36
+msgid "Display change"
+msgstr "表示方法変変更"
