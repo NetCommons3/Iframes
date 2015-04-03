@@ -29,7 +29,7 @@ class IframesAppTest extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'site_setting',
+		'plugin.net_commons.site_setting',
 		'plugin.iframes.iframe',
 		'plugin.iframes.iframe_frame_setting',
 
