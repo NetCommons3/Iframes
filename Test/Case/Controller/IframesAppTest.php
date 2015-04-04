@@ -47,6 +47,7 @@ class IframesAppTest extends YAControllerTestCase {
 		'plugin.m17n.language',
 		'plugin.m17n.languages_page',
 		'plugin.pages.page',
+		'plugin.pages.space',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_rooms_user',
 		'plugin.roles.default_role_permission',
