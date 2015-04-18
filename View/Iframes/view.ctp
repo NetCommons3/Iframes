@@ -10,6 +10,4 @@
  */
 ?>
 
-<div>
-	<?php echo $this->element('Iframes/display_iframe'); ?>
-</div>
+<?php echo $this->element('Iframes/display_iframe');

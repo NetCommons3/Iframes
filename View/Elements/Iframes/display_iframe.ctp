@@ -11,19 +11,11 @@
 ?>
 
 <div class="nc-iframes-display-iframe">
-	<?php if (isset($iframes['url']) &&
-				isset($iframeFrameSettings['height']) &&
-				isset($iframeFrameSettings['display_scrollbar']) &&
-				isset($iframeFrameSettings['display_frame'])) : ?>
-
-		<iframe width="100%" src="<?php echo h($iframes['url']); ?>"
-				height="<?php echo (int)$iframeFrameSettings['height']; ?>"
-				scrolling="<?php echo $iframeFrameSettings['display_scrollbar'] ? 'yes' : 'no'; ?>"
-				frameborder="<?php echo $iframeFrameSettings['display_frame'] ? '1' : '0'; ?>">
+	<?php if (isset($iframe['url'])) : ?>
+		<iframe width="100%" src="<?php echo h($iframe['url']); ?>"
+				height="<?php echo (int)$iframe['height']; ?>"
+				scrolling="<?php echo $iframe['displayScrollbar'] ? 'yes' : 'no'; ?>"
+				frameborder="<?php echo $iframe['displayFrame'] ? '1' : '0'; ?>">
 		</iframe>
-
-	<?php else : ?>
-		<p><?php echo __d('iframes', 'Non registered url'); ?></p>
-
 	<?php endif; ?>
 </div>

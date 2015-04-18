@@ -22,20 +22,27 @@ App::uses('IframesAppModel', 'Iframes.Model');
 class Iframe extends IframesAppModel {
 
 /**
+ * Minimum value of the height of the frame
+ *
+ * @var int
+ */
+	const HEIGHT_MIN_VALUE = '1';
+
+/**
+ * Maximum value of the height of the frame
+ *
+ * @var int
+ */
+	const HEIGHT_MAX_VALUE = '2000';
+
+/**
  * use behaviors
  *
  * @var array
  */
 	public $actsAs = array(
-		'NetCommons.Publishable'
+		'NetCommons.OriginalKey'
 	);
-
-/**
- * Validation rules
- *
- * @var array
- */
-	//const COMMENT_PLUGIN_KEY = 'iframes';
 
 /**
  * Validation rules
@@ -72,28 +79,53 @@ class Iframe extends IframesAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			'block_id' => array(
-				'numeric' => array(
-					'rule' => array('numeric'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'allowEmpty' => false,
-					'required' => true,
-				)
-			),
-			'key' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				)
-			),
-
-			//status to set in PublishableBehavior.
+			//'block_id' => array(
+			//	'numeric' => array(
+			//		'rule' => array('numeric'),
+			//		'message' => __d('net_commons', 'Invalid request.'),
+			//		'allowEmpty' => false,
+			//		'required' => true,
+			//	)
+			//),
+			//'key' => array(
+			//	'notEmpty' => array(
+			//		'rule' => array('notEmpty'),
+			//		'message' => __d('net_commons', 'Invalid request.'),
+			//		'required' => true,
+			//	)
+			//),
 
 			'url' => array(
-				'website' => array(
-					'rule' => array('url', true),
+				'notEmpty' => array(
+					'rule' => array('notEmpty'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('iframes', 'URL')),
+					'required' => true,
+				),
+				'url' => array(
+					'rule' => array('url'),
+					'message' => sprintf(__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'), __d('net_commons', 'URL'), __d('net_commons', 'URL')),
+					'allowEmpty' => false,
+					'required' => true,
+				),
+			),
+			'height' => array(
+				'numeric' => array(
+					'rule' => array('range', self::HEIGHT_MIN_VALUE - 1, self::HEIGHT_MAX_VALUE + 1),
+					'message' => sprintf(__d('iframes', 'Frame height must be a number bigger than %s and less than %s'), self::HEIGHT_MIN_VALUE, self::HEIGHT_MAX_VALUE),
+					'required' => true,
+				),
+			),
+			'display_scrollbar' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
+					'required' => true,
+				),
+			),
+			'display_frame' => array(
+				'boolean' => array(
+					'rule' => array('boolean'),
+					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
 				),
 			),
@@ -103,25 +135,21 @@ class Iframe extends IframesAppModel {
 	}
 
 /**
- * get iframe data
+ * Get iframe data
  *
- * @param int $frameId frames.id
  * @param int $blockId blocks.id
- * @param bool $contentEditable true can edit the content, false not can edit the content.
+ * @param int $roomId rooms.id
  * @return array
  */
-	public function getIframe($frameId, $blockId, $contentEditable) {
+	public function getIframe($blockId, $roomId) {
 		$conditions = array(
-			'block_id' => $blockId,
+			'Block.id' => $blockId,
+			'Block.room_id' => $roomId,
 		);
-		if (! $contentEditable) {
-			$conditions['status'] = NetCommonsBlockComponent::STATUS_PUBLISHED;
-		}
 
 		$iframe = $this->find('first', array(
-				'recursive' => -1,
+				'recursive' => 0,
 				'conditions' => $conditions,
-				'order' => 'Iframe.id DESC',
 			)
 		);
 
@@ -139,7 +167,6 @@ class Iframe extends IframesAppModel {
 		$this->loadModels([
 			'Iframe' => 'Iframes.Iframe',
 			'Block' => 'Blocks.Block',
-			'Comment' => 'Comments.Comment',
 		]);
 
 		//トランザクションBegin
@@ -147,16 +174,12 @@ class Iframe extends IframesAppModel {
 		$dataSource->begin();
 
 		try {
-			if (!$this->validateIframe($data)) {
-				return false;
-			}
-			if (!$this->Comment->validateByStatus($data, array('caller' => $this->name))) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Comment->validationErrors);
+			if (!$this->validateIframe($data, ['block'])) {
 				return false;
 			}
 
 			//ブロックの登録
-			$block = $this->Block->saveByFrameId($data['Frame']['id'], false);
+			$block = $this->Block->saveByFrameId($data['Frame']['id']);
 
 			//Iframeデータの登録
 			$this->data['Iframe']['block_id'] = (int)$block['Block']['id'];
@@ -164,19 +187,15 @@ class Iframe extends IframesAppModel {
 			if (! $iframe) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
-			//コメントの登録
-			if ($this->Comment->data) {
-				if (! $this->Comment->save(null, false)) {
-					throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
-				}
-			}
+
 			//トランザクションCommit
 			$dataSource->commit();
+
 		} catch (Exception $ex) {
 			//トランザクションRollback
 			$dataSource->rollback();
 			//エラー出力
-			CakeLog::write(LOG_ERR, $ex);
+			CakeLog::error($ex);
 			throw $ex;
 		}
 
@@ -187,11 +206,65 @@ class Iframe extends IframesAppModel {
  * validate iframe
  *
  * @param array $data received post data
+ * @param array $contains Optional validate sets
  * @return bool True on success, false on error
  */
-	public function validateIframe($data) {
+	public function validateIframe($data, $contains = []) {
 		$this->set($data);
 		$this->validates();
-		return $this->validationErrors ? false : true;
+		if ($this->validationErrors) {
+			return false;
+		}
+
+		if (in_array('block', $contains, true)) {
+			if (! $this->Block->validateBlock($data)) {
+				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
+				return false;
+			}
+		}
+		return true;
 	}
+
+/**
+ * Delete iframe
+ *
+ * @param array $data received post data
+ * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @throws InternalErrorException
+ */
+	public function deleteIframe($data) {
+		$this->setDataSource('master');
+
+		$this->loadModels([
+			'Iframe' => 'Iframes.Iframe',
+			'Block' => 'Blocks.Block',
+			'Frame' => 'Frames.Frame',
+		]);
+
+		//トランザクションBegin
+		$dataSource = $this->getDataSource();
+		$dataSource->begin();
+
+		try {
+			//iframeデータ削除
+			if (! $this->deleteAll(array($this->alias . '.key' => $data['Iframe']['key']), false)) {
+				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
+			}
+
+			//blockデータ削除
+			$this->Block->deleteBlock($data['Block']['key']);
+
+			//トランザクションCommit
+			$dataSource->commit();
+
+		} catch (Exception $ex) {
+			//トランザクションRollback
+			$dataSource->rollback();
+			CakeLog::error($ex);
+			throw $ex;
+		}
+
+		return true;
+	}
+
 }
