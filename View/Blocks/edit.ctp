@@ -30,7 +30,7 @@
 				'controller' => 'Blocks',
 				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
 				'callback' => 'Iframes.Blocks/edit_form',
-				'cancel' => '/iframes/blocks/index/' . $frameId
+				'cancelUrl' => '/iframes/blocks/index/' . $frameId
 			)); ?>
 
 		<?php if ($this->request->params['action'] === 'edit') : ?>
