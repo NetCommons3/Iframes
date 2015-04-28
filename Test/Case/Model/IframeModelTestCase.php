@@ -32,10 +32,12 @@ class IframeModelTestCase extends YACakeTestCase {
 		'plugin.iframes.iframe',
 		'plugin.iframes.plugin',
 		'plugin.blocks.block',
+		'plugin.blocks.block_role_permission',
 		'plugin.boxes.box',
 		'plugin.frames.frame',
 		'plugin.m17n.language',
 		'plugin.rooms.room',
+		'plugin.rooms.roles_room',
 		'plugin.users.user',
 		'plugin.users.user_attributes_user',
 	);
