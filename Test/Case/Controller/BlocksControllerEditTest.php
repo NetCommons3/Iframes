@@ -17,6 +17,7 @@ App::uses('IframesControllerTestCase', 'Iframes.Test/Case/Controller');
  *
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
+ * @SuppressWarnings(PHPMD.TooManyMethods)
  */
 class BlocksControllerEditTest extends IframesControllerTestCase {
 
@@ -210,4 +211,205 @@ class BlocksControllerEditTest extends IframesControllerTestCase {
 
 		AuthGeneralControllerTest::logout($this);
 	}
+
+/**
+ * Expect bad request by null in blockId on POST request
+ *
+ * @return void
+ */
+	public function testNullBlockIdOnPost() {
+		$this->setExpectedException('BadRequestException');
+		RolesControllerTest::login($this);
+
+		$frameId = '1';
+		$blockId = '1';
+		$this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				array(
+					'method' => 'post',
+					'data' => array('Block' => array('id' => null)),
+					'return' => 'view',
+				)
+			);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect bad request by difference in blockId on POST json request
+ *
+ * @return void
+ */
+	public function testNullBlockIdOnPostJson() {
+		RolesControllerTest::login($this);
+
+		$frameId = '1';
+		$blockId = '1';
+		$contents = $this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				array(
+					'method' => 'post',
+					'data' => array('Block' => array('id' => null)),
+					'type' => 'json',
+					'return' => 'contents'
+				)
+			);
+		$result = json_decode($contents, true);
+
+		$this->assertArrayHasKey('code', $result);
+		$this->assertEquals(400, $result['code']);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect bad request by difference in blockId on POST request
+ *
+ * @return void
+ */
+	public function testDifferenceBlockIdOnPost() {
+		$this->setExpectedException('BadRequestException');
+		RolesControllerTest::login($this);
+
+		$frameId = '1';
+		$blockId = '1';
+		$this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				array(
+					'method' => 'post',
+					'data' => array('Block' => array('id' => '2')),
+					'return' => 'view',
+				)
+			);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect bad request by difference in blockId on POST json request
+ *
+ * @return void
+ */
+	public function testDifferenceBlockIdOnPostJson() {
+		RolesControllerTest::login($this);
+
+		$frameId = '1';
+		$blockId = '1';
+		$contents = $this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				array(
+					'method' => 'post',
+					'data' => array('Block' => array('id' => '2')),
+					'type' => 'json',
+					'return' => 'contents'
+				)
+			);
+		$result = json_decode($contents, true);
+
+		$this->assertArrayHasKey('code', $result);
+		$this->assertEquals(400, $result['code']);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect bad request by difference in blockId on GET request
+ *
+ * @return void
+ */
+	public function testNullBlockIdOnGet() {
+		$this->setExpectedException('BadRequestException');
+		RolesControllerTest::login($this);
+
+		$frameId = '1';
+		$blockId = '1';
+		$this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/',
+				array(
+					'method' => 'post',
+					'data' => array('Block' => array('id' => $blockId)),
+					'return' => 'view',
+				)
+			);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect bad request by difference in blockId on GET json request
+ *
+ * @return void
+ */
+	public function testNullBlockIdOnGetJson() {
+		RolesControllerTest::login($this);
+
+		$frameId = '1';
+		$blockId = '1';
+		$contents = $this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/',
+				array(
+					'method' => 'post',
+					'data' => array('Block' => array('id' => $blockId)),
+					'type' => 'json',
+					'return' => 'contents'
+				)
+			);
+		$result = json_decode($contents, true);
+
+		$this->assertArrayHasKey('code', $result);
+		$this->assertEquals(400, $result['code']);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect bad request by difference in blockId on GET request
+ *
+ * @return void
+ */
+	public function testDifferenceBlockIdOnGet() {
+		$this->setExpectedException('BadRequestException');
+		RolesControllerTest::login($this);
+
+		$frameId = '1';
+		$blockId = '1';
+		$this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/2',
+				array(
+					'method' => 'post',
+					'data' => array('Block' => array('id' => $blockId)),
+					'return' => 'view',
+				)
+			);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect bad request by difference in blockId on GET json request
+ *
+ * @return void
+ */
+	public function testDifferenceBlockIdOnGetJson() {
+		RolesControllerTest::login($this);
+
+		$frameId = '1';
+		$blockId = '1';
+		$contents = $this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/2',
+				array(
+					'method' => 'post',
+					'data' => array('Block' => array('id' => $blockId)),
+					'type' => 'json',
+					'return' => 'contents'
+				)
+			);
+		$result = json_decode($contents, true);
+
+		$this->assertArrayHasKey('code', $result);
+		$this->assertEquals(400, $result['code']);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
 }

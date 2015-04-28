@@ -146,7 +146,11 @@ class BlocksController extends IframesAppController {
  * @return void
  */
 	public function edit() {
-		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
+		if (! $this->validateBlockId()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('blockId', (int)$this->params['pass'][1]);
 
 		if (! $iframe = $this->Iframe->getIframe($this->viewVars['blockId'], $this->viewVars['roomId'])) {
 			$this->throwBadRequest();
@@ -171,7 +175,11 @@ class BlocksController extends IframesAppController {
  * @return void
  */
 	public function delete() {
-		$this->set('blockId', isset($this->params['pass'][1]) ? (int)$this->params['pass'][1] : null);
+		if (! $this->validateBlockId()) {
+			$this->throwBadRequest();
+			return false;
+		}
+		$this->set('blockId', (int)$this->params['pass'][1]);
 
 		if (! $this->Iframe->getIframe($this->viewVars['blockId'], $this->viewVars['roomId'])) {
 			$this->throwBadRequest();
