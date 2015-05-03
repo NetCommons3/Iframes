@@ -36,6 +36,7 @@ class BlocksController extends IframesAppController {
  */
 	public $components = array(
 		'NetCommons.NetCommonsFrame',
+		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
@@ -146,7 +147,7 @@ class BlocksController extends IframesAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->validateBlockId()) {
+		if (! $this->NetCommonsBlock->validateBlockId()) {
 			$this->throwBadRequest();
 			return false;
 		}
@@ -175,7 +176,7 @@ class BlocksController extends IframesAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->validateBlockId()) {
+		if (! $this->NetCommonsBlock->validateBlockId()) {
 			$this->throwBadRequest();
 			return false;
 		}
