@@ -5,7 +5,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-02-15 16:43+0000\n"
+"POT-Creation-Date: 2015-05-05 15:03+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -14,43 +14,31 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
-#: /Model/Iframe.php:96
-#: /View/Elements/Iframes/edit_form.ctp:15
+#: Iframes/Model/Iframe.php:101
+#: Iframes/Test/Case/Model/IframeValidateTest.php:80;126
+#: Iframes/View/Blocks/index.ctp:42
+#: Iframes/View/Elements/Blocks/edit_form.ctp:50
 msgid "URL"
 msgstr ""
 
-#: /Model/IframeFrameSetting.php:92
-msgid "Frame height must be a number bigger than 1 and less than 2000"
+#: Iframes/Model/Iframe.php:114
+#: Iframes/Test/Case/Model/IframeValidateTest.php:171
+msgid "Frame height must be a number bigger than %s and less than %s"
 msgstr ""
 
-#: /View/Elements/IframeFrameSettings/display_change_form.ctp:15
+#: Iframes/View/Elements/Blocks/delete_form.ctp:14;28
+msgid "Iframe"
+msgstr ""
+
+#: Iframes/View/Elements/Blocks/edit_form.ctp:74
 msgid "Frame height"
 msgstr ""
 
-#: /View/Elements/IframeFrameSettings/display_change_form.ctp:54
+#: Iframes/View/Elements/Blocks/edit_form.ctp:101
 msgid "Display the scroll bar"
 msgstr ""
 
-#: /View/Elements/IframeFrameSettings/display_change_form.ctp:67
+#: Iframes/View/Elements/Blocks/edit_form.ctp:112
 msgid "Display the frame"
-msgstr ""
-
-#: /View/Elements/Iframes/display_iframe.ctp:26
-msgid "Non registered url"
-msgstr ""
-
-#: /View/IframeFrameSettings/edit.ctp:20
-#: /View/Iframes/edit.ctp:21
-msgid "plugin_name"
-msgstr ""
-
-#: /View/IframeFrameSettings/edit.ctp:28
-#: /View/Iframes/edit.ctp:29
-msgid "Iframe edit"
-msgstr ""
-
-#: /View/IframeFrameSettings/edit.ctp:35
-#: /View/Iframes/edit.ctp:36
-msgid "Display change"
 msgstr ""
 
