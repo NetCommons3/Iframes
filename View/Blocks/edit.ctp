@@ -11,20 +11,10 @@
 ?>
 
 <div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', array(
-			'tabs' => array(
-				'block_index' => '/iframes/blocks/index/' . $frameId
-			),
-			'active' => 'block_index'
-		)); ?>
+	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.setting_tabs', array(
-				'tabs' => array(
-					'block_settings' => '/iframes/blocks/' . h($this->request->params['action']) . '/' . $frameId . '/' . $blockId
-				),
-				'active' => 'block_settings'
-			)); ?>
+		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
 
 		<?php echo $this->element('Blocks.edit_form', array(
 				'controller' => 'Blocks',

@@ -69,6 +69,34 @@ class BlocksController extends IframesAppController {
 		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
+
+		//タブの設定
+		$settingTabs = array(
+			'tabs' => array(
+				'block_index' => array(
+					'plugin' => $this->params['plugin'],
+					'controller' => 'blocks',
+					'action' => 'index',
+					$this->viewVars['frameId'],
+				),
+			),
+			'active' => 'block_index'
+		);
+		$this->set('settingTabs', $settingTabs);
+
+		$blockSettingTabs = array(
+			'tabs' => array(
+				'block_settings' => array(
+					'plugin' => $this->params['plugin'],
+					'controller' => 'blocks',
+					'action' => $this->params['action'],
+					$this->viewVars['frameId'],
+					$this->viewVars['blockId']
+				),
+			),
+			'active' => 'block_settings'
+		);
+		$this->set('blockSettingTabs', $blockSettingTabs);
 	}
 
 /**
@@ -77,35 +105,38 @@ class BlocksController extends IframesAppController {
  * @return void
  */
 	public function index() {
-		try {
-			$this->Paginator->settings = array(
-				'Iframe' => array(
-					'order' => array('Iframe.id' => 'desc'),
-					'conditions' => array(
-						'Block.id = Iframe.block_id',
-						'Block.language_id = ' . $this->viewVars['languageId'],
-						'Block.room_id = ' . $this->viewVars['roomId'],
-					),
-				)
-			);
-			$iframes = $this->Paginator->paginate('Iframe');
+		$this->Paginator->settings = array(
+			'Iframe' => array(
+				'order' => array('Iframe.id' => 'desc'),
+				'conditions' => array(
+					'Block.id = Iframe.block_id',
+					'Block.language_id = ' . $this->viewVars['languageId'],
+					'Block.room_id = ' . $this->viewVars['roomId'],
+				),
+			)
+		);
 
-			if (! $iframes) {
-				$this->view = 'Blocks/not_found';
+		try {
+			$iframes = $this->Paginator->paginate('Iframe');
+		} catch (Exception $ex) {
+			if (isset($this->request['paging']) && $this->params['named']) {
+				$this->redirect('/iframes/blocks/index/' . $this->viewVars['frameId']);
 				return;
 			}
-
-			$results = array(
-				'iframes' => $iframes,
-				'current' => $this->current
-			);
-			$results = $this->camelizeKeyRecursive($results);
-			$this->set($results);
-
-		} catch (Exception $ex) {
-			$this->params['named'] = array();
-			$this->redirect('/iframes/blocks/index/' . $this->viewVars['frameId']);
+			CakeLog::error($ex);
+			throw $ex;
 		}
+
+		if (! $iframes) {
+			$this->view = 'Blocks/not_found';
+			return;
+		}
+
+		$results = array(
+			'iframes' => $iframes
+		);
+		$results = $this->camelizeKeyRecursive($results);
+		$this->set($results);
 	}
 
 /**

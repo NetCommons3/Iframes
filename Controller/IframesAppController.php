@@ -27,4 +27,15 @@ class IframesAppController extends AppController {
 	public $components = array(
 		'Security'
 	);
+
+/**
+ * beforeFilter
+ *
+ * @return void
+ */
+	public function beforeFilter() {
+		parent::beforeFilter();
+		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
+		$this->set($results);
+	}
 }
