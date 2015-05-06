@@ -10,7 +10,7 @@
  */
 
 App::uses('IframesController', 'Iframes.Controller');
-App::uses('IframesControllerTestCase', 'Iframes.Test/Case/Controller');
+App::uses('BlocksControllerTest', 'Iframes.Test/Case/Controller');
 
 /**
  * BlocksController Test Case
@@ -18,26 +18,7 @@ App::uses('IframesControllerTestCase', 'Iframes.Test/Case/Controller');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
  */
-class BlocksControllerAddTest extends IframesControllerTestCase {
-
-/**
- * setUp method
- *
- * @return void
- */
-	public function setUp() {
-		$this->generate(
-			'Iframes.Blocks',
-			[
-				'components' => [
-					'Auth' => ['user'],
-					'Session',
-					'Security',
-				]
-			]
-		);
-		parent::setUp();
-	}
+class BlocksControllerTestAdd extends BlocksControllerTest {
 
 /**
  * Expect get add action

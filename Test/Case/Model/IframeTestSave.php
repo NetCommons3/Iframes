@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('IframeModelTestCase', 'Iframes.Test/Case/Model');
+App::uses('IframesModelTestCase', 'Iframes.Test/Case/Model');
 
 /**
  * Iframe Model Test Case
@@ -19,7 +19,7 @@ App::uses('IframeModelTestCase', 'Iframes.Test/Case/Model');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
-class IframeSaveTest extends IframeModelTestCase {
+class IframeTestSave extends IframesModelTestCase {
 
 /**
  * Expect Iframe->saveIframe()
@@ -28,7 +28,7 @@ class IframeSaveTest extends IframeModelTestCase {
  */
 	public function testSaveIframe() {
 		$frameId = 1;
-		$blockId = 1;
+		$blockId = '141';
 		$roomId = 1;
 
 		//登録パラメータ
@@ -98,7 +98,7 @@ class IframeSaveTest extends IframeModelTestCase {
 		$this->setExpectedException('InternalErrorException');
 
 		$frameId = 1;
-		$blockId = 1;
+		$blockId = '141';
 		//$roomId = 1;
 
 		$this->Iframe = $this->getMockForModel('Iframes.Iframe', array('save'));

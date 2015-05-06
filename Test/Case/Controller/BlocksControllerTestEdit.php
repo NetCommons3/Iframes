@@ -10,7 +10,7 @@
  */
 
 App::uses('IframesController', 'Iframes.Controller');
-App::uses('IframesControllerTestCase', 'Iframes.Test/Case/Controller');
+App::uses('BlocksControllerTest', 'Iframes.Test/Case/Controller');
 
 /**
  * BlocksController Test Case
@@ -19,179 +19,195 @@ App::uses('IframesControllerTestCase', 'Iframes.Test/Case/Controller');
  * @package NetCommons\Iframes\Test\Case\Controller
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class BlocksControllerDeleteTest extends IframesControllerTestCase {
+class BlocksControllerTestEdit extends BlocksControllerTest {
 
 /**
- * setUp method
+ * Expect get edit action
  *
  * @return void
  */
-	public function setUp() {
-		$this->generate(
-			'Iframes.Blocks',
-			[
-				'components' => [
-					'Auth' => ['user'],
-					'Session',
-					'Security',
-				]
-			]
-		);
-		parent::setUp();
+	public function testGet() {
+		RolesControllerTest::login($this);
+
+		$frameId = '141';
+		$blockId = '141';
+		$view = $this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				array(
+					'method' => 'get',
+					'return' => 'view',
+				)
+			);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		$this->assertTextContains('/iframes/blocks/edit/' . $frameId . '/' . $blockId, $view);
+		$this->assertTextContains('name="save"', $view);
+		$this->assertTextContains('type="submit"', $view);
+
+		AuthGeneralControllerTest::logout($this);
 	}
 
 /**
- * Expect get delete action
+ * Expect get edit action without block.
+ *
+ * @return void
+ */
+	public function testGetWithoutBlock() {
+		$this->setExpectedException('BadRequestException');
+
+		RolesControllerTest::login($this);
+
+		$frameId = '141';
+		$blockId = '144';
+		$this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				array(
+					'method' => 'get',
+					'return' => 'view',
+				)
+			);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect get edit action without block.
+ *
+ * @return void
+ */
+	public function testGetWithoutBlockJson() {
+		RolesControllerTest::login($this);
+
+		$frameId = '141';
+		$blockId = '144';
+		$contents = $this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				array(
+					'method' => 'get',
+					'return' => 'view',
+					'type' => 'json',
+					'return' => 'contents'
+				)
+			);
+		$result = json_decode($contents, true);
+
+		$this->assertArrayHasKey('code', $result);
+		$this->assertEquals(400, $result['code']);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect post edit action
  *
  * @return void
  */
 	public function testPost() {
-		$this->setExpectedException('BadRequestException');
-
 		RolesControllerTest::login($this);
 
-		$frameId = 1;
-		$blockId = 1;
-		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
-				array(
-					'method' => 'post',
-					'return' => 'view',
-					'data' => array('Block' => array('id' => $blockId)),
-				)
-			);
-
-		AuthGeneralControllerTest::logout($this);
-	}
-
-/**
- * Expect get delete action
- *
- * @return void
- */
-	public function testPostJson() {
-		RolesControllerTest::login($this);
-
-		$frameId = 1;
-		$blockId = 1;
-		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
-				array(
-					'method' => 'post',
-					'return' => 'view',
-					'data' => array('Block' => array('id' => $blockId)),
-					'type' => 'json',
-					'return' => 'contents'
-				)
-			);
-		$result = json_decode($contents, true);
-
-		$this->assertArrayHasKey('code', $result);
-		$this->assertEquals(400, $result['code']);
-
-		AuthGeneralControllerTest::logout($this);
-	}
-
-/**
- * Expect get delete action without block.
- *
- * @return void
- */
-	public function testPostWithoutBlock() {
-		$this->setExpectedException('BadRequestException');
-
-		RolesControllerTest::login($this);
-
-		$frameId = 1;
-		$blockId = 3;
-		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
-				array(
-					'method' => 'post',
-					'return' => 'view',
-					'data' => array('Block' => array('id' => $blockId)),
-				)
-			);
-
-		AuthGeneralControllerTest::logout($this);
-	}
-
-/**
- * Expect get delete action without block.
- *
- * @return void
- */
-	public function testPostWithoutBlockJson() {
-		RolesControllerTest::login($this);
-
-		$frameId = 1;
-		$blockId = 3;
-		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
-				array(
-					'method' => 'post',
-					'return' => 'view',
-					'data' => array('Block' => array('id' => $blockId)),
-					'type' => 'json',
-					'return' => 'contents'
-				)
-			);
-		$result = json_decode($contents, true);
-
-		$this->assertArrayHasKey('code', $result);
-		$this->assertEquals(400, $result['code']);
-
-		AuthGeneralControllerTest::logout($this);
-	}
-
-/**
- * Expect post delete action
- *
- * @return void
- */
-	public function testDelete() {
-		RolesControllerTest::login($this);
-
-		$frameId = 1;
-		$blockId = 1;
+		$frameId = '141';
+		$blockId = '141';
 		$data = array(
 			'Iframe' => array(
 				'id' => '1',
+				'block_id' => $blockId,
 				'key' => 'iframe_1',
+				'url' => 'http://www.netcommons2.org',
+				'height' => 300,
+				'display_scrollbar' => false,
+				'display_frame' => false,
+			),
+			'Frame' => array(
+				'id' => $frameId
 			),
 			'Block' => array(
 				'id' => $blockId,
-				'key' => 'block_1',
+				'language_id' => '2',
+				'room_id' => '1',
+				'key' => 'block_141',
+				'plugin_key' => 'iframes',
+				'public_type' => Block::TYPE_PRIVATE,
+				'from' => '2015-04-01 12:34',
+				'to' => '2015-04-02 01:45',
 			),
 		);
+
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
 				array(
-					'method' => 'delete',
+					'method' => 'post',
 					'data' => $data,
 					'return' => 'view',
 				)
 			);
-		$this->assertTextEquals('delete', $this->controller->view);
+		$this->assertTextEquals('edit', $this->controller->view);
 
 		AuthGeneralControllerTest::logout($this);
 	}
 
 /**
- * Expect bad request by null in blockId on DELETE request
+ * Expect post edit action on validation error.
  *
  * @return void
  */
-	public function testNullBlockIdOnDelete() {
+	public function testPostValidationError() {
+		RolesControllerTest::login($this);
+
+		$frameId = '141';
+		$blockId = '141';
+		$data = array(
+			'Iframe' => array(
+				'id' => '1',
+				'block_id' => $blockId,
+				'key' => 'iframe_1',
+				'url' => '',
+				'height' => 300,
+				'display_scrollbar' => false,
+				'display_frame' => false,
+			),
+			'Frame' => array(
+				'id' => $frameId
+			),
+			'Block' => array(
+				'id' => $blockId,
+				'language_id' => '2',
+				'room_id' => '1',
+				'key' => 'block_1',
+				'plugin_key' => 'iframes',
+				'public_type' => Block::TYPE_PRIVATE,
+				'from' => '2015-04-01 12:34',
+				'to' => '2015-04-02 01:45',
+			),
+		);
+
+		$this->testAction(
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				array(
+					'method' => 'post',
+					'data' => $data,
+					'return' => 'view',
+				)
+			);
+		$this->assertTextEquals('edit', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect bad request by null in blockId on POST request
+ *
+ * @return void
+ */
+	public function testNullBlockIdOnPost() {
 		$this->setExpectedException('BadRequestException');
 		RolesControllerTest::login($this);
 
-		$frameId = '1';
-		$blockId = '1';
+		$frameId = '141';
+		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
 				array(
-					'method' => 'delete',
+					'method' => 'post',
 					'data' => array('Block' => array('id' => null)),
 					'return' => 'view',
 				)
@@ -201,19 +217,19 @@ class BlocksControllerDeleteTest extends IframesControllerTestCase {
 	}
 
 /**
- * Expect bad request by difference in blockId on DELETE json request
+ * Expect bad request by difference in blockId on POST json request
  *
  * @return void
  */
-	public function testNullBlockIdOnDeleteJson() {
+	public function testNullBlockIdOnPostJson() {
 		RolesControllerTest::login($this);
 
-		$frameId = '1';
-		$blockId = '1';
+		$frameId = '141';
+		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
 				array(
-					'method' => 'delete',
+					'method' => 'post',
 					'data' => array('Block' => array('id' => null)),
 					'type' => 'json',
 					'return' => 'contents'
@@ -228,20 +244,20 @@ class BlocksControllerDeleteTest extends IframesControllerTestCase {
 	}
 
 /**
- * Expect bad request by difference in blockId on DELETE request
+ * Expect bad request by difference in blockId on POST request
  *
  * @return void
  */
-	public function testDifferenceBlockIdOnDelete() {
+	public function testDifferenceBlockIdOnPost() {
 		$this->setExpectedException('BadRequestException');
 		RolesControllerTest::login($this);
 
-		$frameId = '1';
-		$blockId = '1';
+		$frameId = '141';
+		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
 				array(
-					'method' => 'delete',
+					'method' => 'post',
 					'data' => array('Block' => array('id' => '2')),
 					'return' => 'view',
 				)
@@ -251,19 +267,19 @@ class BlocksControllerDeleteTest extends IframesControllerTestCase {
 	}
 
 /**
- * Expect bad request by difference in blockId on DELETE json request
+ * Expect bad request by difference in blockId on POST json request
  *
  * @return void
  */
-	public function testDifferenceBlockIdOnDeleteJson() {
+	public function testDifferenceBlockIdOnPostJson() {
 		RolesControllerTest::login($this);
 
-		$frameId = '1';
-		$blockId = '1';
+		$frameId = '141';
+		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
 				array(
-					'method' => 'delete',
+					'method' => 'post',
 					'data' => array('Block' => array('id' => '2')),
 					'type' => 'json',
 					'return' => 'contents'
@@ -286,12 +302,12 @@ class BlocksControllerDeleteTest extends IframesControllerTestCase {
 		$this->setExpectedException('BadRequestException');
 		RolesControllerTest::login($this);
 
-		$frameId = '1';
-		$blockId = '1';
+		$frameId = '141';
+		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/',
+				'/iframes/blocks/edit/' . $frameId . '/',
 				array(
-					'method' => 'delete',
+					'method' => 'post',
 					'data' => array('Block' => array('id' => $blockId)),
 					'return' => 'view',
 				)
@@ -308,12 +324,12 @@ class BlocksControllerDeleteTest extends IframesControllerTestCase {
 	public function testNullBlockIdOnGetJson() {
 		RolesControllerTest::login($this);
 
-		$frameId = '1';
-		$blockId = '1';
+		$frameId = '141';
+		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/',
+				'/iframes/blocks/edit/' . $frameId . '/',
 				array(
-					'method' => 'delete',
+					'method' => 'post',
 					'data' => array('Block' => array('id' => $blockId)),
 					'type' => 'json',
 					'return' => 'contents'
@@ -336,12 +352,12 @@ class BlocksControllerDeleteTest extends IframesControllerTestCase {
 		$this->setExpectedException('BadRequestException');
 		RolesControllerTest::login($this);
 
-		$frameId = '1';
-		$blockId = '1';
+		$frameId = '141';
+		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/2',
+				'/iframes/blocks/edit/' . $frameId . '/2',
 				array(
-					'method' => 'delete',
+					'method' => 'post',
 					'data' => array('Block' => array('id' => $blockId)),
 					'return' => 'view',
 				)
@@ -358,12 +374,12 @@ class BlocksControllerDeleteTest extends IframesControllerTestCase {
 	public function testDifferenceBlockIdOnGetJson() {
 		RolesControllerTest::login($this);
 
-		$frameId = '1';
-		$blockId = '1';
+		$frameId = '141';
+		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/2',
+				'/iframes/blocks/edit/' . $frameId . '/2',
 				array(
-					'method' => 'delete',
+					'method' => 'post',
 					'data' => array('Block' => array('id' => $blockId)),
 					'type' => 'json',
 					'return' => 'contents'
@@ -376,4 +392,5 @@ class BlocksControllerDeleteTest extends IframesControllerTestCase {
 
 		AuthGeneralControllerTest::logout($this);
 	}
+
 }

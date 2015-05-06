@@ -48,7 +48,7 @@ class IframeFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => '1',
-			'block_id' => '1',
+			'block_id' => '141',
 			'key' => 'iframe_1',
 			'url' => 'http://www.netcommons.org/',
 			'height' => '400',
@@ -57,7 +57,7 @@ class IframeFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '2',
-			'block_id' => '2',
+			'block_id' => '142',
 			'key' => 'iframe_2',
 			'url' => 'http://www.netcommons.org/',
 			'height' => '400',
@@ -66,7 +66,7 @@ class IframeFixture extends CakeTestFixture {
 		),
 		array(
 			'id' => '3',
-			'block_id' => '5',
+			'block_id' => '143',
 			'key' => 'iframe_3',
 			'url' => 'http://www.netcommons.org/',
 			'height' => '400',

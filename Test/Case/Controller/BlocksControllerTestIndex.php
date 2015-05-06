@@ -10,7 +10,7 @@
  */
 
 App::uses('IframesController', 'Iframes.Controller');
-App::uses('IframesControllerTestCase', 'Iframes.Test/Case/Controller');
+App::uses('BlocksControllerTest', 'Iframes.Test/Case/Controller');
 
 /**
  * BlocksController Test Case
@@ -18,25 +18,16 @@ App::uses('IframesControllerTestCase', 'Iframes.Test/Case/Controller');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
  */
-class BlocksControllerIndexTest extends IframesControllerTestCase {
+class BlocksControllerTestIndex extends BlocksControllerTest {
 
 /**
- * setUp method
+ * tearDown method
  *
  * @return void
  */
-	public function setUp() {
-		$this->generate(
-			'Iframes.Blocks',
-			[
-				'components' => [
-					'Auth' => ['user'],
-					'Session',
-					'Security',
-				]
-			]
-		);
-		parent::setUp();
+	public function tearDown() {
+		unset($this->BlocksController);
+		parent::tearDown();
 	}
 
 /**
@@ -47,7 +38,7 @@ class BlocksControllerIndexTest extends IframesControllerTestCase {
 	public function testIndex() {
 		RolesControllerTest::login($this);
 
-		$frameId = 1;
+		$frameId = '141';
 		$view = $this->testAction(
 				'/iframes/blocks/index/' . $frameId,
 				array(
@@ -59,8 +50,8 @@ class BlocksControllerIndexTest extends IframesControllerTestCase {
 
 		$this->assertTextContains('/frames/frames/edit/' . $frameId, $view);
 		$this->assertTextContains('/iframes/blocks/add/' . $frameId, $view);
-		$this->assertTextContains('/iframes/blocks/edit/' . $frameId . '/1', $view);
-		$this->assertTextContains('/iframes/blocks/edit/' . $frameId . '/5', $view);
+		$this->assertTextContains('/iframes/blocks/edit/' . $frameId . '/141', $view);
+		$this->assertTextContains('/iframes/blocks/edit/' . $frameId . '/142', $view);
 
 		AuthGeneralControllerTest::logout($this);
 	}
@@ -73,7 +64,7 @@ class BlocksControllerIndexTest extends IframesControllerTestCase {
 	public function testWithoutBlock() {
 		RolesControllerTest::login($this);
 
-		$frameId = 3;
+		$frameId = '144';
 		$view = $this->testAction(
 				'/iframes/blocks/index/' . $frameId,
 				array(
@@ -96,9 +87,52 @@ class BlocksControllerIndexTest extends IframesControllerTestCase {
 	public function testPageError() {
 		RolesControllerTest::login($this);
 
-		$frameId = 1;
+		$frameId = '141';
 		$this->testAction(
 				'/iframes/blocks/index/' . $frameId . '/page:2',
+				array(
+					'method' => 'get',
+					'return' => 'view',
+				)
+			);
+		$this->assertTextEquals('index', $this->controller->view);
+
+		AuthGeneralControllerTest::logout($this);
+	}
+
+/**
+ * Expect index action by fail on Paginator->paginate()
+ * e.g.) connection error
+ *
+ * @return void
+ * @throws BadRequestException
+ */
+	public function testFailOnPaginator() {
+		RolesControllerTest::login($this);
+
+		$this->generate(
+			'Iframes.Blocks',
+			[
+				'components' => [
+					'Auth' => ['user'],
+					'Session',
+					'Security',
+					'Paginator'
+				]
+			]
+		);
+		$this->controller->Components->Paginator
+			->expects($this->once())
+			->method('paginate')
+			->will($this->returnCallback(function () {
+				throw new BadRequestException();
+			}));
+
+		$this->setExpectedException('BadRequestException');
+
+		$frameId = '141';
+		$this->testAction(
+				'/iframes/blocks/index/' . $frameId,
 				array(
 					'method' => 'get',
 					'return' => 'view',

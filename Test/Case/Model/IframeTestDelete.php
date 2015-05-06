@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('IframeModelTestCase', 'Iframes.Test/Case/Model');
+App::uses('IframesModelTestCase', 'Iframes.Test/Case/Model');
 
 /**
  *Iframe Model Test Case
@@ -19,7 +19,7 @@ App::uses('IframeModelTestCase', 'Iframes.Test/Case/Model');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
-class IframeDeleteTest extends IframeModelTestCase {
+class IframeTestDelete extends IframesModelTestCase {
 
 /**
  * Expect Iframe->deleteIframe()
@@ -29,7 +29,7 @@ class IframeDeleteTest extends IframeModelTestCase {
 	public function testSaveIframe() {
 		//$frameId = 1;
 		//$roomId = 1;
-		$blockId = 1;
+		$blockId = '141';
 
 		//登録パラメータ
 		$data = array(
@@ -69,7 +69,7 @@ class IframeDeleteTest extends IframeModelTestCase {
 
 		//$frameId = 1;
 		//$roomId = 1;
-		$blockId = 1;
+		$blockId = '141';
 
 		$this->Iframe = $this->getMockForModel('Iframes.Iframe', array('deleteAll'));
 		$this->Iframe->expects($this->any())

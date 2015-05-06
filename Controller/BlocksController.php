@@ -35,8 +35,6 @@ class BlocksController extends IframesAppController {
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsFrame',
-		'NetCommons.NetCommonsBlock',
 		'NetCommons.NetCommonsWorkflow',
 		'NetCommons.NetCommonsRoomRole' => array(
 			//コンテンツの権限設定
@@ -53,7 +51,6 @@ class BlocksController extends IframesAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Token',
 		'NetCommons.Date',
 	);
 
@@ -103,15 +100,16 @@ class BlocksController extends IframesAppController {
  * index
  *
  * @return void
+ * @throws Exception
  */
 	public function index() {
 		$this->Paginator->settings = array(
 			'Iframe' => array(
 				'order' => array('Iframe.id' => 'desc'),
 				'conditions' => array(
-					'Block.id = Iframe.block_id',
-					'Block.language_id = ' . $this->viewVars['languageId'],
-					'Block.room_id = ' . $this->viewVars['roomId'],
+					'Block.language_id' => $this->viewVars['languageId'],
+					'Block.room_id' => $this->viewVars['roomId'],
+					'Block.plugin_key ' => $this->params['plugin'],
 				),
 			)
 		);

@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('IframeModelTestCase', 'Iframes.Test/Case/Model');
+App::uses('IframesModelTestCase', 'Iframes.Test/Case/Model');
 
 /**
  * Iframe Model Test Case
@@ -19,7 +19,7 @@ App::uses('IframeModelTestCase', 'Iframes.Test/Case/Model');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
-class IframeGetTest extends IframeModelTestCase {
+class IframeTestGet extends IframesModelTestCase {
 
 /**
  * Expect Iframe->getIframe()
@@ -28,7 +28,7 @@ class IframeGetTest extends IframeModelTestCase {
  */
 	public function testGetIframe() {
 		$roomId = 1;
-		$blockId = 1;
+		$blockId = '141';
 
 		//テスト実行
 		$result = $this->Iframe->getIframe($blockId, $roomId);
@@ -45,11 +45,11 @@ class IframeGetTest extends IframeModelTestCase {
 				'display_frame' => true,
 			),
 			'Block' => array(
-				'id' => '1',
+				'id' => '141',
 				'language_id' => '2',
 				'room_id' => '1',
-				'plugin_key' => 'blocks',
-				'key' => 'block_1',
+				'plugin_key' => 'iframes',
+				'key' => 'block_141',
 				'name' => '',
 				'public_type' => '1',
 				'from' => null,

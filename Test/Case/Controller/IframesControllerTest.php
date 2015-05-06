@@ -25,7 +25,7 @@ App::uses('Block', 'Blocks.Model');
  * @package NetCommons\Iframes\Test\Case\Controller
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class IframesControllerTestCase extends YAControllerTestCase {
+class IframesControllerTest extends YAControllerTestCase {
 
 /**
  * Fixtures
@@ -33,18 +33,18 @@ class IframesControllerTestCase extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.net_commons.site_setting',
-		'plugin.iframes.iframe',
-		'plugin.iframes.plugin',
 		'plugin.blocks.block',
 		'plugin.blocks.block_role_permission',
 		'plugin.boxes.box',
-		'plugin.frames.frame',
 		'plugin.boxes.boxes_page',
 		'plugin.containers.container',
 		'plugin.containers.containers_page',
+		'plugin.frames.frame',
+		'plugin.iframes.iframe',
 		'plugin.m17n.language',
 		'plugin.m17n.languages_page',
+		'plugin.net_commons.plugin',
+		'plugin.net_commons.site_setting',
 		'plugin.pages.page',
 		'plugin.pages.space',
 		'plugin.roles.default_role_permission',
@@ -82,6 +82,6 @@ class IframesControllerTestCase extends YAControllerTestCase {
  *
  * @return void
  */
-	public function testIndex() {
+	public function test() {
 	}
 }

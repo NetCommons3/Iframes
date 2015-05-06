@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('IframeModelTestCase', 'Iframes.Test/Case/Model');
+App::uses('IframesModelTestCase', 'Iframes.Test/Case/Model');
 
 /**
  *Iframe Model Test Case
@@ -19,7 +19,7 @@ App::uses('IframeModelTestCase', 'Iframes.Test/Case/Model');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
-class IframeValidateTest extends IframeModelTestCase {
+class IframeTestValidate extends IframesModelTestCase {
 
 /**
  * default value
@@ -73,7 +73,7 @@ class IframeValidateTest extends IframeModelTestCase {
  */
 	public function testNotEmpty() {
 		$frameId = 1;
-		$blockId = 1;
+		$blockId = '141';
 
 		//Checkカラム
 		$fields = array(
@@ -119,7 +119,7 @@ class IframeValidateTest extends IframeModelTestCase {
  */
 	public function testUrl() {
 		$frameId = 1;
-		$blockId = 1;
+		$blockId = '141';
 
 		//Checkカラム
 		$fields = array(
@@ -164,7 +164,7 @@ class IframeValidateTest extends IframeModelTestCase {
  */
 	public function testRangeByHeight() {
 		$frameId = 1;
-		$blockId = 1;
+		$blockId = '141';
 
 		//Checkカラム
 		$fields = array(
@@ -206,7 +206,7 @@ class IframeValidateTest extends IframeModelTestCase {
  */
 	public function testBlock() {
 		$frameId = 1;
-		$blockId = 1;
+		$blockId = '141';
 
 		//データ生成
 		$data = Hash::merge(

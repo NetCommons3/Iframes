@@ -21,7 +21,7 @@ App::uses('AuthComponent', 'Component');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
-class IframeModelTestCase extends YACakeTestCase {
+class IframesModelTestCase extends YACakeTestCase {
 
 /**
  * Fixtures
@@ -29,13 +29,13 @@ class IframeModelTestCase extends YACakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.iframes.iframe',
-		'plugin.iframes.plugin',
 		'plugin.blocks.block',
 		'plugin.blocks.block_role_permission',
 		'plugin.boxes.box',
 		'plugin.frames.frame',
+		'plugin.iframes.iframe',
 		'plugin.m17n.language',
+		'plugin.net_commons.plugin',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_room',
 		'plugin.users.user',
