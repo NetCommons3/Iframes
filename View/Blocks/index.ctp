@@ -32,7 +32,7 @@
 				<table class="table table-hover">
 					<thead>
 						<tr>
-							<th>#</th>
+							<th></th>
 							<th>
 								<?php echo $this->Paginator->sort('Iframe.url', __d('iframes', 'URL')); ?>
 							</th>
@@ -67,11 +67,11 @@
 									</a>
 								</td>
 								<td>
-									<?php if ($iframe['block']['publicType'] === '0') : ?>
+									<?php if ($iframe['block']['publicType'] === Block::TYPE_PRIVATE) : ?>
 										<?php echo __d('blocks', 'Private'); ?>
-									<?php elseif ($iframe['block']['publicType'] === '1') : ?>
+									<?php elseif ($iframe['block']['publicType'] === Block::TYPE_PUBLIC) : ?>
 										<?php echo __d('blocks', 'Public'); ?>
-									<?php elseif ($iframe['block']['publicType'] === '2') : ?>
+									<?php elseif ($iframe['block']['publicType'] === Block::TYPE_LIMITED) : ?>
 										<?php echo __d('blocks', 'Limited'); ?>
 									<?php endif; ?>
 								</td>
