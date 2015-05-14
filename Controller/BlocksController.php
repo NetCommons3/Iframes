@@ -20,6 +20,13 @@ App::uses('IframesAppController', 'Iframes.Controller');
 class BlocksController extends IframesAppController {
 
 /**
+ * layout
+ *
+ * @var array
+ */
+	public $layout = 'NetCommons.setting';
+
+/**
  * use models
  *
  * @var array
@@ -63,9 +70,14 @@ class BlocksController extends IframesAppController {
 		parent::beforeFilter();
 		$this->Auth->deny('index');
 
-		$this->layout = 'NetCommons.setting';
 		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
 		$this->set($results);
+
+		if (isset($this->params['pass'][1])) {
+			$blockId = (int)$this->params['pass'][1];
+		} else {
+			$blockId = null;
+		}
 
 		//タブの設定
 		$settingTabs = array(
@@ -91,7 +103,7 @@ class BlocksController extends IframesAppController {
 						'controller' => 'blocks',
 						'action' => $this->params['action'],
 						$this->viewVars['frameId'],
-						$this->viewVars['blockId']
+						$blockId
 					)
 				),
 			),
