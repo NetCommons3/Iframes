@@ -25,7 +25,7 @@ App::uses('Block', 'Blocks.Model');
  * @package NetCommons\Iframes\Test\Case\Controller
  * @SuppressWarnings(PHPMD.LongVariable)
  */
-class BlocksControllerTest extends YAControllerTestCase {
+class BlocksControllerTestBase extends YAControllerTestCase {
 
 /**
  * Fixtures
@@ -85,13 +85,5 @@ class BlocksControllerTest extends YAControllerTestCase {
 		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
 		parent::tearDown();
-	}
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function test() {
 	}
 }

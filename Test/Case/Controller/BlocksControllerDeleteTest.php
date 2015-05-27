@@ -10,7 +10,7 @@
  */
 
 App::uses('IframesController', 'Iframes.Controller');
-App::uses('BlocksControllerTest', 'Iframes.Test/Case/Controller');
+App::uses('BlocksControllerTestBase', 'Iframes.Test/Case/Controller');
 
 /**
  * BlocksController Test Case
@@ -19,7 +19,7 @@ App::uses('BlocksControllerTest', 'Iframes.Test/Case/Controller');
  * @package NetCommons\Iframes\Test\Case\Controller
  * @SuppressWarnings(PHPMD.TooManyMethods)
  */
-class BlocksControllerTestDelete extends BlocksControllerTest {
+class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 
 /**
  * Expect get delete action

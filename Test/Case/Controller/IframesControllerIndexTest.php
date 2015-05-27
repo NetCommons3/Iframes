@@ -10,7 +10,7 @@
  */
 
 App::uses('IframesController', 'Iframes.Controller');
-App::uses('IframesControllerTest', 'Iframes.Test/Case/Controller');
+App::uses('IframesControllerTestBase', 'Iframes.Test/Case/Controller');
 
 /**
  * IframesController Test Case
@@ -18,7 +18,7 @@ App::uses('IframesControllerTest', 'Iframes.Test/Case/Controller');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
  */
-class IframesControllerTestIndex extends IframesControllerTest {
+class IframesControllerIndexTest extends IframesControllerTestBase {
 
 /**
  * Expect index action

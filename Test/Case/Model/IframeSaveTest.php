@@ -11,7 +11,7 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
-App::uses('IframesModelTestCase', 'Iframes.Test/Case/Model');
+App::uses('IframesModelTestBase', 'Iframes.Test/Case/Model');
 
 /**
  * Iframe Model Test Case
@@ -19,7 +19,7 @@ App::uses('IframesModelTestCase', 'Iframes.Test/Case/Model');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
-class IframeTestSave extends IframesModelTestCase {
+class IframeSaveTest extends IframesModelTestBase {
 
 /**
  * Expect Iframe->saveIframe()

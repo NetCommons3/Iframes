@@ -21,7 +21,7 @@ App::uses('AuthComponent', 'Component');
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Model
  */
-class IframesModelTestCase extends YACakeTestCase {
+class IframesModelTestBase extends YACakeTestCase {
 
 /**
  * Fixtures
@@ -84,13 +84,5 @@ class IframesModelTestCase extends YACakeTestCase {
 		$result = Hash::remove($result, 'TrackableUpdater');
 
 		$this->assertEquals($expected, $result);
-	}
-
-/**
- * testIndex method
- *
- * @return void
- */
-	public function testIndex() {
 	}
 }
