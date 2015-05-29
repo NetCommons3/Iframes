@@ -85,6 +85,8 @@ class Iframes extends CakeMigration {
 				'namespace' => 'netcommons/iframes',
 				'name' => 'iframe',
 				'type' => 1,
+				'default_action' => 'iframes/view',
+				'default_setting_action' => 'iframe_blocks/index',
 			),
 		),
 		'PluginsRole' => array(
