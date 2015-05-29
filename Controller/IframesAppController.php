@@ -25,19 +25,9 @@ class IframesAppController extends AppController {
  * @var array
  */
 	public $components = array(
-		'Security',
-		'NetCommons.NetCommonsFrame',
 		'NetCommons.NetCommonsBlock',
+		'NetCommons.NetCommonsFrame',
+		'Pages.PageLayout',
+		'Security',
 	);
-
-/**
- * beforeFilter
- *
- * @return void
- */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$results = $this->camelizeKeyRecursive(['current' => $this->current]);
-		$this->set($results);
-	}
 }

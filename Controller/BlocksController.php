@@ -69,9 +69,6 @@ class BlocksController extends IframesAppController {
 		parent::beforeFilter();
 		$this->Auth->deny('index');
 
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
 		if (isset($this->params['pass'][1])) {
 			$blockId = (int)$this->params['pass'][1];
 		} else {
