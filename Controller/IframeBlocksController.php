@@ -112,7 +112,6 @@ class IframeBlocksController extends IframesAppController {
  * index
  *
  * @return void
- * @throws Exception
  */
 	public function index() {
 		$this->Paginator->settings = array(
@@ -127,7 +126,6 @@ class IframeBlocksController extends IframesAppController {
 		);
 
 		$iframes = $this->Paginator->paginate('Iframe');
-
 		if (! $iframes) {
 			$this->view = 'not_found';
 			return;
