@@ -35,7 +35,7 @@ class IframesModelTestBase extends YACakeTestCase {
 		'plugin.frames.frame',
 		'plugin.iframes.iframe',
 		'plugin.m17n.language',
-		'plugin.net_commons.plugin',
+		'plugin.plugin_manager.plugin',
 		'plugin.rooms.room',
 		'plugin.rooms.roles_room',
 		'plugin.users.user',

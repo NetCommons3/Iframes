@@ -32,7 +32,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$view = $this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/edit/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'get',
 					'return' => 'view',
@@ -40,7 +40,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 			);
 		$this->assertTextEquals('edit', $this->controller->view);
 
-		$this->assertTextContains('/iframes/blocks/edit/' . $frameId . '/' . $blockId, $view);
+		$this->assertTextContains('/iframes/iframe_blocks/edit/' . $frameId . '/' . $blockId, $view);
 		$this->assertTextContains('name="save"', $view);
 		$this->assertTextContains('type="submit"', $view);
 
@@ -60,7 +60,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '144';
 		$this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/edit/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'get',
 					'return' => 'view',
@@ -81,7 +81,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '144';
 		$contents = $this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/edit/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'get',
 					'return' => 'view',
@@ -133,7 +133,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		);
 
 		$this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/edit/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'post',
 					'data' => $data,
@@ -181,7 +181,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		);
 
 		$this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/edit/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'post',
 					'data' => $data,
@@ -204,11 +204,37 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 
 		$frameId = '141';
 		$blockId = '141';
+
+		$data = array(
+			'Iframe' => array(
+				'id' => '1',
+				'block_id' => null,
+				'key' => 'iframe_1',
+				'url' => '',
+				'height' => 300,
+				'display_scrollbar' => false,
+				'display_frame' => false,
+			),
+			'Frame' => array(
+				'id' => $frameId
+			),
+			'Block' => array(
+				'id' => null,
+				'language_id' => '2',
+				'room_id' => '1',
+				'key' => 'block_' . $blockId,
+				'plugin_key' => 'iframes',
+				'public_type' => Block::TYPE_PRIVATE,
+				'from' => '2015-04-01 12:34',
+				'to' => '2015-04-02 01:45',
+			),
+		);
+
 		$this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/edit/' . $frameId . '/',
 				array(
 					'method' => 'post',
-					'data' => array('Block' => array('id' => null)),
+					'data' => $data,
 					'return' => 'view',
 				)
 			);
@@ -226,11 +252,36 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 
 		$frameId = '141';
 		$blockId = '141';
+		$data = array(
+			'Iframe' => array(
+				'id' => '1',
+				'block_id' => $blockId,
+				'key' => 'iframe_1',
+				'url' => '',
+				'height' => 300,
+				'display_scrollbar' => false,
+				'display_frame' => false,
+			),
+			'Frame' => array(
+				'id' => $frameId
+			),
+			'Block' => array(
+				'id' => null,
+				'language_id' => '2',
+				'room_id' => '1',
+				'key' => 'block_1',
+				'plugin_key' => 'iframes',
+				'public_type' => Block::TYPE_PRIVATE,
+				'from' => '2015-04-01 12:34',
+				'to' => '2015-04-02 01:45',
+			),
+		);
+
 		$contents = $this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/edit/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'post',
-					'data' => array('Block' => array('id' => null)),
+					'data' => $data,
 					'type' => 'json',
 					'return' => 'contents'
 				)
@@ -255,7 +306,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/edit/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'post',
 					'data' => array('Block' => array('id' => '2')),
@@ -277,7 +328,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/edit/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'post',
 					'data' => array('Block' => array('id' => '2')),
@@ -305,7 +356,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/',
+				'/iframes/iframe_blocks/edit/' . $frameId . '/',
 				array(
 					'method' => 'post',
 					'data' => array('Block' => array('id' => $blockId)),
@@ -327,7 +378,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/',
+				'/iframes/iframe_blocks/edit/' . $frameId . '/',
 				array(
 					'method' => 'post',
 					'data' => array('Block' => array('id' => $blockId)),
@@ -355,7 +406,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/2',
+				'/iframes/iframe_blocks/edit/' . $frameId . '/2',
 				array(
 					'method' => 'post',
 					'data' => array('Block' => array('id' => $blockId)),
@@ -377,7 +428,7 @@ class BlocksControllerEditTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/edit/' . $frameId . '/2',
+				'/iframes/iframe_blocks/edit/' . $frameId . '/2',
 				array(
 					'method' => 'post',
 					'data' => array('Block' => array('id' => $blockId)),
