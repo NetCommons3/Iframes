@@ -40,7 +40,7 @@ class BlocksControllerIndexTest extends BlocksControllerTestBase {
 
 		$frameId = '141';
 		$view = $this->testAction(
-				'/iframes/blocks/index/' . $frameId,
+				'/iframes/iframe_blocks/index/' . $frameId,
 				array(
 					'method' => 'get',
 					'return' => 'view',
@@ -49,9 +49,9 @@ class BlocksControllerIndexTest extends BlocksControllerTestBase {
 		$this->assertTextEquals('index', $this->controller->view);
 
 		$this->assertTextContains('/frames/frames/edit/' . $frameId, $view);
-		$this->assertTextContains('/iframes/blocks/add/' . $frameId, $view);
-		$this->assertTextContains('/iframes/blocks/edit/' . $frameId . '/141', $view);
-		$this->assertTextContains('/iframes/blocks/edit/' . $frameId . '/142', $view);
+		$this->assertTextContains('/iframes/iframe_blocks/add/' . $frameId, $view);
+		$this->assertTextContains('/iframes/iframe_blocks/edit/' . $frameId . '/141', $view);
+		$this->assertTextContains('/iframes/iframe_blocks/edit/' . $frameId . '/142', $view);
 
 		AuthGeneralControllerTest::logout($this);
 	}
@@ -66,15 +66,15 @@ class BlocksControllerIndexTest extends BlocksControllerTestBase {
 
 		$frameId = '144';
 		$view = $this->testAction(
-				'/iframes/blocks/index/' . $frameId,
+				'/iframes/iframe_blocks/index/' . $frameId,
 				array(
 					'method' => 'get',
 					'return' => 'view',
 				)
 			);
-		$this->assertTextEquals('Blocks/not_found', $this->controller->view);
+		$this->assertTextEquals('not_found', $this->controller->view);
 
-		$this->assertTextContains('/iframes/blocks/add/' . $frameId, $view);
+		$this->assertTextContains('/iframes/iframe_blocks/add/' . $frameId, $view);
 
 		AuthGeneralControllerTest::logout($this);
 	}
@@ -85,11 +85,13 @@ class BlocksControllerIndexTest extends BlocksControllerTestBase {
  * @return void
  */
 	public function testPageError() {
+		$this->setExpectedException('NotFoundException');
+
 		RolesControllerTest::login($this);
 
 		$frameId = '141';
 		$this->testAction(
-				'/iframes/blocks/index/' . $frameId . '/page:2',
+				'/iframes/iframe_blocks/index/' . $frameId . '/page:2',
 				array(
 					'method' => 'get',
 					'return' => 'view',
@@ -111,7 +113,7 @@ class BlocksControllerIndexTest extends BlocksControllerTestBase {
 		RolesControllerTest::login($this);
 
 		$this->generate(
-			'Iframes.Blocks',
+			'Iframes.IframeBlocks',
 			[
 				'components' => [
 					'Auth' => ['user'],
@@ -132,7 +134,7 @@ class BlocksControllerIndexTest extends BlocksControllerTestBase {
 
 		$frameId = '141';
 		$this->testAction(
-				'/iframes/blocks/index/' . $frameId,
+				'/iframes/iframe_blocks/index/' . $frameId,
 				array(
 					'method' => 'get',
 					'return' => 'view',

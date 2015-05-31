@@ -15,7 +15,7 @@
 
 	<div class="tab-content">
 		<div class="text-right">
-			<a class="btn btn-success" href="<?php echo $this->Html->url('/iframes/blocks/add/' . $frameId);?>">
+			<a class="btn btn-success" href="<?php echo $this->Html->url('/iframes/iframe_blocks/add/' . $frameId);?>">
 				<span class="glyphicon glyphicon-plus"> </span>
 			</a>
 		</div>
@@ -35,9 +35,6 @@
 							<th></th>
 							<th>
 								<?php echo $this->Paginator->sort('Iframe.url', __d('iframes', 'URL')); ?>
-							</th>
-							<th>
-								<?php echo $this->Paginator->sort('Block.public_type', __d('blocks', 'Publishing setting')); ?>
 							</th>
 							<th>
 								<?php echo $this->Paginator->sort('Iframe.modified', __d('net_commons', 'Updated date')); ?>
@@ -62,18 +59,9 @@
 										)); ?>
 								</td>
 								<td>
-									<a href="<?php echo $this->Html->url('/iframes/blocks/edit/' . $frameId . '/' . (int)$iframe['block']['id']); ?>">
+									<a href="<?php echo $this->Html->url('/iframes/iframe_blocks/edit/' . $frameId . '/' . (int)$iframe['block']['id']); ?>">
 										<?php echo h($iframe['iframe']['url']); ?>
 									</a>
-								</td>
-								<td>
-									<?php if ($iframe['block']['publicType'] === Block::TYPE_PRIVATE) : ?>
-										<?php echo __d('blocks', 'Private'); ?>
-									<?php elseif ($iframe['block']['publicType'] === Block::TYPE_PUBLIC) : ?>
-										<?php echo __d('blocks', 'Public'); ?>
-									<?php elseif ($iframe['block']['publicType'] === Block::TYPE_LIMITED) : ?>
-										<?php echo __d('blocks', 'Limited'); ?>
-									<?php endif; ?>
 								</td>
 								<td>
 									<?php echo $this->Date->dateFormat($iframe['iframe']['modified']); ?>
@@ -87,7 +75,7 @@
 			<div class="text-center">
 				<?php echo $this->element('NetCommons.paginator', array(
 						'url' => Hash::merge(
-							array('controller' => 'blocks', 'action' => 'index', $frameId),
+							array('controller' => 'iframe_blocks', 'action' => 'index', $frameId),
 							$this->Paginator->params['named']
 						)
 					)); ?>

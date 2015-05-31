@@ -42,14 +42,15 @@ class BlocksControllerTestBase extends YAControllerTestCase {
 		'plugin.frames.frame',
 		'plugin.iframes.iframe',
 		'plugin.m17n.language',
-		'plugin.m17n.languages_page',
-		'plugin.net_commons.plugin',
 		'plugin.net_commons.site_setting',
+		'plugin.pages.languages_page',
 		'plugin.pages.page',
 		'plugin.pages.space',
+		'plugin.plugin_manager.plugin',
 		'plugin.roles.default_role_permission',
-		'plugin.rooms.roles_rooms_user',
+		'plugin.rooms.plugins_room',
 		'plugin.rooms.roles_room',
+		'plugin.rooms.roles_rooms_user',
 		'plugin.rooms.room',
 		'plugin.rooms.room_role_permission',
 		'plugin.users.user',
@@ -63,9 +64,12 @@ class BlocksControllerTestBase extends YAControllerTestCase {
  */
 	public function setUp() {
 		parent::setUp();
+
+		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
+
 		Configure::write('Config.language', 'ja');
 		$this->generate(
-			'Iframes.Blocks',
+			'Iframes.IframeBlocks',
 			[
 				'components' => [
 					'Auth' => ['user'],

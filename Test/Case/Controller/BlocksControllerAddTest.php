@@ -30,15 +30,15 @@ class BlocksControllerAddTest extends BlocksControllerTestBase {
 
 		$frameId = 1;
 		$view = $this->testAction(
-				'/iframes/blocks/add/' . $frameId,
+				'/iframes/iframe_blocks/add/' . $frameId,
 				array(
 					'method' => 'get',
 					'return' => 'view',
 				)
 			);
-		$this->assertTextEquals('Blocks/edit', $this->controller->view);
+		$this->assertTextEquals('edit', $this->controller->view);
 
-		$this->assertTextContains('/iframes/blocks/add/' . $frameId, $view);
+		$this->assertTextContains('/iframes/iframe_blocks/add/' . $frameId, $view);
 		$this->assertTextContains('name="save"', $view);
 		$this->assertTextContains('type="submit"', $view);
 
@@ -80,14 +80,14 @@ class BlocksControllerAddTest extends BlocksControllerTestBase {
 		);
 
 		$this->testAction(
-				'/iframes/blocks/add/' . $frameId,
+				'/iframes/iframe_blocks/add/' . $frameId,
 				array(
 					'method' => 'post',
 					'data' => $data,
 					'return' => 'view',
 				)
 			);
-		$this->assertTextEquals('Blocks/edit', $this->controller->view);
+		$this->assertTextEquals('edit', $this->controller->view);
 
 		AuthGeneralControllerTest::logout($this);
 	}
@@ -127,14 +127,14 @@ class BlocksControllerAddTest extends BlocksControllerTestBase {
 		);
 
 		$this->testAction(
-				'/iframes/blocks/add/' . $frameId,
+				'/iframes/iframe_blocks/add/' . $frameId,
 				array(
 					'method' => 'post',
 					'data' => $data,
 					'return' => 'view',
 				)
 			);
-		$this->assertTextEquals('Blocks/edit', $this->controller->view);
+		$this->assertTextEquals('edit', $this->controller->view);
 
 		AuthGeneralControllerTest::logout($this);
 	}

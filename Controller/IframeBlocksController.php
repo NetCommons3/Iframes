@@ -17,7 +17,7 @@ App::uses('IframesAppController', 'Iframes.Controller');
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Controller
  */
-class BlocksController extends IframesAppController {
+class IframeBlocksController extends IframesAppController {
 
 /**
  * layout
@@ -69,9 +69,6 @@ class BlocksController extends IframesAppController {
 		parent::beforeFilter();
 		$this->Auth->deny('index');
 
-		$results = $this->camelizeKeyRecursive($this->NetCommonsFrame->data);
-		$this->set($results);
-
 		if (isset($this->params['pass'][1])) {
 			$blockId = (int)$this->params['pass'][1];
 		} else {
@@ -84,7 +81,7 @@ class BlocksController extends IframesAppController {
 				'block_index' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'iframe_blocks',
 						'action' => 'index',
 						$this->viewVars['frameId'],
 					)
@@ -99,7 +96,7 @@ class BlocksController extends IframesAppController {
 				'block_settings' => array(
 					'url' => array(
 						'plugin' => $this->params['plugin'],
-						'controller' => 'blocks',
+						'controller' => 'iframe_blocks',
 						'action' => $this->params['action'],
 						$this->viewVars['frameId'],
 						$blockId
@@ -129,19 +126,10 @@ class BlocksController extends IframesAppController {
 			)
 		);
 
-		try {
-			$iframes = $this->Paginator->paginate('Iframe');
-		} catch (Exception $ex) {
-			if (isset($this->request['paging']) && $this->params['named']) {
-				$this->redirect('/iframes/blocks/index/' . $this->viewVars['frameId']);
-				return;
-			}
-			CakeLog::error($ex);
-			throw $ex;
-		}
+		$iframes = $this->Paginator->paginate('Iframe');
 
 		if (! $iframes) {
-			$this->view = 'Blocks/not_found';
+			$this->view = 'not_found';
 			return;
 		}
 
@@ -158,7 +146,7 @@ class BlocksController extends IframesAppController {
  * @return void
  */
 	public function add() {
-		$this->view = 'Blocks/edit';
+		$this->view = 'edit';
 
 		$this->set('blockId', null);
 		$iframe = $this->Iframe->create(
@@ -234,7 +222,9 @@ class BlocksController extends IframesAppController {
 		if ($this->request->isDelete()) {
 			if ($this->Iframe->deleteIframe($this->data)) {
 				if (! $this->request->is('ajax')) {
-					$this->redirect('/iframes/blocks/index/' . $this->viewVars['frameId']);
+					$this->redirect('/iframes/iframe_blocks/index/' . $this->viewVars['frameId']);
+				} else {
+					$this->renderJson();
 				}
 				return;
 			}
@@ -257,7 +247,7 @@ class BlocksController extends IframesAppController {
 		$this->Iframe->saveIframe($data);
 		if ($this->handleValidationError($this->Iframe->validationErrors)) {
 			if (! $this->request->is('ajax')) {
-				$this->redirect('/iframes/blocks/index/' . $this->viewVars['frameId']);
+				$this->redirect('/iframes/iframe_blocks/index/' . $this->viewVars['frameId']);
 			}
 			return null;
 		}

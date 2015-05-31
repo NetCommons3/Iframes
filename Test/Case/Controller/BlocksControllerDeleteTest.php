@@ -34,7 +34,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/delete/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'post',
 					'return' => 'view',
@@ -56,7 +56,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/delete/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'post',
 					'return' => 'view',
@@ -86,7 +86,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '144';
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/delete/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'post',
 					'return' => 'view',
@@ -108,7 +108,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '144';
 		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/delete/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'post',
 					'return' => 'view',
@@ -146,7 +146,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 			),
 		);
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/delete/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'delete',
 					'data' => $data,
@@ -169,11 +169,22 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 
 		$frameId = '141';
 		$blockId = '141';
+		$data = array(
+			'Iframe' => array(
+				'id' => '1',
+				'key' => 'iframe_1',
+			),
+			'Block' => array(
+				'id' => null,
+				'key' => 'block_' . $blockId,
+			),
+		);
+
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/delete/' . $frameId . '/',
 				array(
 					'method' => 'delete',
-					'data' => array('Block' => array('id' => null)),
+					'data' => $data,
 					'return' => 'view',
 				)
 			);
@@ -191,11 +202,22 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 
 		$frameId = '141';
 		$blockId = '141';
+		$data = array(
+			'Iframe' => array(
+				'id' => '1',
+				'key' => 'iframe_1',
+			),
+			'Block' => array(
+				'id' => null,
+				'key' => 'block_' . $blockId,
+			),
+		);
+
 		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/delete/' . $frameId . '/',
 				array(
 					'method' => 'delete',
-					'data' => array('Block' => array('id' => null)),
+					'data' => $data,
 					'type' => 'json',
 					'return' => 'contents'
 				)
@@ -220,7 +242,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/delete/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'delete',
 					'data' => array('Block' => array('id' => '2')),
@@ -242,7 +264,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/' . $blockId,
+				'/iframes/iframe_blocks/delete/' . $frameId . '/' . $blockId,
 				array(
 					'method' => 'delete',
 					'data' => array('Block' => array('id' => '2')),
@@ -270,7 +292,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/',
+				'/iframes/iframe_blocks/delete/' . $frameId . '/',
 				array(
 					'method' => 'delete',
 					'data' => array('Block' => array('id' => $blockId)),
@@ -292,7 +314,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/',
+				'/iframes/iframe_blocks/delete/' . $frameId . '/',
 				array(
 					'method' => 'delete',
 					'data' => array('Block' => array('id' => $blockId)),
@@ -320,7 +342,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/2',
+				'/iframes/iframe_blocks/delete/' . $frameId . '/2',
 				array(
 					'method' => 'delete',
 					'data' => array('Block' => array('id' => $blockId)),
@@ -342,7 +364,7 @@ class BlocksControllerDeleteTest extends BlocksControllerTestBase {
 		$frameId = '141';
 		$blockId = '141';
 		$contents = $this->testAction(
-				'/iframes/blocks/delete/' . $frameId . '/2',
+				'/iframes/iframe_blocks/delete/' . $frameId . '/2',
 				array(
 					'method' => 'delete',
 					'data' => array('Block' => array('id' => $blockId)),
