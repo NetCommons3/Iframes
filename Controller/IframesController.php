@@ -38,15 +38,6 @@ class IframesController extends IframesAppController {
 	);
 
 /**
- * index method
- *
- * @return void
- */
-	public function index() {
-		$this->setAction('view');
-	}
-
-/**
  * view method
  *
  * @return void
