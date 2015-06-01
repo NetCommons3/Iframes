@@ -5,7 +5,6 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
-"POT-Creation-Date: 2015-05-05 15:03+0000\n"
 "PO-Revision-Date: YYYY-mm-DD HH:MM+ZZZZ\n"
 "Last-Translator: NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <EMAIL@ADDRESS>\n"
@@ -16,8 +15,8 @@ msgstr ""
 
 #: Iframes/Model/Iframe.php:101
 #: Iframes/Test/Case/Model/IframeValidateTest.php:80;126
-#: Iframes/View/Blocks/index.ctp:42
-#: Iframes/View/Elements/Blocks/edit_form.ctp:50
+#: Iframes/View/Elements/IframeBlocks/edit_form.ctp:50
+#: Iframes/View/IframeBlocks/index.ctp:37
 msgid "URL"
 msgstr ""
 
@@ -26,19 +25,19 @@ msgstr ""
 msgid "Frame height must be a number bigger than %s and less than %s"
 msgstr ""
 
-#: Iframes/View/Elements/Blocks/delete_form.ctp:14;28
+#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:14;28
 msgid "Iframe"
 msgstr ""
 
-#: Iframes/View/Elements/Blocks/edit_form.ctp:74
+#: Iframes/View/Elements/IframeBlocks/edit_form.ctp:74
 msgid "Frame height"
 msgstr ""
 
-#: Iframes/View/Elements/Blocks/edit_form.ctp:101
+#: Iframes/View/Elements/IframeBlocks/edit_form.ctp:101
 msgid "Display the scroll bar"
 msgstr ""
 
-#: Iframes/View/Elements/Blocks/edit_form.ctp:112
+#: Iframes/View/Elements/IframeBlocks/edit_form.ctp:112
 msgid "Display the frame"
 msgstr ""
 
