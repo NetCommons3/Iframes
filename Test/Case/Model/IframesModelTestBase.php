@@ -29,17 +29,17 @@ class IframesModelTestBase extends YACakeTestCase {
  * @var array
  */
 	public $fixtures = array(
-		'plugin.blocks.block',
-		'plugin.blocks.block_role_permission',
-		'plugin.boxes.box',
-		'plugin.frames.frame',
+		//'plugin.blocks.block',
+		//'plugin.blocks.block_role_permission',
+		//'plugin.boxes.box',
+		//'plugin.frames.frame',
 		'plugin.iframes.iframe',
-		'plugin.m17n.language',
-		'plugin.plugin_manager.plugin',
-		'plugin.rooms.room',
-		'plugin.rooms.roles_room',
-		'plugin.users.user',
-		'plugin.users.user_attributes_user',
+		//'plugin.m17n.language',
+		//'plugin.plugin_manager.plugin',
+		//'plugin.rooms.room',
+		//'plugin.rooms.roles_room',
+		//'plugin.users.user',
+		//'plugin.users.user_attributes_user',
 	);
 
 /**
