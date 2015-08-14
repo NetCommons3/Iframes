@@ -33,28 +33,7 @@ class IframesControllerTestBase extends YAControllerTestCase {
  * @var array
  */
 	public $fixtures = array(
-		//'plugin.blocks.block',
-		//'plugin.blocks.block_role_permission',
-		//'plugin.boxes.box',
-		//'plugin.boxes.boxes_page',
-		//'plugin.containers.container',
-		//'plugin.containers.containers_page',
-		//'plugin.frames.frame',
 		'plugin.iframes.iframe',
-		//'plugin.m17n.language',
-		//'plugin.net_commons.site_setting',
-		//'plugin.pages.languages_page',
-		//'plugin.pages.page',
-		//'plugin.pages.space',
-		//'plugin.plugin_manager.plugin',
-		//'plugin.plugin_manager.plugins_room',
-		//'plugin.roles.default_role_permission',
-		//'plugin.rooms.roles_room',
-		//'plugin.rooms.roles_rooms_user',
-		//'plugin.rooms.room',
-		//'plugin.rooms.room_role_permission',
-		//'plugin.users.user',
-		//'plugin.users.user_attributes_user',
 	);
 
 /**
@@ -66,8 +45,6 @@ class IframesControllerTestBase extends YAControllerTestCase {
 		parent::setUp();
 
 		YACakeTestCase::loadTestPlugin($this, 'NetCommons', 'TestPlugin');
-
-		Configure::write('Config.language', 'ja');
 	}
 
 /**
@@ -76,7 +53,6 @@ class IframesControllerTestBase extends YAControllerTestCase {
  * @return void
  */
 	public function tearDown() {
-		Configure::write('Config.language', null);
 		CakeSession::write('Auth.User', null);
 		parent::tearDown();
 	}
