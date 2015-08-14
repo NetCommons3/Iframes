@@ -57,37 +57,6 @@ class Init extends CakeMigration {
 	);
 
 /**
- * recodes
- *
- * @var array $records
- */
-	public $records = array(
-		'Plugin' => array(
-			array(
-				'language_id' => 2,
-				'key' => 'iframes',
-				'namespace' => 'netcommons/iframes',
-				'name' => 'iframe',
-				'type' => 1,
-				'default_action' => 'iframes/view',
-				'default_setting_action' => 'iframe_blocks/index',
-			),
-		),
-		'PluginsRole' => array(
-			array(
-				'role_key' => 'room_administrator',
-				'plugin_key' => 'iframes'
-			),
-		),
-		'PluginsRoom' => array(
-			array(
-				'room_id' => '1',
-				'plugin_key' => 'iframes'
-			),
-		),
-	);
-
-/**
  * Before migration callback
  *
  * @param string $direction up or down direction of migration process
@@ -104,35 +73,6 @@ class Init extends CakeMigration {
  * @return bool Should process continue
  */
 	public function after($direction) {
-		if ($direction === 'down') {
-			return true;
-		}
-
-		foreach ($this->records as $model => $records) {
-			if (!$this->updateRecords($model, $records)) {
-				return false;
-			}
-		}
-
-		return true;
-	}
-
-/**
- * Update model records
- *
- * @param string $model model name to update
- * @param string $records records to be stored
- * @return bool Should process continue
- */
-	public function updateRecords($model, $records) {
-		$Model = $this->generateModel($model);
-		foreach ($records as $record) {
-			$Model->create();
-			if (!$Model->save($record, false)) {
-				return false;
-			}
-		}
-
 		return true;
 	}
 }
