@@ -222,7 +222,7 @@ class IframeBlocksController extends IframesAppController {
 				if (! $this->request->is('ajax')) {
 					$this->redirect('/iframes/iframe_blocks/index/' . $this->viewVars['frameId']);
 				} else {
-					$this->renderJson();
+					//$this->renderJson();
 				}
 				return;
 			}
@@ -243,7 +243,7 @@ class IframeBlocksController extends IframesAppController {
 		}
 
 		$this->Iframe->saveIframe($data);
-		if ($this->handleValidationError($this->Iframe->validationErrors)) {
+		if ($this->NetCommons->handleValidationError($this->Iframe->validationErrors)) {
 			if (! $this->request->is('ajax')) {
 				$this->redirect('/iframes/iframe_blocks/index/' . $this->viewVars['frameId']);
 			}
