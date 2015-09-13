@@ -32,6 +32,21 @@ class AllIframesTest extends CakeTestSuite {
 			'BlocksControllerTestBase.php',
 			'IframesControllerTestBase.php',
 			'IframesModelTestBase.php',
+
+			//後で削除
+			'BlocksControllerAddTest.php',
+			'BlocksControllerDeleteTest.php',
+			'BlocksControllerEditTest.php',
+			'BlocksControllerIndexTest.php',
+			'BlocksControllerTestBase.php',
+			'IframesControllerTestBase.php',
+			'IframesControllerViewTest.php',
+			//後で削除
+			'IframeDeleteTest.php',
+			'IframeGetTest.php',
+			'IframeSaveTest.php',
+			'IframesModelTestBase.php',
+			'IframeValidateTest.php',
 		);
 		$files = $Folder->tree(null, $exceptions, 'files');
 		foreach ($files as $file) {
