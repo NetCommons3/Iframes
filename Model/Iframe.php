@@ -88,16 +88,16 @@ class Iframe extends IframesAppModel {
 			//	)
 			//),
 			//'key' => array(
-			//	'notEmpty' => array(
-			//		'rule' => array('notEmpty'),
+			//	'notBlank' => array(
+			//		'rule' => array('notBlank'),
 			//		'message' => __d('net_commons', 'Invalid request.'),
 			//		'required' => true,
 			//	)
 			//),
 
 			'url' => array(
-				'notEmpty' => array(
-					'rule' => array('notEmpty'),
+				'notBlank' => array(
+					'rule' => array('notBlank'),
 					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('iframes', 'URL')),
 					'required' => true,
 				),

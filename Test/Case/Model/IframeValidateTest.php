@@ -67,7 +67,7 @@ class IframeValidateTest extends IframesModelTestBase {
 	}
 
 /**
- * Expect Iframe->saveIframe() to notEmpty error
+ * Expect Iframe->saveIframe() to notBlank error
  *
  * @return void
  */
@@ -158,7 +158,7 @@ class IframeValidateTest extends IframesModelTestBase {
 	}
 
 /**
- * Expect Iframe->saveIframe() to notEmpty error
+ * Expect Iframe->saveIframe() to notBlank error
  *
  * @return void
  */
