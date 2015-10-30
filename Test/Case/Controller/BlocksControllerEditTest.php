@@ -17,7 +17,7 @@ App::uses('BlocksControllerTestBase', 'Iframes.Test/Case/Controller');
  *
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
  * @package NetCommons\Iframes\Test\Case\Controller
- * @SuppressWarnings(PHPMD.TooManyMethods)
+ * @SuppressWarnings(PHPMD.TooManyPublicMethods)
  */
 class BlocksControllerEditTest extends BlocksControllerTestBase {
 
