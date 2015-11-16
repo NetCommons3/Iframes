@@ -4,12 +4,12 @@
         <whitelist addUncoveredFilesFromWhitelist="true">
             <directory suffix=".ctp">app/Plugin/Iframes</directory>
             <directory suffix=".php">app/Plugin/Iframes</directory>
-			<exclude>
-				<directory suffix=".php">app/Plugin/Iframes/Config/Migration</directory>
-				<directory suffix=".php">app/Plugin/Iframes/Config/Schema</directory>
-				<directory suffix=".php">app/Plugin/Iframes/Test/Case</directory>
-				<directory suffix=".php">app/Plugin/Iframes/Test/Fixture</directory>
-			</exclude>
+            <exclude>
+                <directory suffix=".php">app/Plugin/Iframes/Config/Migration</directory>
+                <directory suffix=".php">app/Plugin/Iframes/Config/Schema</directory>
+                <directory suffix=".php">app/Plugin/Iframes/Test/Case</directory>
+                <directory suffix=".php">app/Plugin/Iframes/Test/Fixture</directory>
+            </exclude>
         </whitelist>
     </filter>
     <logging>
