@@ -1,14 +1,51 @@
 <?php
 /**
- * block index template
+ * ブロック一覧viewファイル
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
+
+<article class="block-setting-body">
+	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_BLOCK_INDEX); ?>
+
+	<div class="tab-content">
+		<?php echo $this->BlockIndex->create(); ?>
+			<div class="text-right">
+				<?php echo $this->Button->addLink(); ?>
+			</div>
+
+			<?php echo $this->BlockIndex->hidden('Frame.id'); ?>
+
+			<div class="table-responsive">
+				<table class="table table-hover">
+					<thead>
+						<tr>
+							<?php echo $this->BlockIndex->tableHeader('Frame.id'); ?>
+
+							<th>
+								<?php echo $this->Paginator->sort('Block.name', __d('announcements', 'Content')); ?>
+							</th>
+							<th>
+								<?php echo $this->Paginator->sort('Announcement.modified', __d('net_commons', 'Updated date')); ?>
+							</th>
+						</tr>
+					</thead>
+
+				</table>
+			</div>
+		<?php echo $this->BlockIndex->end(); ?>
+
+		<?php echo $this->element('NetCommons.paginator'); ?>
+	</div>
+</article>
+
+
+
 
 <div class="modal-body">
 	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>

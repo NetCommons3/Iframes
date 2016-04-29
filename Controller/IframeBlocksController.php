@@ -4,6 +4,7 @@
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -15,19 +16,20 @@ App::uses('IframesAppController', 'Iframes.Controller');
  * Blocks Controller
  *
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Iframes\Controller
  */
 class IframeBlocksController extends IframesAppController {
 
 /**
- * layout
+ * レイアウト
  *
  * @var array
  */
 	public $layout = 'NetCommons.setting';
 
 /**
- * use models
+ * 使用するModels
  *
  * @var array
  */
@@ -37,15 +39,14 @@ class IframeBlocksController extends IframesAppController {
 	);
 
 /**
- * use components
+ * 使用するComponents
  *
  * @var array
  */
 	public $components = array(
-		'NetCommons.NetCommonsRoomRole' => array(
-			//コンテンツの権限設定
-			'allowedActions' => array(
-				'blockEditable' => array('index', 'add', 'edit', 'delete')
+		'NetCommons.Permission' => array(
+			'allow' => array(
+				'index,add,edit,delete' => 'block_editable',
 			),
 		),
 		'Paginator',
@@ -57,7 +58,12 @@ class IframeBlocksController extends IframesAppController {
  * @var array
  */
 	public $helpers = array(
-		'NetCommons.Date',
+		'Blocks.BlockForm',
+		'Blocks.BlockIndex',
+		'Blocks.BlockTabs' => array(
+			'mainTabs' => array('block_index'),
+			'blockTabs' => array('block_settings'),
+		),
 	);
 
 /**
@@ -65,48 +71,48 @@ class IframeBlocksController extends IframesAppController {
  *
  * @return void
  */
-	public function beforeFilter() {
-		parent::beforeFilter();
-		$this->Auth->deny('index');
-
-		if (isset($this->params['pass'][1])) {
-			$blockId = (int)$this->params['pass'][1];
-		} else {
-			$blockId = null;
-		}
-
-		//タブの設定
-		$settingTabs = array(
-			'tabs' => array(
-				'block_index' => array(
-					'url' => array(
-						'plugin' => $this->params['plugin'],
-						'controller' => 'iframe_blocks',
-						'action' => 'index',
-						$this->viewVars['frameId'],
-					)
-				),
-			),
-			'active' => 'block_index'
-		);
-		$this->set('settingTabs', $settingTabs);
-
-		$blockSettingTabs = array(
-			'tabs' => array(
-				'block_settings' => array(
-					'url' => array(
-						'plugin' => $this->params['plugin'],
-						'controller' => 'iframe_blocks',
-						'action' => $this->params['action'],
-						$this->viewVars['frameId'],
-						$blockId
-					)
-				),
-			),
-			'active' => 'block_settings'
-		);
-		$this->set('blockSettingTabs', $blockSettingTabs);
-	}
+//	public function beforeFilter() {
+//		parent::beforeFilter();
+//		$this->Auth->deny('index');
+//
+//		if (isset($this->params['pass'][1])) {
+//			$blockId = (int)$this->params['pass'][1];
+//		} else {
+//			$blockId = null;
+//		}
+//
+//		//タブの設定
+//		$settingTabs = array(
+//			'tabs' => array(
+//				'block_index' => array(
+//					'url' => array(
+//						'plugin' => $this->params['plugin'],
+//						'controller' => 'iframe_blocks',
+//						'action' => 'index',
+//						$this->viewVars['frameId'],
+//					)
+//				),
+//			),
+//			'active' => 'block_index'
+//		);
+//		$this->set('settingTabs', $settingTabs);
+//
+//		$blockSettingTabs = array(
+//			'tabs' => array(
+//				'block_settings' => array(
+//					'url' => array(
+//						'plugin' => $this->params['plugin'],
+//						'controller' => 'iframe_blocks',
+//						'action' => $this->params['action'],
+//						$this->viewVars['frameId'],
+//						$blockId
+//					)
+//				),
+//			),
+//			'active' => 'block_settings'
+//		);
+//		$this->set('blockSettingTabs', $blockSettingTabs);
+//	}
 
 /**
  * index
@@ -117,25 +123,41 @@ class IframeBlocksController extends IframesAppController {
 		$this->Paginator->settings = array(
 			'Iframe' => array(
 				'order' => array('Iframe.id' => 'desc'),
-				'conditions' => array(
-					'Block.language_id' => $this->viewVars['languageId'],
-					'Block.room_id' => $this->viewVars['roomId'],
-					'Block.plugin_key ' => $this->params['plugin'],
-				),
+				'conditions' => $this->Iframe->getBlockConditions(),
 			)
 		);
 
 		$iframes = $this->Paginator->paginate('Iframe');
 		if (! $iframes) {
-			$this->view = 'not_found';
+			$this->view = 'Blocks.Blocks/not_found';
 			return;
 		}
+		$this->set('iframes', $iframes);
 
-		$results = array(
-			'iframes' => $iframes
-		);
-		$results = $this->camelizeKeyRecursive($results);
-		$this->set($results);
+		$this->request->data['Frame'] = Current::read('Frame');
+
+//		$this->Paginator->settings = array(
+//			'Iframe' => array(
+//				'order' => array('Iframe.id' => 'desc'),
+//				'conditions' => array(
+//					'Block.language_id' => $this->viewVars['languageId'],
+//					'Block.room_id' => $this->viewVars['roomId'],
+//					'Block.plugin_key ' => $this->params['plugin'],
+//				),
+//			)
+//		);
+//
+//		$iframes = $this->Paginator->paginate('Iframe');
+//		if (! $iframes) {
+//			$this->view = 'not_found';
+//			return;
+//		}
+//
+//		$results = array(
+//			'iframes' => $iframes
+//		);
+//		$results = $this->camelizeKeyRecursive($results);
+//		$this->set($results);
 	}
 
 /**
@@ -177,26 +199,26 @@ class IframeBlocksController extends IframesAppController {
  * @return void
  */
 	public function edit() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		if (! $iframe = $this->Iframe->getIframe($this->viewVars['blockId'], $this->viewVars['roomId'])) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$results = $this->camelizeKeyRecursive($iframe);
-		$this->set($results);
-
-		if ($this->request->isPost()) {
-			if (! $data = $this->__saveIframe()) {
-				return;
-			}
-			$results = $this->camelizeKeyRecursive($data);
-			$this->set($results);
-		}
+//		if (! $this->NetCommonsBlock->validateBlockId()) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+//		$this->set('blockId', (int)$this->params['pass'][1]);
+//
+//		if (! $iframe = $this->Iframe->getIframe($this->viewVars['blockId'], $this->viewVars['roomId'])) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+//		$results = $this->camelizeKeyRecursive($iframe);
+//		$this->set($results);
+//
+//		if ($this->request->isPost()) {
+//			if (! $data = $this->__saveIframe()) {
+//				return;
+//			}
+//			$results = $this->camelizeKeyRecursive($data);
+//			$this->set($results);
+//		}
 	}
 
 /**
@@ -206,29 +228,29 @@ class IframeBlocksController extends IframesAppController {
  * @return void
  */
 	public function delete() {
-		if (! $this->NetCommonsBlock->validateBlockId()) {
-			$this->throwBadRequest();
-			return false;
-		}
-		$this->set('blockId', (int)$this->params['pass'][1]);
-
-		if (! $this->Iframe->getIframe($this->viewVars['blockId'], $this->viewVars['roomId'])) {
-			$this->throwBadRequest();
-			return false;
-		}
-
-		if ($this->request->isDelete()) {
-			if ($this->Iframe->deleteIframe($this->data)) {
-				if (! $this->request->is('ajax')) {
-					$this->redirect('/iframes/iframe_blocks/index/' . $this->viewVars['frameId']);
-				} else {
-					//$this->renderJson();
-				}
-				return;
-			}
-		}
-
-		$this->throwBadRequest();
+//		if (! $this->NetCommonsBlock->validateBlockId()) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+//		$this->set('blockId', (int)$this->params['pass'][1]);
+//
+//		if (! $this->Iframe->getIframe($this->viewVars['blockId'], $this->viewVars['roomId'])) {
+//			$this->throwBadRequest();
+//			return false;
+//		}
+//
+//		if ($this->request->isDelete()) {
+//			if ($this->Iframe->deleteIframe($this->data)) {
+//				if (! $this->request->is('ajax')) {
+//					$this->redirect('/iframes/iframe_blocks/index/' . $this->viewVars['frameId']);
+//				} else {
+//					//$this->renderJson();
+//				}
+//				return;
+//			}
+//		}
+//
+//		$this->throwBadRequest();
 	}
 
 /**

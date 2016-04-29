@@ -1,6 +1,6 @@
 <?php
 /**
- * Blocks edit template
+ * ブロック編集viewファイル
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>
@@ -10,25 +10,20 @@
  */
 ?>
 
-<div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+<article class="block-setting-body">
+	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_BLOCK_INDEX); ?>
 
 	<div class="tab-content">
-		<?php echo $this->element('Blocks.setting_tabs', $blockSettingTabs); ?>
+		<?php echo $this->BlockTabs->block(BlockTabsHelper::BLOCK_TAB_SETTING); ?>
 
-		<?php echo $this->element('Blocks.edit_form', array(
-				'controller' => 'IframeBlocks',
-				'action' => h($this->request->params['action']) . '/' . $frameId . '/' . $blockId,
+		<?php echo $this->BlockForm->displayEditForm(array(
+				'model' => 'Iframe',
 				'callback' => 'Iframes.IframeBlocks/edit_form',
-				'cancelUrl' => '/iframes/iframe_blocks/index/' . $frameId
+				'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
 			)); ?>
 
-		<?php if ($this->request->params['action'] === 'edit') : ?>
-			<?php echo $this->element('Blocks.delete_form', array(
-					'controller' => 'IframeBlocks',
-					'action' => 'delete/' . $frameId . '/' . (int)$iframe['blockId'],
-					'callback' => 'Iframes.IframeBlocks/delete_form'
-				)); ?>
-		<?php endif; ?>
+		<?php echo $this->BlockForm->displayDeleteForm(array(
+				'callback' => 'Iframes.IframeBlocks/delete_form',
+			)); ?>
 	</div>
-</div>
+</article>

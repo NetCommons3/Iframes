@@ -6,6 +6,7 @@
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
@@ -17,41 +18,44 @@ App::uses('IframesAppModel', 'Iframes.Model');
  * Iframe Model
  *
  * @author Kotaro Hokada <kotaro.hokada@gmail.com>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @package NetCommons\Iframes\Model
  */
 class Iframe extends IframesAppModel {
 
 /**
- * Minimum value of the height of the frame
+ * フレーム高さの最小値
  *
  * @var int
  */
 	const HEIGHT_MIN_VALUE = '1';
 
 /**
- * Maximum value of the height of the frame
+ * フレーム高さの最大値
  *
  * @var int
  */
 	const HEIGHT_MAX_VALUE = '2000';
 
 /**
- * use behaviors
+ * 使用するBehaviors
  *
  * @var array
  */
 	public $actsAs = array(
+		'Blocks.Block' => array(
+			'name' => 'Iframe.url',
+		),
 		'NetCommons.OriginalKey'
 	);
 
 /**
- * Validation rules
+ * バリデーションルール
+ * __d()を使うため、[self::beforeValidate()](#method_beforeValidate)でセットする
  *
  * @var array
  */
 	public $validate = array();
-
-	//The Associations below have been created with all possible keys, those that are not needed can be removed
 
 /**
  * belongsTo associations
@@ -79,22 +83,6 @@ class Iframe extends IframesAppModel {
  */
 	public function beforeValidate($options = array()) {
 		$this->validate = Hash::merge($this->validate, array(
-			//'block_id' => array(
-			//	'numeric' => array(
-			//		'rule' => array('numeric'),
-			//		'message' => __d('net_commons', 'Invalid request.'),
-			//		'allowEmpty' => false,
-			//		'required' => true,
-			//	)
-			//),
-			//'key' => array(
-			//	'notBlank' => array(
-			//		'rule' => array('notBlank'),
-			//		'message' => __d('net_commons', 'Invalid request.'),
-			//		'required' => true,
-			//	)
-			//),
-
 			'url' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),
@@ -103,7 +91,11 @@ class Iframe extends IframesAppModel {
 				),
 				'url' => array(
 					'rule' => array('url'),
-					'message' => sprintf(__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'), __d('net_commons', 'URL'), __d('net_commons', 'URL')),
+					'message' => sprintf(
+						__d('net_commons', 'Unauthorized pattern for %s. Please input the data in %s format.'),
+						__d('net_commons', 'URL'),
+						__d('net_commons', 'URL')
+					),
 					'allowEmpty' => false,
 					'required' => true,
 				),
@@ -111,7 +103,11 @@ class Iframe extends IframesAppModel {
 			'height' => array(
 				'numeric' => array(
 					'rule' => array('range', self::HEIGHT_MIN_VALUE - 1, self::HEIGHT_MAX_VALUE + 1),
-					'message' => sprintf(__d('iframes', 'Frame height must be a number bigger than %s and less than %s'), self::HEIGHT_MIN_VALUE, self::HEIGHT_MAX_VALUE),
+					'message' => sprintf(
+						__d('iframes', 'Frame height must be a number bigger than %s and less than %s'),
+						self::HEIGHT_MIN_VALUE,
+						self::HEIGHT_MAX_VALUE
+					),
 					'required' => true,
 				),
 			),
@@ -135,23 +131,15 @@ class Iframe extends IframesAppModel {
 	}
 
 /**
- * Get iframe data
+ * IFrameデータ取得
  *
- * @param int $blockId blocks.id
- * @param int $roomId rooms.id
  * @return array
  */
-	public function getIframe($blockId, $roomId) {
-		$conditions = array(
-			'Block.id' => $blockId,
-			'Block.room_id' => $roomId,
-		);
-
+	public function getIframe() {
 		$iframe = $this->find('first', array(
-				'recursive' => 0,
-				'conditions' => $conditions,
-			)
-		);
+			'recursive' => 0,
+			'conditions' => $this->getBlockConditionById(),
+		));
 
 		return $iframe;
 	}
