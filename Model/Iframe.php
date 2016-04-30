@@ -101,6 +101,11 @@ class Iframe extends IframesAppModel {
 				),
 			),
 			'height' => array(
+				'notBlank' => array(
+					'rule' => array('notBlank'),
+					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('iframes', 'Frame height')),
+					'required' => true,
+				),
 				'numeric' => array(
 					'rule' => array('range', self::HEIGHT_MIN_VALUE - 1, self::HEIGHT_MAX_VALUE + 1),
 					'message' => sprintf(

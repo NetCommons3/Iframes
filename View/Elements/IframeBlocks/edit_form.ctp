@@ -10,8 +10,6 @@
  */
 ?>
 
-<?php echo $this->element('Blocks.form_hidden'); ?>
-
 <?php echo $this->NetCommonsForm->hidden('Iframe.id'); ?>
 <?php echo $this->NetCommonsForm->hidden('Iframe.key'); ?>
 
