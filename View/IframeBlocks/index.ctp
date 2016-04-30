@@ -55,7 +55,7 @@
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'Iframe.url', $iframe['Iframe']['url'],
-									array('blockId' => $iframe['Block']['id'], 'type' => 'link')
+									array('type' => 'link', 'editUrl' => array('blockId' => $iframe['Block']['id']))
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'Iframe.height', $iframe['Iframe']['height'],
@@ -63,7 +63,7 @@
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'TrackableCreator', $iframe,
-									array('type' => 'handlename')
+									array('type' => 'handle')
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'Iframe.created', $iframe['Iframe']['created'],
