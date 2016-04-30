@@ -9,52 +9,25 @@
  * @copyright Copyright 2014, NetCommons Project
  */
 
+App::uses('NetCommonsTestSuite', 'NetCommons.TestSuite');
+
 /**
  * Iframes All Test Case
  *
  * @package NetCommons\Iframes\Test
  * @codeCoverageIgnore
  */
-class AllIframesTest extends CakeTestSuite {
+class AllIframesTest extends NetCommonsTestSuite {
 
 /**
  * All test suite
  *
- * @return CakeTestSuite
+ * @return NetCommonsTestSuite
  */
 	public static function suite() {
 		$plugin = preg_replace('/^All([\w]+)Test$/', '$1', __CLASS__);
-		$suite = new CakeTestSuite(sprintf('All %s Plugin tests', $plugin));
-
-		$directory = CakePlugin::path($plugin) . 'Test' . DS . 'Case';
-		$Folder = new Folder($directory);
-		$exceptions = array(
-			'BlocksControllerTestBase.php',
-			'IframesControllerTestBase.php',
-			'IframesModelTestBase.php',
-
-			//後で削除
-			'BlocksControllerAddTest.php',
-			'BlocksControllerDeleteTest.php',
-			'BlocksControllerEditTest.php',
-			'BlocksControllerIndexTest.php',
-			'BlocksControllerTestBase.php',
-			'IframesControllerTestBase.php',
-			'IframesControllerViewTest.php',
-			//後で削除
-			'IframeDeleteTest.php',
-			'IframeGetTest.php',
-			'IframeSaveTest.php',
-			'IframesModelTestBase.php',
-			'IframeValidateTest.php',
-		);
-		$files = $Folder->tree(null, $exceptions, 'files');
-		foreach ($files as $file) {
-			if (substr($file, -4) === '.php') {
-				$suite->addTestFile($file);
-			}
-		}
-
+		$suite = new NetCommonsTestSuite(sprintf('All %s Plugin tests', $plugin));
+		//$suite->addTestDirectoryRecursive(CakePlugin::path($plugin) . 'Test' . DS . 'Case');
 		return $suite;
 	}
 }

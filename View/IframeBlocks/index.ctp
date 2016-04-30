@@ -1,89 +1,85 @@
 <?php
 /**
- * block index template
+ * ブロック一覧view
  *
  * @author Noriko Arai <arai@nii.ac.jp>
- * @author Ryo Ozawa <ozawa.ryo@withone.co.jp>
+ * @author Shohei Nakajima <nakajimashouhei@gmail.com>
  * @link http://www.netcommons.org NetCommons Project
  * @license http://www.netcommons.org/license.txt NetCommons License
  * @copyright Copyright 2014, NetCommons Project
  */
 ?>
 
-<div class="modal-body">
-	<?php echo $this->element('NetCommons.setting_tabs', $settingTabs); ?>
+<article class="block-setting-body">
+	<?php echo $this->BlockTabs->main(BlockTabsHelper::MAIN_TAB_BLOCK_INDEX); ?>
+
+	<?php echo $this->BlockIndex->description(); ?>
 
 	<div class="tab-content">
-		<div class="text-right">
-			<a class="btn btn-success" href="<?php echo $this->Html->url('/iframes/iframe_blocks/add/' . $frameId);?>">
-				<span class="glyphicon glyphicon-plus"> </span>
-			</a>
-		</div>
+		<?php echo $this->BlockIndex->create(); ?>
+			<?php echo $this->BlockIndex->addLink(); ?>
 
-		<div id="nc-iframe-setting-<?php echo $frameId; ?>">
-			<?php echo $this->Form->create('', array(
-					'url' => '/frames/frames/edit/' . $frameId
-				)); ?>
+			<?php echo $this->BlockIndex->startTable(); ?>
+				<thead>
+					<tr>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Frame.block_id'
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Iframe.url', __d('iframes', 'URL'),
+								array('sort' => true)
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Iframe.height', __d('iframes', 'Frame height'),
+								array('sort' => true, 'type' => 'numeric')
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'TrackableCreator.handlename', __d('net_commons', 'Created user'),
+								array('sort' => true, 'type' => 'handle')
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Iframe.created', __d('net_commons', 'Created datetime'),
+								array('sort' => true, 'type' => 'datetime')
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
+								'Iframe.modified', __d('net_commons', 'Modified datetime'),
+								array('sort' => true, 'type' => 'datetime')
+							); ?>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($iframes as $iframe) : ?>
+						<?php echo $this->BlockIndex->startTableRow($iframe['Block']['id']); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Frame.block_id', $iframe['Block']['id']
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Iframe.url', $iframe['Iframe']['url'],
+									array('blockId' => $iframe['Block']['id'], 'type' => 'link')
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Iframe.height', $iframe['Iframe']['height'],
+									array('type' => 'numeric', 'format' => ['domain' => 'iframes', 'singular' => '%dpx', 'plural' => '%dpx'])
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'TrackableCreator', $iframe,
+									array('type' => 'handlename')
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Iframe.created', $iframe['Iframe']['created'],
+									array('type' => 'datetime')
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Iframe.modified', $iframe['Iframe']['modified'],
+									array('type' => 'datetime')
+								); ?>
+						<?php echo $this->BlockIndex->endTableRow(); ?>
+					<?php endforeach; ?>
+				</tbody>
+			<?php echo $this->BlockIndex->endTable(); ?>
 
-				<?php echo $this->Form->hidden('Frame.id', array(
-						'value' => $frameId,
-					)); ?>
+		<?php echo $this->BlockIndex->end(); ?>
 
-				<table class="table table-hover">
-					<thead>
-						<tr>
-							<th></th>
-							<th>
-								<?php echo $this->Paginator->sort('Iframe.url', __d('iframes', 'URL')); ?>
-							</th>
-							<th>
-								<?php echo $this->Paginator->sort('Iframe.modified', __d('net_commons', 'Updated date')); ?>
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<?php foreach ($iframes as $iframe) : ?>
-							<tr<?php echo ($blockId === $iframe['block']['id'] ? ' class="active"' : ''); ?>>
-								<td>
-									<?php echo $this->Form->input('Frame.block_id',
-										array(
-											'type' => 'radio',
-											'name' => 'data[Frame][block_id]',
-											'options' => array((int)$iframe['block']['id'] => ''),
-											'div' => false,
-											'legend' => false,
-											'label' => false,
-											'hiddenField' => false,
-											'checked' => (int)$iframe['block']['id'] === (int)$blockId,
-											'onclick' => 'submit()'
-										)); ?>
-								</td>
-								<td>
-									<a href="<?php echo $this->Html->url('/iframes/iframe_blocks/edit/' . $frameId . '/' . (int)$iframe['block']['id']); ?>">
-										<?php echo h($iframe['iframe']['url']); ?>
-									</a>
-								</td>
-								<td>
-									<?php echo $this->Date->dateFormat($iframe['iframe']['modified']); ?>
-								</td>
-							</tr>
-						<?php endforeach; ?>
-					</tbody>
-				</table>
-			<?php echo $this->Form->end(); ?>
-
-			<div class="text-center">
-				<?php echo $this->element('NetCommons.paginator', array(
-						'url' => Hash::merge(
-							array('controller' => 'iframe_blocks', 'action' => 'index', $frameId),
-							$this->Paginator->params['named']
-						)
-					)); ?>
-			</div>
-		</div>
+		<?php echo $this->element('NetCommons.paginator'); ?>
 	</div>
-</div>
-
-
-
-
+</article>
