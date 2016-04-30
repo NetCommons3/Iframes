@@ -38,6 +38,10 @@
 								array('sort' => true, 'type' => 'handle')
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
+								'Iframe.created', __d('net_commons', 'Created datetime'),
+								array('sort' => true, 'type' => 'datetime')
+							); ?>
+						<?php echo $this->BlockIndex->tableHeader(
 								'Iframe.modified', __d('net_commons', 'Modified datetime'),
 								array('sort' => true, 'type' => 'datetime')
 							); ?>
@@ -60,6 +64,10 @@
 							<?php echo $this->BlockIndex->tableData(
 									'TrackableCreator', $iframe,
 									array('type' => 'handlename')
+								); ?>
+							<?php echo $this->BlockIndex->tableData(
+									'Iframe.created', $iframe['Iframe']['created'],
+									array('type' => 'datetime')
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'Iframe.modified', $iframe['Iframe']['modified'],
