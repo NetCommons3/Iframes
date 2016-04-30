@@ -34,11 +34,11 @@
 								array('sort' => true, 'type' => 'numeric')
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'Iframe.created_user', __d('net_commons', 'Created user'),
+								'TrackableCreator.handlename', __d('net_commons', 'Created user'),
 								array('sort' => true, 'type' => 'handle')
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'Iframe.created', __d('net_commons', 'Created datetime'),
+								'Iframe.modified', __d('net_commons', 'Modified datetime'),
 								array('sort' => true, 'type' => 'datetime')
 							); ?>
 					</tr>
@@ -62,7 +62,7 @@
 									array('type' => 'handlename')
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'Iframe.created', $iframe['Iframe']['created'],
+									'Iframe.modified', $iframe['Iframe']['modified'],
 									array('type' => 'datetime')
 								); ?>
 						<?php echo $this->BlockIndex->endTableRow(); ?>
