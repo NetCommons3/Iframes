@@ -16,10 +16,9 @@
 <?php echo $this->NetCommonsForm->hidden('Iframe.key'); ?>
 
 <?php echo $this->NetCommonsForm->input('Iframe.url', array(
-		'type' => 'text',
+		'type' => 'url',
 		'label' => __d('iframes', 'URL'),
 		'required' => true,
-		'placeholder' => 'http://',
 	)); ?>
 
 <?php echo $this->NetCommonsForm->input('Iframe.height', array(

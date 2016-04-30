@@ -131,7 +131,7 @@ class Iframe extends IframesAppModel {
 	}
 
 /**
- * IFrameデータ取得
+ * iframeデータの取得
  *
  * @return array
  */
@@ -145,93 +145,48 @@ class Iframe extends IframesAppModel {
 	}
 
 /**
- * save iframe
+ * iframeデータの登録
  *
- * @param array $data received post data
- * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @param array $data リクエストデータ
+ * @return bool
  * @throws InternalErrorException
  */
 	public function saveIframe($data) {
-		$this->loadModels([
-			'Iframe' => 'Iframes.Iframe',
-			'Block' => 'Blocks.Block',
-		]);
-
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
+
+		$this->set($data);
+		if (! $this->validates()) {
+			return false;
+		}
 
 		try {
-			if (!$this->validateIframe($data, ['block'])) {
-				return false;
-			}
-
-			//ブロックの登録
-			$block = $this->Block->saveByFrameId($data['Frame']['id']);
-
-			//Iframeデータの登録
-			$this->data['Iframe']['block_id'] = (int)$block['Block']['id'];
-			$iframe = $this->save(null, false);
-			if (! $iframe) {
+			//登録処理
+			if (! $this->save(null, false)) {
 				throw new InternalErrorException(__d('net_commons', 'Internal Server Error'));
 			}
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
-			//トランザクションRollback
-			$dataSource->rollback();
-			//エラー出力
-			CakeLog::error($ex);
-			throw $ex;
+				//トランザクションRollback
+			$this->rollback($ex);
 		}
 
-		return $iframe;
-	}
-
-/**
- * validate iframe
- *
- * @param array $data received post data
- * @param array $contains Optional validate sets
- * @return bool True on success, false on error
- */
-	public function validateIframe($data, $contains = []) {
-		$this->set($data);
-		$this->validates();
-		if ($this->validationErrors) {
-			return false;
-		}
-
-		if (in_array('block', $contains, true)) {
-			if (! $this->Block->validateBlock($data)) {
-				$this->validationErrors = Hash::merge($this->validationErrors, $this->Block->validationErrors);
-				return false;
-			}
-		}
 		return true;
 	}
 
 /**
- * Delete iframe
+ * iframeデータの削除
  *
- * @param array $data received post data
- * @return mixed On success Model::$data if its not empty or true, false on failure
+ * @param array $data リクエストデータ
+ * @return bool
  * @throws InternalErrorException
  */
 	public function deleteIframe($data) {
-		$this->setDataSource('master');
-
-		$this->loadModels([
-			'Iframe' => 'Iframes.Iframe',
-			'Block' => 'Blocks.Block',
-			'Frame' => 'Frames.Frame',
-		]);
-
 		//トランザクションBegin
-		$dataSource = $this->getDataSource();
-		$dataSource->begin();
+		$this->begin();
 
 		try {
 			//iframeデータ削除
@@ -240,16 +195,14 @@ class Iframe extends IframesAppModel {
 			}
 
 			//blockデータ削除
-			$this->Block->deleteBlock($data['Block']['key']);
+			$this->deleteBlock($data['Block']['key']);
 
 			//トランザクションCommit
-			$dataSource->commit();
+			$this->commit();
 
 		} catch (Exception $ex) {
 			//トランザクションRollback
-			$dataSource->rollback();
-			CakeLog::error($ex);
-			throw $ex;
+			$this->rollback($ex);
 		}
 
 		return true;

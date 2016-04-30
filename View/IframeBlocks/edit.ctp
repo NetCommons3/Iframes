@@ -1,6 +1,6 @@
 <?php
 /**
- * ブロック編集viewファイル
+ * ブロック編集view
  *
  * @author Noriko Arai <arai@nii.ac.jp>
  * @author Shohei Nakajima <nakajimashouhei@gmail.com>

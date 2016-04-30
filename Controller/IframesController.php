@@ -22,22 +22,13 @@ App::uses('IframesAppController', 'Iframes.Controller');
 class IframesController extends IframesAppController {
 
 /**
- * use model
+ * 使用するModel
  *
  * @var array
  */
 	public $uses = array(
 		'Iframes.Iframe',
 	);
-
-/**
- * use component
- *
- * @var array
- */
-//	public $components = array(
-//		'NetCommons.NetCommonsRoomRole' => array(),
-//	);
 
 /**
  * view method
