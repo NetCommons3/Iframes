@@ -61,7 +61,7 @@ class IframeFixture extends CakeTestFixture {
  */
 	public function init() {
 		require_once App::pluginPath('Iframes') . 'Config' . DS . 'Schema' . DS . 'schema.php';
-		$this->fields = (new UsersSchema())->tables['iframes'];
+		$this->fields = (new IframesSchema())->tables['iframes'];
 		parent::init();
 	}
 
