@@ -10,7 +10,7 @@ env:
   matrix:
     - NETCOMMONS_VERSION=master DB=mysql
   global:
-    - secure: "gpR+1g9rUf9GoZkEkAKGROzze8D+JPS08QppUCcFbi4Dooobhkd2slA64NoPc88I00LpLDLliaxg/Gle+dEQKhAQd+wQ3Pow5pubwgUWDriH27YbcVyXoeglPynFakRD0limAGfUBALXN0NmltmlVE8WmZE7INaNHvPxaDdjTBmEqNiX80bHxE7IQcXTt/JNwepKnNdtU5H7IzENvBKvaSkpZKVbW5vcGts+GFJLmVmsBdksWwlpkLpfr3TZKWRYSIqkkIIoGSGU0ngyijnX0AWAjTv6qOxXLz/Lw0TW9TDvvISEYaqCp/Nvs6EY9l/sk8OkVL1BwYu7PnGSoxa46CTwDGyLI7RhfruPqBkQ/DcGXeviC2JClUzxcMv/vlJ4Bg2g9aDy+gWizf8AAyIGRUbKbahje7d15PzU7OCRp+JyYOpjPUle+UrMxZGt4ku01W9HI2ac8kgwzDITqUP8Bk6jXt0WeRgtjmI5GH4GjrKTKjNEX3oL/yzpG8+jHhNCTfvYvWbxEj/1t+g7AHyJJ5/xzD4Cxz0Oa+UeQFvD95V+o+q6dwVnAlfjxhregA33ZRWNQRPwm75Osb6zoKnMoxaqvcc5ORnokyuRGzqEMiwKgNSkR79tYxqPYHJUO4Q3OqoJ+HMxooT5qaxwEQhGC3C0NuPWGJXzR9zirIoCh5E="
+    - secure: "lkqX+i8R53CM4PhmYeEJ8laooqUKhYhwRbyFgTnc+bMCGXNg9VhYy44iC2BzdR08tzzz9yvRTVm9X0T0ztOdBuHw/D/5uwnnYLaVCOXHFQ2MbOnyGG7YtOBBVzO8sXsMmSB3nNp7vCRGJacexVPNZHyikaMJmSMvf91QbFOQCvI="
     - GIT_COMMITTER_NAME=s-nakajima
     - GIT_COMMITTER_EMAIL=nakajimashouhei@gmail.com
     - GIT_AUTHOR_NAME=s-nakajima
