@@ -34,15 +34,11 @@
 								array('sort' => true, 'type' => 'numeric')
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'TrackableCreator.handlename', __d('net_commons', 'Created user'),
+								'TrackableUpdater.handlename', __d('net_commons', 'Modified user'),
 								array('sort' => true, 'type' => 'handle')
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'Iframe.created', __d('net_commons', 'Created datetime'),
-								array('sort' => true, 'type' => 'datetime')
-							); ?>
-						<?php echo $this->BlockIndex->tableHeader(
-								'Iframe.modified', __d('net_commons', 'Modified datetime'),
+								'Block.modified', __d('net_commons', 'Modified datetime'),
 								array('sort' => true, 'type' => 'datetime')
 							); ?>
 					</tr>
@@ -62,15 +58,11 @@
 									array('type' => 'numeric', 'format' => ['domain' => 'iframes', 'singular' => '%dpx', 'plural' => '%dpx'])
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'TrackableCreator', $iframe,
+									'TrackableUpdater', $iframe,
 									array('type' => 'handle')
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'Iframe.created', $iframe['Iframe']['created'],
-									array('type' => 'datetime')
-								); ?>
-							<?php echo $this->BlockIndex->tableData(
-									'Iframe.modified', $iframe['Iframe']['modified'],
+									'Block.modified', $iframe['Block']['modified'],
 									array('type' => 'datetime')
 								); ?>
 						<?php echo $this->BlockIndex->endTableRow(); ?>
