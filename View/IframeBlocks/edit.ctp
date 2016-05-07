@@ -20,6 +20,7 @@
 				'model' => 'Iframe',
 				'callback' => 'Iframes.IframeBlocks/edit_form',
 				'cancelUrl' => NetCommonsUrl::backToIndexUrl('default_setting_action'),
+				'displayModified' => true,
 			)); ?>
 
 		<?php echo $this->BlockForm->displayDeleteForm(array(
