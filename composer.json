@@ -1,6 +1,7 @@
 {
     "name": "netcommons/iframes",
     "description": "Iframes for NetCommons Plugin",
+    "type": "cakephp-plugin",
     "homepage": "http://www.netcommons.org/",
     "extra": {
         "installer-paths": {
@@ -8,18 +9,11 @@
         }
     },
     "require": {
-        "cakephp/cakephp":              "~2.6",
-        "cakephp/debug_kit":            "~2.2",
         "cakedc/migrations":            "~2.2",
-        "components/jquery":            "~2.1",
-        "phpunit/phpunit":              "~3.7.38",
-        "sebastian/phpcpd":             "~2.0",
-        "twbs/bootstrap":               "~3.1"
-    },
-    "require-dev": {
-        "mustangostang/spyc":           "dev-master",
+        "netcommons/blocks":            "dev-master",
         "netcommons/net-commons":       "dev-master",
-        "satooshi/php-coveralls":       "dev-master"
+        "netcommons/pages":             "dev-master",
+        "netcommons/plugin-manager":    "dev-master"
     },
     "license": "NetCommons License",
     "authors": [
@@ -28,7 +22,6 @@
             "homepage": "https://github.com/NetCommons3/Iframes/graphs/contributors"
         }
     ],
-    "type":        "cakephp-plugin",
     "keywords":    ["cakephp", "iframes"],
     "config": {
         "vendor-dir": "vendors"
