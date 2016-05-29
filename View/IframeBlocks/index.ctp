@@ -51,7 +51,7 @@
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'Iframe.url', $iframe['Iframe']['url'],
-									array('type' => 'link', 'editUrl' => array('blockId' => $iframe['Block']['id']))
+									array('type' => 'link', 'editUrl' => array('block_id' => $iframe['Block']['id']))
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'Iframe.height', $iframe['Iframe']['height'],

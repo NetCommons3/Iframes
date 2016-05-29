@@ -27,14 +27,14 @@
 		'max' => Iframe::HEIGHT_MAX_VALUE,
 	)); ?>
 
-<?php echo $this->NetCommonsForm->input('Iframe.display_scrollbar', array(
+<?php echo $this->NetCommonsForm->checkbox('Iframe.display_scrollbar', array(
 		'type' => 'checkbox',
 		'label' => __d('iframes', 'Display the scroll bar'),
 		'class' => false,
 		'div' => array('class' => 'form-group'),
 	)); ?>
 
-<?php echo $this->NetCommonsForm->input('Iframe.display_frame', array(
+<?php echo $this->NetCommonsForm->checkbox('Iframe.display_frame', array(
 		'type' => 'checkbox',
 		'label' => __d('iframes', 'Display the frame'),
 		'class' => false,
