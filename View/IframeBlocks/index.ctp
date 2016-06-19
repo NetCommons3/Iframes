@@ -27,7 +27,7 @@
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 								'Iframe.url', __d('iframes', 'URL'),
-								array('sort' => true)
+								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 								'Iframe.height', __d('iframes', 'Frame height'),
