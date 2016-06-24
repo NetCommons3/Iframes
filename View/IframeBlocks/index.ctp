@@ -30,8 +30,8 @@
 								array('sort' => true, 'editUrl' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
-								'Iframe.height', __d('iframes', 'Frame height'),
-								array('sort' => true, 'type' => 'numeric')
+								'Block.public_type', __d('blocks', 'Publishing setting'),
+								array('sort' => true)
 							); ?>
 						<?php echo $this->BlockIndex->tableHeader(
 								'TrackableUpdater.handlename', __d('net_commons', 'Modified user'),
@@ -54,8 +54,7 @@
 									array('type' => 'link', 'editUrl' => array('block_id' => $iframe['Block']['id']))
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
-									'Iframe.height', $iframe['Iframe']['height'],
-									array('type' => 'numeric', 'format' => ['domain' => 'iframes', 'singular' => '%dpx', 'plural' => '%dpx'])
+									'Block.public_type', $iframe
 								); ?>
 							<?php echo $this->BlockIndex->tableData(
 									'TrackableUpdater', $iframe,

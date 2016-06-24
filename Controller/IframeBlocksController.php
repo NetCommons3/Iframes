@@ -73,10 +73,7 @@ class IframeBlocksController extends IframesAppController {
  */
 	public function index() {
 		$this->Paginator->settings = array(
-			'Iframe' => array(
-				'order' => array('Iframe.id' => 'desc'),
-				'conditions' => $this->Iframe->getBlockConditions(),
-			)
+			'Iframe' => $this->Iframe->getBlockIndexSettings()
 		);
 
 		$iframes = $this->Paginator->paginate('Iframe');
