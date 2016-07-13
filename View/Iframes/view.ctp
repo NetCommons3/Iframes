@@ -13,9 +13,9 @@
 <article>
 	<?php if (Hash::get($iframe, 'url')) : ?>
 		<iframe width="100%" src="<?php echo h($iframe['url']); ?>"
-				height="<?php echo (int)$iframe['height']; ?>"
-				scrolling="<?php echo $iframe['display_scrollbar'] ? 'yes' : 'no'; ?>"
-				frameborder="<?php echo $iframe['display_frame'] ? '1' : '0'; ?>">
+				height="<?php echo (int)$iframeFrameSetting['height']; ?>"
+				scrolling="<?php echo $iframeFrameSetting['display_scrollbar'] ? 'yes' : 'no'; ?>"
+				frameborder="<?php echo $iframeFrameSetting['display_frame'] ? '1' : '0'; ?>">
 		</iframe>
 	<?php endif; ?>
 </article>
