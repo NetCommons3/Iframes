@@ -28,6 +28,7 @@ class IframesController extends IframesAppController {
  */
 	public $uses = array(
 		'Iframes.Iframe',
+		'Iframes.IframeFrameSetting',
 	);
 
 /**
@@ -36,6 +37,10 @@ class IframesController extends IframesAppController {
  * @return void
  */
 	public function view() {
+		//IframeFrameSettingデータ取得
+		$iframeFrameSetting = $this->IframeFrameSetting->getIframeFrameSetting();
+		$this->set('iframeFrameSetting', $iframeFrameSetting['IframeFrameSetting']);
+
 		//Iframeデータを取得
 		$iframe = $this->Iframe->getIframe();
 		if (! $iframe) {

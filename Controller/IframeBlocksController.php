@@ -61,7 +61,7 @@ class IframeBlocksController extends IframesAppController {
 		'Blocks.BlockForm',
 		'Blocks.BlockIndex',
 		'Blocks.BlockTabs' => array(
-			'mainTabs' => array('block_index'),
+			'mainTabs' => array('block_index', 'frame_settings'),
 			'blockTabs' => array('block_settings'),
 		),
 	);
