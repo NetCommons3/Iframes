@@ -24,20 +24,6 @@ App::uses('IframesAppModel', 'Iframes.Model');
 class Iframe extends IframesAppModel {
 
 /**
- * フレーム高さの最小値
- *
- * @var int
- */
-	const HEIGHT_MIN_VALUE = '1';
-
-/**
- * フレーム高さの最大値
- *
- * @var int
- */
-	const HEIGHT_MAX_VALUE = '2000';
-
-/**
  * 使用するBehaviors
  *
  * @var array
@@ -97,36 +83,6 @@ class Iframe extends IframesAppModel {
 						__d('net_commons', 'URL')
 					),
 					'allowEmpty' => false,
-					'required' => true,
-				),
-			),
-			'height' => array(
-				'notBlank' => array(
-					'rule' => array('notBlank'),
-					'message' => sprintf(__d('net_commons', 'Please input %s.'), __d('iframes', 'Frame height')),
-					'required' => true,
-				),
-				'numeric' => array(
-					'rule' => array('range', self::HEIGHT_MIN_VALUE - 1, self::HEIGHT_MAX_VALUE + 1),
-					'message' => sprintf(
-						__d('iframes', 'Frame height must be a number bigger than %s and less than %s'),
-						self::HEIGHT_MIN_VALUE,
-						self::HEIGHT_MAX_VALUE
-					),
-					'required' => true,
-				),
-			),
-			'display_scrollbar' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
-					'required' => true,
-				),
-			),
-			'display_frame' => array(
-				'boolean' => array(
-					'rule' => array('boolean'),
-					'message' => __d('net_commons', 'Invalid request.'),
 					'required' => true,
 				),
 			),
