@@ -88,6 +88,10 @@ class Iframe extends IframesAppModel {
 			),
 		));
 
+		if ($this->data['Iframe']['url'] === 'http://') {
+			$this->data['Iframe']['url'] = '';
+		}
+
 		return parent::beforeValidate($options);
 	}
 

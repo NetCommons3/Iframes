@@ -103,7 +103,9 @@ class IframeBlocksController extends IframesAppController {
 
 		} else {
 			//表示処理(初期データセット)
-			$this->request->data = $this->Iframe->createAll();
+			$this->request->data = $this->Iframe->createAll(array(
+				'url' => 'http://'
+			));
 			$this->request->data['Frame'] = Current::read('Frame');
 		}
 	}
