@@ -15,30 +15,30 @@ msgstr ""
 "Language: ja\n"
 "X-Generator: Poedit 1.8.1\n"
 
-#: Iframes/Model/Iframe.php:101
-#: Iframes/Test/Case/Model/IframeValidateTest.php:80;126
-#: Iframes/View/Elements/IframeBlocks/edit_form.ctp:50
-#: Iframes/View/IframeBlocks/index.ctp:37
+#: Iframes/Model/Iframe.php:75
+#: Iframes/View/Elements/IframeBlocks/edit_form.ctp:18
+#: Iframes/View/IframeBlocks/index.ctp:29
 msgid "URL"
 msgstr ""
 
-#: Iframes/Model/Iframe.php:114
-#: Iframes/Test/Case/Model/IframeValidateTest.php:171
-msgid "Frame height must be a number bigger than %s and less than %s"
-msgstr "フレームの高さは%sから%sの範囲で入力してください。"
-
-#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:14;28
-msgid "Iframe"
-msgstr ""
-
-#: Iframes/View/Elements/IframeBlocks/edit_form.ctp:74
+#: Iframes/Model/IframeFrameSetting.php:64
+#: Iframes/View/Elements/IframeFrameSettings/edit_form.ctp:21
 msgid "Frame height"
 msgstr "フレームの高さ"
 
-#: Iframes/View/Elements/IframeBlocks/edit_form.ctp:101
+#: Iframes/Model/IframeFrameSetting.php:70
+msgid "Frame height must be a number bigger than %s and less than %s"
+msgstr "フレームの高さは%sから%sの範囲で入力してください。"
+
+#: Iframes/View/Elements/IframeBlocks/delete_form.ctp:14;23
+msgid "Iframe"
+msgstr ""
+
+#: Iframes/View/Elements/IframeFrameSettings/edit_form.ctp:29
 msgid "Display the scroll bar"
 msgstr "スクロールバーを表示する"
 
-#: Iframes/View/Elements/IframeBlocks/edit_form.ctp:112
+#: Iframes/View/Elements/IframeFrameSettings/edit_form.ctp:36
 msgid "Display the frame"
 msgstr "フレーム枠を表示する"
+
