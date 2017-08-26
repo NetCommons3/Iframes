@@ -27,30 +27,9 @@ class IframeFixture extends CakeTestFixture {
 	public $records = array(
 		array(
 			'id' => '1',
-			'block_id' => '141',
+			'block_id' => '2',
 			'key' => 'iframe_1',
 			'url' => 'http://www.netcommons.org/',
-			'height' => '400',
-			'display_scrollbar' => true,
-			'display_frame' => true,
-		),
-		array(
-			'id' => '2',
-			'block_id' => '142',
-			'key' => 'iframe_2',
-			'url' => 'http://www.netcommons.org/',
-			'height' => '400',
-			'display_scrollbar' => true,
-			'display_frame' => true,
-		),
-		array(
-			'id' => '3',
-			'block_id' => '143',
-			'key' => 'iframe_3',
-			'url' => 'http://www.netcommons.org/',
-			'height' => '400',
-			'display_scrollbar' => true,
-			'display_frame' => true,
 		),
 	);
 
@@ -61,7 +40,7 @@ class IframeFixture extends CakeTestFixture {
  */
 	public function init() {
 		require_once App::pluginPath('Iframes') . 'Config' . DS . 'Schema' . DS . 'schema.php';
-		$this->fields = (new IframesSchema())->tables['iframe_frame_settings'];
+		$this->fields = (new IframesSchema())->tables['iframes'];
 		parent::init();
 	}
 

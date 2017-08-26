@@ -25,15 +25,18 @@ class IframeFrameSettingFixture extends CakeTestFixture {
  */
 	public $records = array(
 		array(
-			'id' => 1,
-			'frame_key' => 'Lorem ipsum dolor sit amet',
-			'height' => 1,
-			'display_scrollbar' => 1,
-			'display_frame' => 1,
-			'created_user' => 1,
-			'created' => '2016-07-13 13:15:36',
-			'modified_user' => 1,
-			'modified' => '2016-07-13 13:15:36'
+			'id' => '1',
+			'frame_key' => 'frame_3',
+			'height' => '200',
+			'display_scrollbar' => true,
+			'display_frame' => true,
+		),
+		array(
+			'id' => '2',
+			'frame_key' => 'frame_4',
+			'height' => '300',
+			'display_scrollbar' => false,
+			'display_frame' => false,
 		),
 	);
 
@@ -44,7 +47,7 @@ class IframeFrameSettingFixture extends CakeTestFixture {
  */
 	public function init() {
 		require_once App::pluginPath('Iframes') . 'Config' . DS . 'Schema' . DS . 'schema.php';
-		$this->fields = (new IframesSchema())->tables['iframes'];
+		$this->fields = (new IframesSchema())->tables['iframe_frame_settings'];
 		parent::init();
 	}
 
