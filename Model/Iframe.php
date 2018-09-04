@@ -68,7 +68,7 @@ class Iframe extends IframesAppModel {
  * @see Model::save()
  */
 	public function beforeValidate($options = array()) {
-		$this->validate = Hash::merge($this->validate, array(
+		$this->validate = array_merge($this->validate, array(
 			'url' => array(
 				'notBlank' => array(
 					'rule' => array('notBlank'),

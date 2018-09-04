@@ -11,7 +11,8 @@
 ?>
 
 <article>
-	<?php if (Hash::get($iframe, 'url')) : ?>
+	<?php if (isset($iframe['url']) &&
+		! empty($iframe['url'])) : ?>
 		<iframe width="100%" src="<?php echo h($iframe['url']); ?>"
 				height="<?php echo (int)$iframeFrameSetting['height']; ?>"
 				scrolling="<?php echo $iframeFrameSetting['display_scrollbar'] ? 'yes' : 'no'; ?>"
