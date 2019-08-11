@@ -32,6 +32,7 @@ abstract class IframesControllerTestCase extends NetCommonsControllerTestCase {
 		'plugin.iframes.iframe_frame_setting',
 		'plugin.iframes.frame4iframes',
 		'plugin.iframes.frame_public_language4iframes',
+		'plugin.iframes.frames_language4iframes',
 	);
 
 /**
