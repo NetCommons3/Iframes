@@ -1,11 +1,6 @@
 Iframes
 =======
 
-Iframes for NetComomns3
-
-[![Build Status](https://api.travis-ci.org/NetCommons3/Iframes.png?branch=master)](https://travis-ci.org/NetCommons3/Iframes)
-[![Coverage Status](https://coveralls.io/repos/NetCommons3/Iframes/badge.png?branch=master)](https://coveralls.io/r/NetCommons3/Iframes?branch=master)
-
-| dependencies | status |
-| ------------ | ------ |
-| composer.json | [![Dependency Status](https://www.versioneye.com/user/projects/53df214081a7ff3094000015/badge.png)](https://www.versioneye.com/user/projects/53df214081a7ff3094000015) |
+[![Tests Status](https://github.com/NetCommons3/Iframes/actions/workflows/tests.yml/badge.svg?branch=master)](https://github.com/NetCommons3/Iframes/actions/workflows/tests.yml)
+[![Coverage Status](https://coveralls.io/repos/NetCommons3/Iframes/badge.svg?branch=master)](https://coveralls.io/r/NetCommons3/Iframes?branch=master)
+[![Stable Version](https://img.shields.io/packagist/v/netcommons/iframes.svg?label=stable)](https://packagist.org/packages/netcommons/iframes)
